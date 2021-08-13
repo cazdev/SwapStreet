@@ -52,7 +52,7 @@ const Login = () => {
                 <input onChange={handleChange('password')} type="password" className="form-control" value={password} />
            
             <button onClick={clickSubmit} className="btn btn-primary  mt-3">
-                Submit
+                Login
             </button>
             <p class="mt-3">Don't have an account? <Link to="/register" className="pl-5">Sign up</Link></p>
             </div>

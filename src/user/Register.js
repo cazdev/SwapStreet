@@ -72,8 +72,9 @@ const Register = () => {
                 <input onChange={handleChange('password')} type="password" className="form-control" value={password} />
             </div>
             <button onClick={clickSubmit} className="btn btn-primary mt-3">
-                Submit
+                Register
             </button>
+            <p class="mt-3">Already have an account? <Link to="/login" className="pl-5">Sign in</Link></p>
         </form>
     )
 
