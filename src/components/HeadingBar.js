@@ -5,62 +5,48 @@ import {
     withRouter
 } from "react-router-dom";
 
-import {logout, isAuthenticated} from '../auth/index'
+import logo from '../img/swap.png'
 
+import {logout, isAuthenticated} from '../auth/index'
 
 const HeadingBar = ({ history }) => (
     // TODO: add logo here
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <div className="logoDiv">
-            <a className="logoDiv navbar-brand" href="/">
-                SwapStreet
-            </a>
-        </div>
-        <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav">
-                <Link to="/">
-                    <a className="nav-link" href="/">Home <span className="sr-only">(current)</span></a>
-                </Link>
-    
-                <Link to="/profile">
-                    <a className="nav-link" href="/profile">My Profile</a>
-                </Link>
-                <Link to="/dashboard">
-                    <a className="nav-link" href="/profile">My Dashboard</a>
-                </Link>
-
-                
-            </ul>
-        </div>
-
-        {!isAuthenticated() && (
-            <div className="nav-link">
-                <Link to='/register'>
-                <button className="btn btn-light my-2 my-sm-0 border border-dark" type="submit">Register</button>
-                </Link>
-            </div>         
-        )}
-
-        {!isAuthenticated() && (
-            <div className="nav-link">
-                <Link to='/login'>
-                <button className="btn btn-light my-2 my-sm-0 border border-dark" type="submit">Login</button>
-                </Link>
-            </div>
-        )}
-
-        {isAuthenticated() && (
-            <div className="nav-link">
-                <Link onClick={() => logout(() => {
-                    history.push('/')
-                })}>
-                    <button className="btn btn-light my-2 my-sm-0 border border-dark" type="submit">Logout</button>
-                </Link>
-            </div>
-        )}
-
+    <div>
+    {/*<header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+      <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
         
+        <h1><img src={logo} width="30" className=""/><span class="px-3">swap street</span></h1>
+      </a>
+
+      <ul class="nav nav-pills">
+        <li class="nav-item"><Link to="/" class="nav-link active" aria-current="page">Home</Link></li>
+        <li class="nav-item"><Link to="/" class="nav-link">About</Link></li>
+        {isAuthenticated() ? (<><li class="nav-item"><Link to="/dashboard" className="nav-link">Dashboard</Link></li>
+        <li class="nav-item"><Link to="/" className="nav-link">Logout</Link></li></>) :
+        (<li class="nav-item"> <Link to="/login" className="nav-link">Login/Sign Up</Link></li>)}
+        
+      </ul>
+</header>*/}
+<nav class="navbar navbar-expand-lg navbar-light bg-light rounded" aria-label="Eleventh navbar example">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#"><h1><img src={logo} width="30" className=""/><span class="px-3">swap street</span></h1></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExample09">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item"><Link to="/" class="nav-link active" aria-current="page">Home</Link></li>
+        <li class="nav-item"><Link to="/" class="nav-link">About</Link></li>
+        {isAuthenticated() ? (<><li class="nav-item"><Link to="/dashboard" className="nav-link">Dashboard</Link></li>
+        <li class="nav-item"><Link to="/" className="nav-link">Logout</Link></li></>) :
+        (<li class="nav-item"> <Link to="/login" className="nav-link">Login/Sign Up</Link></li>)}
+          </ul>
+        </div>
+      </div>
     </nav>
+
+    </div>
 );
 
 export default withRouter(HeadingBar);

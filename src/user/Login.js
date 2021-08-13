@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import Layout from '../components/Layout'
-import {Redirect} from 'react-router-dom'
+import {Redirect, Link} from 'react-router-dom'
 import { login, authenticate, isAuthenticated } from '../auth/index'
 
 const Login = () => {
@@ -81,12 +81,15 @@ const Login = () => {
 
 
     return (
+        <>
         <Layout title="Login " description='Welcome Back' className='container col-md-8 offset-md-2'>
             {showLoading()}
             {showError()}
             {registerForm()}
             {redirectUser()}
         </Layout>
+        <p>Don't have an account? <Link to="/register" className="nav-link">Sign up</Link></p>
+        </>
     )
 }
 
