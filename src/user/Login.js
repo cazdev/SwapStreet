@@ -50,10 +50,13 @@ const Login = () => {
             <div className="form-group">
                 <label className="text-muted">Password</label>
                 <input onChange={handleChange('password')} type="password" className="form-control" value={password} />
-            </div>
-            <button onClick={clickSubmit} className="btn btn-primary">
+           
+            <button onClick={clickSubmit} className="btn btn-primary  mt-3">
                 Submit
             </button>
+            <p class="mt-3">Don't have an account? <Link to="/register" className="pl-5">Sign up</Link></p>
+            </div>
+           
         </form>
     )
 
@@ -81,15 +84,12 @@ const Login = () => {
 
 
     return (
-        <>
         <Layout title="Login " description='Welcome Back' className='container col-md-8 offset-md-2'>
             {showLoading()}
             {showError()}
             {registerForm()}
             {redirectUser()}
         </Layout>
-        <p>Don't have an account? <Link to="/register" className="nav-link">Sign up</Link></p>
-        </>
     )
 }
 

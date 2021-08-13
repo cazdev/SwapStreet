@@ -9,8 +9,9 @@ import logo from '../img/swap.png'
 
 import {logout, isAuthenticated} from '../auth/index'
 
-const HeadingBar = ({ history }) => (
+const HeadingBar = ({ history }) => {
     // TODO: add logo here
+    return (
     <div>
     {/*<header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
       <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
@@ -27,9 +28,9 @@ const HeadingBar = ({ history }) => (
         
       </ul>
 </header>*/}
-<nav class="navbar navbar-expand-lg navbar-light bg-light rounded" aria-label="Eleventh navbar example">
+<nav class="navbar navbar-expand-lg navbar-light rounded" aria-label="Eleventh navbar example">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#"><h1><img src={logo} width="30" className=""/><span class="px-3">swap street</span></h1></a>
+        <Link to="/" className="navbar-brand"><h1><img src={logo} width="30" className=""/><span class="px-3">swap street</span></h1></Link>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -48,5 +49,6 @@ const HeadingBar = ({ history }) => (
 
     </div>
 );
+}
 
 export default withRouter(HeadingBar);

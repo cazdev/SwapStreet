@@ -2,17 +2,18 @@ import React from 'react';
 
 const Layout = ({title = 'Title', description = 'Description', className, children}) => (
     <div>
-        <div className='jumbotron'>
-            <h2>
+        <div className={className}>
+            <h1 class="txt-blue">
                 {title}
-            </h2>
+            </h1>
             <p className='lead'>
                 {description}
             </p>
-        </div>
-        <div className={className}>
+            <div >
             {children}
         </div>
+        </div>
+        
     </div>
 );
 
