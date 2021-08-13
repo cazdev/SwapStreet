@@ -34,7 +34,7 @@ const JobDetails = () => {
         <div>
           <h2>Building</h2>
           <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-          <a href="#" class="btn btn-outline-secondary btn-sm px-4">
+          <a href="/" class="btn btn-outline-secondary btn-sm px-4">
             Get Service
           </a>
         </div>
@@ -45,7 +45,7 @@ const JobDetails = () => {
         <div>
           <h2>Grocery Shopping</h2>
           <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-          <a href="#" class="btn btn-outline-secondary btn-sm px-4">
+          <a href="/" class="btn btn-outline-secondary btn-sm px-4">
           Get Service
           </a>
         </div>
@@ -56,7 +56,7 @@ const JobDetails = () => {
         <div>
           <h2>Baby Sitting</h2>
           <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-          <a href="#" class="btn btn-outline-secondary btn-sm px-4">
+          <a href="/" class="btn btn-outline-secondary btn-sm px-4">
           Get Service
           </a>
         </div>

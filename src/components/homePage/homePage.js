@@ -176,7 +176,7 @@ class HomePage extends Component {
             <h4 class="my-0 ">Plumbing and Electrical</h4>
           </div>
           <div class="card-body">
-            <h1 class="card-title pricing-card-title txt-blue">50 coins<small class="text-muted fw-light"></small></h1>
+            <h1 class="card-title pricing-card-title txt-blue">90 coins<small class="text-muted fw-light"></small></h1>
             <ul class="mt-3 mb-4">
               <li>Blocked Drains</li>
               <li>Tap and Toilet Repair</li>
@@ -201,7 +201,7 @@ class HomePage extends Component {
             <h4 class="my-0 ">Plumbing and Electrical</h4>
           </div>
           <div class="card-body">
-            <h1 class="card-title pricing-card-title txt-blue">50 coins<small class="text-muted fw-light"></small></h1>
+            <h1 class="card-title pricing-card-title txt-blue">120 coins<small class="text-muted fw-light"></small></h1>
             <ul class="mt-3 mb-4">
               <li>Blocked Drains</li>
               <li>Tap and Toilet Repair</li>
@@ -226,7 +226,7 @@ class HomePage extends Component {
             <h4 class="my-0 ">Plumbing and Electrical</h4>
           </div>
           <div class="card-body">
-            <h1 class="card-title pricing-card-title txt-blue">50 coins<small class="text-muted fw-light"></small></h1>
+            <h1 class="card-title pricing-card-title txt-blue">30 coins<small class="text-muted fw-light"></small></h1>
             <ul class="mt-3 mb-4">
               <li>Blocked Drains</li>
               <li>Tap and Toilet Repair</li>
