@@ -16,6 +16,7 @@ import Register from '../user/Register';
 import Login from '../user/Login';
 import PrivateRoute from '../auth/PrivateRoute'
 import { isAuthenticated } from "../auth/index";
+import JobDetails from '../pages/JobDetails';
 
 
 class dataRouter extends Component {
@@ -74,6 +75,7 @@ class dataRouter extends Component {
             <BrowserRouter>
                 <Header userID={this.state.userID} name={this.state.name} balance={this.state.balance}/>
                 <div className="app"> 
+                
                     <Switch>
                         <Route path="/changeinfo">
                             <ChangeInfo/>
@@ -92,15 +94,18 @@ class dataRouter extends Component {
 
                         <Route exact path = "/edit" render={(props) => <JobDataFill {...props} userID={this.state.userID}/> }/>
 
-                        <PrivateRoute component={Dashboard} path="/dashboard" jobs={this.state.jobs} userID={this.state.userID} exact />
-                    
+                        {/*<PrivateRoute component={Dashboard} path="/dashboard" jobs={this.state.jobs} userID={this.state.userID} exact />*/}
+                        <Route component={Dashboard} path="/dashboard"/>
 
-                        <Route exact path = "/job" render={(props) => <JobPage {...props} userID={this.state.userID}/> }/>
+                        <Route path = "/job"><JobDetails/></Route>
+                        {/*<Route exact path = "/job" render={(props) => <JobPage {...props} userID={this.state.userID}/> }/>*/}
 
                         <Route path="/">
                             <HomePage jobs={this.state.jobs} userID={this.state.userID}/>
                         </Route>
                     </Switch>
+
+                    
                 </div>
             </BrowserRouter>
         );

@@ -23,7 +23,7 @@ class dashboard extends Component {
         const {
             user: { _id, name, email, address, balance, role }
         } = isAuthenticated();
-        */
+        
 
         var uID = this.props.userID
 
@@ -40,7 +40,7 @@ class dashboard extends Component {
         var pastJobs = this.props.jobs
         pastJobs = this.props.jobs.filter(function (job) {
             return (job.userID === uID || job.chosenUserID === uID) && job.jobStatus === 4;
-        });
+        });*/
 
 
         
@@ -49,15 +49,16 @@ class dashboard extends Component {
             <div>
                 <div class="container">
                     <div class="row">
-                        <div class="col-">
+                        <div class="col-sm-2">
                             
                         </div>
                         <div class="col-lg">
-                            <Link to={{pathname: "/add", state: {prevLocation : "/dashboard"}}}><button className="btn btn-success btn-lg active">Create A New Job</button></Link>
+                            <h1>Hello peeps</h1>
+                            {/*<Link to={{pathname: "/add", state: {prevLocation : "/dashboard"}}}><button className="btn btn-success btn-lg active">Create A New Job</button></Link>
                             <Info uID = {this.props.userID}/>
                             <CurrentJobs jobs={myJobs} userID={this.props.userID}/>
                             <ActiveListings jobs={activeJobs} userID={this.props.userID}/>
-                            <History jobs={pastJobs} userID={this.props.userID}/>
+        <History jobs={pastJobs} userID={this.props.userID}/>*/}
                         </div>
                         <div class="col-">
                             
