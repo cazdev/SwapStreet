@@ -10,7 +10,6 @@ import logo from '../img/swap.png'
 import {logout, isAuthenticated} from '../auth/index'
 
 const HeadingBar = ({ history }) => {
-    // TODO: add logo here
     return (
     <div>
     {/*<header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
@@ -37,7 +36,7 @@ const HeadingBar = ({ history }) => {
 
         <div class="collapse navbar-collapse" id="navbarsExample09">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item"><Link to="/" class="nav-link active" aria-current="page">Home</Link></li>
+          <li class="nav-item"><Link to="/" class="nav-link" aria-current="page">Home</Link></li>
         <li class="nav-item"><Link to="/" class="nav-link">About</Link></li>
         {isAuthenticated() ? (<><li class="nav-item"><Link to="/dashboard" className="nav-link">Dashboard</Link></li>
         <li class="nav-item"><Link to="/" className="nav-link">Logout</Link></li></>) :
