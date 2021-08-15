@@ -76,15 +76,15 @@ class HomePage extends Component {
     
     return (
       <div className= "homePage">
-        <div class="row row-cols-1  row-cols-lg-3 row-cols-md-2 mb-3  ">
+        <div className="row row-cols-1  row-cols-lg-3 row-cols-md-2 mb-3  ">
         </div>
-        <div class="row align-items-center g-5 py-5 hero-bg">
+        <div className="row align-items-center g-5 py-5 hero-bg">
        
-      <div class="col-md-9">
-        <h1 class="lh-1 mb-3  ">Help is just a click away</h1>
-        <p class="lead mb-4">Just a click away from getting the services you need. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent varius vel lacus id facilisis. Nunc vel sapien non lectus condimentum sollicitudin eget non dolor. Nam in porttitor risus. </p>
-        <div class="row">
-        <div class="col-md-7">
+      <div className="col-md-9">
+        <h1 className="lh-1 mb-3  ">Help is just a click away</h1>
+        <p className="lead mb-4">Just a click away from getting the services you need. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent varius vel lacus id facilisis. Nunc vel sapien non lectus condimentum sollicitudin eget non dolor. Nam in porttitor risus. </p>
+        <div className="row">
+        <div className="col-md-7">
         <form className="form-inline">
           <input className="form-control mr-sm-2" type="search" placeholder="Search for services..." aria-label="Search"
             id="Search"
@@ -95,15 +95,15 @@ class HomePage extends Component {
         </div>
       </div>
     </div>
-     <div class="row row-cols-1  row-cols-lg-3 row-cols-md-2 mb-3  ">
-      <div class="col-md">
-        <div class="card mb-4  shadow-sm">
-          <div class="card-header py-3">
-            <h4 class="my-0 ">Plumbing and Electrical</h4>
+     <div className="row row-cols-1  row-cols-lg-3 row-cols-md-2 mb-3  ">
+      <div className="col-md">
+        <div className="card mb-4  shadow-sm">
+          <div className="card-header py-3">
+            <h4 className="my-0 ">Plumbing and Electrical</h4>
           </div>
-          <div class="card-body">
-            <h1 class="card-title pricing-card-title txt-blue">50 coins<small class="text-muted fw-light"></small></h1>
-            <ul class="mt-3 mb-4">
+          <div className="card-body">
+            <h1 className="card-title pricing-card-title txt-blue">50 coins<small className="text-muted fw-light"></small></h1>
+            <ul className="mt-3 mb-4">
               <li>Blocked Drains</li>
               <li>Tap and Toilet Repair</li>
               <li>Fixed Upfront no Surprise</li>
@@ -112,23 +112,23 @@ class HomePage extends Component {
 
             
             <p>This business servicing Canberra is a local SME in the Plumbers & Gas Fitters category. </p>
-            <div class="row">
-                <div class="col">
-                <Link to="/job"><button type="button" class="btn btn-link">More details <i class="bi bi-arrow-right-circle icn-2x"></i></button></Link>
+            <div className="row">
+                <div className="col">
+                <Link to="/job"><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
                 
                 </div>
             </div>
           </div>
         </div>
         </div>
-        <div class="col-md">
-       <div class="card mb-4  shadow-sm">
-          <div class="card-header py-3">
-            <h4 class="my-0 ">Lawn Mowing</h4>
+        <div className="col-md">
+       <div className="card mb-4  shadow-sm">
+          <div className="card-header py-3">
+            <h4 className="my-0 ">Lawn Mowing</h4>
           </div>
-          <div class="card-body">
-            <h1 class="card-title pricing-card-title txt-blue">10 coins<small class="text-muted fw-light"></small></h1>
-            <ul class="mt-3 mb-4">
+          <div className="card-body">
+            <h1 className="card-title pricing-card-title txt-blue">10 coins<small className="text-muted fw-light"></small></h1>
+            <ul className="mt-3 mb-4">
               <li>Mowing Lawn</li>
               <li>Weeding</li>
               <li>Will trim hedges if you are nice</li>
@@ -137,22 +137,22 @@ class HomePage extends Component {
 
             
             <p>This business helps keep your backyard looking sharp. Contact us today or you'll have a messy lawn! </p>
-            <div class="row">
-                <div class="col">
-                <Link to="/job"><button type="button" class="btn btn-link">More details <i class="bi bi-arrow-right-circle icn-2x"></i></button></Link>
+            <div className="row">
+                <div className="col">
+                <Link to="/job"><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
                 </div>
             </div>
           </div>
         </div>
         </div>
-        <div class="col-md">
-        <div class="card mb-4  shadow-sm">
-          <div class="card-header py-3">
-            <h4 class="my-0 ">Driver</h4>
+        <div className="col-md">
+        <div className="card mb-4  shadow-sm">
+          <div className="card-header py-3">
+            <h4 className="my-0 ">Driver</h4>
           </div>
-          <div class="card-body">
-            <h1 class="card-title pricing-card-title txt-blue">80 coins<small class="text-muted fw-light"></small></h1>
-            <ul class="mt-3 mb-4">
+          <div className="card-body">
+            <h1 className="card-title pricing-card-title txt-blue">80 coins<small className="text-muted fw-light"></small></h1>
+            <ul className="mt-3 mb-4">
               <li>Expert Driver</li>
               <li>Pets allowed in car</li>
               <li>Will start up a conversation if requested</li>
@@ -161,23 +161,23 @@ class HomePage extends Component {
 
             
             <p>This driver is qualified. Will drive anywhere, including from one side of the country to the other.</p>
-            <div class="row">
-                <div class="col">
-                <Link to="/job"><button type="button" class="btn btn-link">More details <i class="bi bi-arrow-right-circle icn-2x"></i></button></Link>
+            <div className="row">
+                <div className="col">
+                <Link to="/job"><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
                 
                 </div>
             </div>
           </div>
         </div>
         </div>
-        <div class="col-md">
-        <div class="card mb-4  shadow-sm">
-          <div class="card-header py-3">
-            <h4 class="my-0 ">Plumbing and Electrical</h4>
+        <div className="col-md">
+        <div className="card mb-4  shadow-sm">
+          <div className="card-header py-3">
+            <h4 className="my-0 ">Plumbing and Electrical</h4>
           </div>
-          <div class="card-body">
-            <h1 class="card-title pricing-card-title txt-blue">90 coins<small class="text-muted fw-light"></small></h1>
-            <ul class="mt-3 mb-4">
+          <div className="card-body">
+            <h1 className="card-title pricing-card-title txt-blue">90 coins<small className="text-muted fw-light"></small></h1>
+            <ul className="mt-3 mb-4">
               <li>Blocked Drains</li>
               <li>Tap and Toilet Repair</li>
               <li>Fixed Upfront no Surprise</li>
@@ -186,23 +186,23 @@ class HomePage extends Component {
 
             
             <p>This business servicing Canberra is a local SME in the Plumbers & Gas Fitters category. </p>
-            <div class="row">
-                <div class="col">
-                <Link to="/job"><button type="button" class="btn btn-link">More details <i class="bi bi-arrow-right-circle icn-2x"></i></button></Link>
+            <div className="row">
+                <div className="col">
+                <Link to="/job"><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
                 
                 </div>
             </div>
           </div>
         </div>
         </div>
-        <div class="col-md">
-        <div class="card mb-4  shadow-sm">
-          <div class="card-header py-3">
-            <h4 class="my-0 ">Plumbing and Electrical</h4>
+        <div className="col-md">
+        <div className="card mb-4  shadow-sm">
+          <div className="card-header py-3">
+            <h4 className="my-0 ">Plumbing and Electrical</h4>
           </div>
-          <div class="card-body">
-            <h1 class="card-title pricing-card-title txt-blue">120 coins<small class="text-muted fw-light"></small></h1>
-            <ul class="mt-3 mb-4">
+          <div className="card-body">
+            <h1 className="card-title pricing-card-title txt-blue">120 coins<small className="text-muted fw-light"></small></h1>
+            <ul className="mt-3 mb-4">
               <li>Blocked Drains</li>
               <li>Tap and Toilet Repair</li>
               <li>Fixed Upfront no Surprise</li>
@@ -211,23 +211,23 @@ class HomePage extends Component {
 
             
             <p>This business servicing Canberra is a local SME in the Plumbers & Gas Fitters category. </p>
-            <div class="row">
-                <div class="col">
-                <Link to="/job"><button type="button" class="btn btn-link">More details <i class="bi bi-arrow-right-circle icn-2x"></i></button></Link>
+            <div className="row">
+                <div className="col">
+                <Link to="/job"><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
                 
                 </div>
             </div>
           </div>
         </div>
         </div>
-        <div class="col-md">
-        <div class="card mb-4  shadow-sm">
-          <div class="card-header py-3">
-            <h4 class="my-0 ">Plumbing and Electrical</h4>
+        <div className="col-md">
+        <div className="card mb-4  shadow-sm">
+          <div className="card-header py-3">
+            <h4 className="my-0 ">Plumbing and Electrical</h4>
           </div>
-          <div class="card-body">
-            <h1 class="card-title pricing-card-title txt-blue">30 coins<small class="text-muted fw-light"></small></h1>
-            <ul class="mt-3 mb-4">
+          <div className="card-body">
+            <h1 className="card-title pricing-card-title txt-blue">30 coins<small className="text-muted fw-light"></small></h1>
+            <ul className="mt-3 mb-4">
               <li>Blocked Drains</li>
               <li>Tap and Toilet Repair</li>
               <li>Fixed Upfront no Surprise</li>
@@ -236,9 +236,9 @@ class HomePage extends Component {
 
             
             <p>This business servicing Canberra is a local SME in the Plumbers & Gas Fitters category. </p>
-            <div class="row">
-                <div class="col">
-                <Link to="/job"><button type="button" class="btn btn-link">More details <i class="bi bi-arrow-right-circle icn-2x"></i></button></Link>
+            <div className="row">
+                <div className="col">
+                <Link to="/job"><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
                 
                 </div>
             </div>
@@ -249,7 +249,7 @@ class HomePage extends Component {
      
        </div>
       
-       <p class="py-5">&nbsp;</p>
+       <p className="py-5">&nbsp;</p>
       </div>
       
 
