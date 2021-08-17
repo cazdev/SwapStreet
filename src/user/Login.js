@@ -8,14 +8,15 @@ const Login = () => {
     const history = useHistory()
 
     const [values, setValues] = useState({
-        email: 'userSwapStreet@email.com',
-        password: '123456',
+        username: '',
+        email: '',
+        password: '',
         error: '',
         loading: false,
         redirectToReferrer: false,
     })
 
-    const { email, password, loading, error, redirectToReferrer } = values;
+    const { username, email, password, loading, error, redirectToReferrer } = values;
     const {user} = isAuthenticated()
 
     const handleChange = name => event => {
@@ -26,7 +27,10 @@ const Login = () => {
         // prevent browser from reloading
         event.preventDefault();
         setValues({ ...values, error: false, loading: true });
-        let userValid = await login({email, password})
+        let userValid = await login({username, password}).catch((error) => {
+            console.log(error.response.data.error)
+            alert(error.response.data.error);
+          })
         console.log(userValid)
         if(!userValid) {
             console.log("invalid user")
@@ -46,8 +50,8 @@ const Login = () => {
     const registerForm = () => (
         <form>
             <div className="form-group">
-                <label className="text-muted">Email</label>
-                <input onChange={handleChange('email')} type="email" className="form-control" value={email} />
+                <label className="text-muted">Username</label>
+                <input onChange={handleChange('username')} type="text" className="form-control" value={username} />
             </div>
 
             <div className="form-group">

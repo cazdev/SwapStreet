@@ -37,13 +37,9 @@ apiRouter.post('/api/login', async (req, res) => {
   const UName = req.body.username
   const PWord = req.body.password
   console.log(UName, PWord)
-  const user = await User.findOne(
-    {
-      $or: [
-        { username: UName }
-        ]
-    }
-  )
+
+  const user = await User.findOne({ username: UName, password:PWord })
+
   if(!user) {
     return res.status(401).json({ error: 'invalid user or password' })
   }
