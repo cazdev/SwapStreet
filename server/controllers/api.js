@@ -10,7 +10,7 @@ if (process.argv.length < 3) {
 }
 
 const password = process.argv[2]
-
+//s
 const url =
 `mongodb+srv://fullstack:${password}@cluster0.cuxqo.mongodb.net/SwapStreet-app?retryWrites=true`
 
