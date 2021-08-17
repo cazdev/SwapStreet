@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import Layout from '../components/Layout'
-import {Redirect, Link} from 'react-router-dom'
+import {Redirect, Link, useHistory} from 'react-router-dom'
 import { login, authenticate, isAuthenticated } from '../auth/index'
 
 const Login = () => {
+
+    const history = useHistory()
 
     const [values, setValues] = useState({
         email: 'userSwapStreet@email.com',
@@ -20,23 +22,24 @@ const Login = () => {
         setValues({ ...values, error: false, [name]: event.target.value });
     }
 
-    const clickSubmit = event => {
+    const clickSubmit = async (event) => {
         // prevent browser from reloading
         event.preventDefault();
         setValues({ ...values, error: false, loading: true });
-        login({email, password})
-        .then(data => {
-            if(data.error) {
-                setValues({...values, error: data.error, loading: false})
-            } else {
-                authenticate(data, () => {
-                    setValues({
-                        ...values,
-                        redirectToReferrer: true
-                    })
+        let userValid = await login({email, password})
+        console.log(userValid)
+        if(!userValid) {
+            console.log("invalid user")
+            setValues({...values, error: userValid, loading: false})
+        } else {
+            authenticate(userValid, () => {
+                setValues({
+                    ...values,
+                    redirectToReferrer: true
                 })
-            }
-        })
+            })
+        }
+        //console.log(isAuthenticated())
     };
 
 
@@ -76,9 +79,11 @@ const Login = () => {
 
     const redirectUser = () => {
         if (redirectToReferrer) {
-            if (user) {
-                return <Redirect to="/profile" />;
-            }
+            console.log('redirect working')
+            /*if (user) {
+                return <Redirect to="/" />;
+            }*/
+            history.push("/")
         }
     };
 
