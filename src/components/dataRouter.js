@@ -24,14 +24,14 @@ class dataRouter extends Component {
     constructor(props) {
         super(props);
         if(isAuthenticated()){
-            const {
+            /*const {
                 user: { _id, name, email, address, balance, about, role }
-              } = isAuthenticated();
+              } = isAuthenticated();*/
             this.state = {
               location: null,
-              userID: _id,
-              name: name,
-              balance: balance,
+              userID: "_id",
+              name: "name",
+              balance: "balance",
               jobs: []
             };
         } else {
