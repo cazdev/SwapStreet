@@ -34,20 +34,26 @@ apiRouter.get('/api/users', (request, response) => {
 apiRouter.post('/api/login', async (req, res) => {
   
   console.log("post request initialised")
-  const {username, password} = req.body
+  const UName = req.body.username
+  const PWord = req.body.password
+  console.log(UName, PWord)
   const user = await User.findOne(
     {
       $or: [
-        { username },
-        { email: username }
-      ]
+        { username: UName }
+        ]
     }
   )
   if(!user) {
     return res.status(401).json({ error: 'invalid user or password' })
   }
-  console.log('Got User', user)
-  return res.status(200).json({ user: scrub(user.toJSON()) })
+  if(user.password === PWord) {
+    console.log('Got User', user)
+    return res.status(200).json({ user: scrub(user.toJSON()) })
+  }
+  else {
+    return res.status(401).json({ error: 'invalid user or password' })
+  }
   
 })
 module.exports = apiRouter
