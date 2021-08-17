@@ -42,19 +42,15 @@ export const register = (user) => {
 }*/
 
 export const login = (user) => {
-    const hi = axios.get(`http://localhost:3001/api/users`)
+    const hi = axios.post(`http://localhost:3001/api/login`,user)
     .then(response => {
-        const users = response.data
-        //console.log(users)
-        //console.log(user)
-        let validUser = users.find(u => u.username === user.email && u.password === user.password)
-        //console.log(validUser)
-        if(validUser) {
-            console.log(validUser)
-            return validUser
-        } else {
-            console.log("not valid")
+        //console.log(response.data)
+        if(response.error) {
+            console.log("error")
             return
+        } else {
+            const validUser = response.data
+            return validUser
         }
     })
     return hi
