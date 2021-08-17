@@ -1,1 +1,1 @@
-export const API = process.env.REACT_APP_URL
+export const API = process.env.REACT_APP_URL || 3001
