@@ -2,6 +2,9 @@ const express = require('express')
 
 const apiRouter = express.Router()
 
+const {UserSchema, User} = require('../models/UserSchema.js')
+
+
 const mongoose = require('mongoose')
 const scrub = ({ password, ...user }) => user
 if (process.argv.length < 3) {
@@ -16,13 +19,6 @@ const url =
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
 
-const userSchema = new mongoose.Schema({
-    name: String,
-    username: String, 
-    password: String,
-    date: Date,
-})
-const User = mongoose.model('User', userSchema)
 
 apiRouter.get('/api/users', (request, response) => {
   User.find({}).then(users => {
