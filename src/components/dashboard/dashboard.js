@@ -21,7 +21,7 @@ class dashboard extends Component {
     render() {
         // Get user info if authenticated
         const {
-            user: { _id, name, email, address, about }
+            user: { _id, name, email, address, about, coins }
         } = isAuthenticated();
         
 
@@ -57,6 +57,7 @@ class dashboard extends Component {
                             <p>email: {email}</p>
                             <p>address: {address}</p>
                             {about && <p>about: {about}</p>}
+                            <p>coins: {coins}</p>
                             {/*<Link to={{pathname: "/add", state: {prevLocation : "/dashboard"}}}><button className="btn btn-success btn-lg active">Create A New Job</button></Link>
                             <Info uID = {this.props.userID}/>
                             <CurrentJobs jobs={myJobs} userID={this.props.userID}/>

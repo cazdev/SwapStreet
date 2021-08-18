@@ -40,6 +40,25 @@ apiRouter.delete('/api/users/:id', (request, response) => {
   });
 })
 
+apiRouter.put('/api/users/:id', async (request, response) => {
+  const id = request.params.id
+  let user = await User.findOne({_id: id})
+  if (!user) {
+    return res.status(401).json({ error: 'user does not exist' })
+  }
+  const body = request.body
+
+  user.name = body.name ? body.name : (user.name ? user.name : ""), 
+  user.email = body.email ? body.email : (user.email ? user.email : ""),
+  user.address = body.address ? body.address : (user.address ? user.address : ""),
+  user.about = body.about ? body.about : (user.about ? user.about : ""),
+  user.coins = body.coins ? body.coins : (user.coins ? user.coins : 0)
+
+  user.save().then(user => {
+    response.status(200).json({ user: scrub(user.toJSON()) })
+  })
+})
+
 apiRouter.post('/api/login', async (req, res) => {
 
   console.log("post request initialised")
@@ -77,7 +96,8 @@ apiRouter.post('/api/register', async (request, response) => {
     email: body.email,
     password: body.password,
     address: body.address,
-    about: body.about || ""
+    about: body.about || "",
+    coins: 20
   })
 
   user.save().then(user => {
