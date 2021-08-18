@@ -8,7 +8,7 @@ import CurrentJobs from './currentJobs';
 import History from './history';
 import Info from './info';
 //import Datafill from '../dataFill/dataFillPage';
-//import { isAuthenticated } from "../../auth/index";
+import { isAuthenticated } from "../../auth/index";
 
 
 class dashboard extends Component {
@@ -19,13 +19,13 @@ class dashboard extends Component {
     
 
     render() {
-        /* Get user info if authenticated
+        // Get user info if authenticated
         const {
-            user: { _id, name, email, address, balance, role }
+            user: { _id, name, email, address, about }
         } = isAuthenticated();
         
 
-        var uID = this.props.userID
+        /*var uID = this.props.userID
 
         var myJobs = this.props.jobs
         myJobs = this.props.jobs.filter(function (job) {
@@ -53,7 +53,10 @@ class dashboard extends Component {
                             
                         </div>
                         <div class="col-lg">
-                            <h1>Hello peeps</h1>
+                            <h1>Hello {name}</h1>
+                            <p>email: {email}</p>
+                            <p>address: {address}</p>
+                            {about && <p>about: {about}</p>}
                             {/*<Link to={{pathname: "/add", state: {prevLocation : "/dashboard"}}}><button className="btn btn-success btn-lg active">Create A New Job</button></Link>
                             <Info uID = {this.props.userID}/>
                             <CurrentJobs jobs={myJobs} userID={this.props.userID}/>

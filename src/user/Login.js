@@ -87,7 +87,7 @@ const Login = () => {
             /*if (user) {
                 return <Redirect to="/" />;
             }*/
-            history.push("/")
+            history.push("/dashboard")
         }
     };
 

@@ -1,47 +1,53 @@
 import React, {useState} from 'react';
 import Layout from '../components/Layout'
-import {Link} from 'react-router-dom'
-import { register } from '../auth/index'
+import { Link } from 'react-router-dom'
+import { register, authenticate, isAuthenticated } from '../auth/index'
 
 const Register = () => {
 
     const [values, setValues] = useState({
-        name:'NewUser',
-        email: 'user@email.com',
-        address: '99 Sample Street, Suburb NSW',
+        name:'',
+        email: '',
+        address: '',
         about: '',
-        password: '123456',
-        error: '',
+        password: '',
+        error: false,
         success: false
     })
 
     const { name, email, address, about, password, success, error } = values;
+    const {user} = isAuthenticated()
 
     const handleChange = name => event => {
         setValues({ ...values, error: false, [name]: event.target.value });
     }
 
-    const clickSubmit = event => {
+    const clickSubmit = async (event) => {
         // prevent browser from reloading
         event.preventDefault();
         setValues({ ...values, error: false });
-        register({name, email, address, about, password})
-        .then(data => {
-            if(data.error) {
-                setValues({...values, error: data.error, success: false})
-            } else {
+        let userRegistered = await register({name, email, address, about, password}).catch((error) => {
+            console.log(error)
+            alert(error);
+        })
+        console.log(userRegistered)
+        if(!userRegistered) {
+            console.log("invalid user")
+            setValues({...values, error: true})
+        } else {
+            authenticate(userRegistered, () => {
                 setValues({
-                    ...values,
-                    name: '',
+                    name:'',
                     email: '',
-                    address:'',
+                    address: '',
                     about: '',
                     password: '',
-                    error: '',
+                    error: false,
                     success: true
                 })
-            }
-        })
+            })
+        }
+        
     };
 
 
