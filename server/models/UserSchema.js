@@ -13,8 +13,8 @@ const UserSchema = new mongoose.Schema({
 
 })
 
-const User = mongoose.model('User', UserSchema)
-/* used to add to the database
+/*const User = mongoose.model('User', UserSchema)
+ used to add to the database
 const user = new User({
     name: "test user",
    email: "test.user@email.com",
@@ -26,4 +26,4 @@ user.save().then(result => {
     console.log('user saved', user.name)
     mongoose.connection.close()
 })*/
-module.exports = {UserSchema, User}
+module.exports = mongoose.model('User', UserSchema)
