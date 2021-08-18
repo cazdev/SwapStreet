@@ -27,7 +27,7 @@ const Login = () => {
         // prevent browser from reloading
         event.preventDefault();
         setValues({ ...values, error: false, loading: true });
-        let userValid = await login({username, password}).catch((error) => {
+        let userValid = await login({email, password}).catch((error) => {
             console.log(error.response.data.error)
             alert(error.response.data.error);
           })
@@ -43,15 +43,15 @@ const Login = () => {
                 })
             })
         }
-        //console.log(isAuthenticated())
+        console.log(isAuthenticated())
     };
 
 
     const registerForm = () => (
         <form>
             <div className="form-group">
-                <label className="text-muted">Username</label>
-                <input onChange={handleChange('username')} type="text" className="form-control" value={username} />
+                <label className="text-muted">Email</label>
+                <input onChange={handleChange('email')} type="text" className="form-control" value={email} />
             </div>
 
             <div className="form-group">
