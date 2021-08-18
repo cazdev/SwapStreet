@@ -3,6 +3,7 @@ const express = require('express')
 const apiRouter = express.Router()
 
 const User = require('../models/UserSchema.js')
+const Job = require('../models/JobSchema.js')
 
 
 const mongoose = require('mongoose')
@@ -20,6 +21,7 @@ const url =
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
 
 
+///USER API ENDPOINTS
 apiRouter.get('/api/users', (request, response) => {
   User.find({}).then(users => {
     response.json(users)
@@ -103,6 +105,53 @@ apiRouter.post('/api/register', async (request, response) => {
   user.save().then(user => {
     return response.status(200).json({ user: scrub(user.toJSON()) })
   })
+})
+
+
+//JOB API ENDPOINTS
+apiRouter.get('/api/jobs', (request, response) => {
+  Job.find({}).then(jobs => {
+    response.json(jobs)
+    console.log(jobs)
+  })
+})
+
+apiRouter.post('/api/jobs', async (request, response) => {
+  const body = request.body
+
+  if ((!body.providerUserId && !body.clientUserId) || !body.title || !body.description || !body.price) {
+    return response.status(400).json({
+      error: 'content missing'
+    })
+  }
+
+  const job = new Job({
+    providerUserId: body.providerUserId || "",
+    title: body.title,
+    description: body.description,
+    location: body.location || "",
+    price: body.price || "",
+    skill: body.skill || [],
+    clientUserId: body.clientUserId || "",
+    active: true
+  })
+
+  job.save().then(job => {
+    return response.status(200).json(job)
+  })
+})
+
+apiRouter.delete('/api/jobs/:id', (request, response) => {
+  const id = request.params.id
+  Job.deleteOne({ _id: id }, function (err) {
+    if (err) {
+      console.log(err)
+    }
+    Job.find({}).then(jobs => {
+      response.json(jobs)
+      console.log(jobs)
+    })
+  });
 })
 
 
