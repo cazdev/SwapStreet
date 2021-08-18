@@ -116,6 +116,15 @@ apiRouter.get('/api/jobs', (request, response) => {
   })
 })
 
+apiRouter.get('/api/userjobs/:id', async (request, response) => {
+  const id = request.params.id
+  let user = await User.findOne({_id: id})
+  Job.find({$or: [{providerUserId : user._id}, {clientUserId: user._id}]}).then(jobs => {
+    response.json(jobs)
+    console.log(jobs)
+  })
+})
+
 apiRouter.post('/api/jobs', async (request, response) => {
   const body = request.body
 
