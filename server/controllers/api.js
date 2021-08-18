@@ -62,7 +62,7 @@ apiRouter.post('/api/login', async (req, res) => {
 
 })
 
-apiRouter.post('/api/register', (request, response) => {
+apiRouter.post('/api/register', async (request, response) => {
 
   const body = request.body
 
@@ -81,7 +81,7 @@ apiRouter.post('/api/register', (request, response) => {
   })
 
   user.save().then(user => {
-    response.json(user)
+    return response.status(200).json({ user: scrub(user.toJSON()) })
   })
 })
 

@@ -48,7 +48,7 @@ class dataRouter extends Component {
     
     }
 
-    componentDidMount(){
+    /*componentDidMount(){
         this.updateJobs()
     }
 
@@ -66,7 +66,7 @@ class dataRouter extends Component {
     handleSelect(e) {
         console.log(e);
         this.setState({location : e})
-    }
+    }*/
 
     /* */
 

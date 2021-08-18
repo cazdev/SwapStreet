@@ -1,7 +1,7 @@
 import { API } from '../config'
 import axios from 'axios';
 
-export const register = (user) => {
+/*export const register = (user) => {
     // console.log(name, email, password);
     return (
         fetch(`${API}/register`, {
@@ -19,7 +19,7 @@ export const register = (user) => {
             console.log(err);
         })
     )
-}
+}*/
 
 /*export const login = (user) => {
     // console.log(name, email, password);
@@ -41,8 +41,23 @@ export const register = (user) => {
     )
 }*/
 
+export const register = (user) => {
+    const log = axios.post(`http://localhost:3001/api/register`,user)
+    .then(response => {
+        console.log(response.data)
+        if(response.error) {
+            console.log("error")
+            return
+        } else {
+            const validUser = response.data
+            return validUser
+        }
+    })
+    return log
+}
+
 export const login = (user) => {
-    const hi = axios.post(`http://localhost:3001/api/login`,user)
+    const log = axios.post(`http://localhost:3001/api/login`,user)
     .then(response => {
         //console.log(response.data)
         if(response.error) {
@@ -53,7 +68,7 @@ export const login = (user) => {
             return validUser
         }
     })
-    return hi
+    return log
 }
 
 export const authenticate = (data, next) => {
