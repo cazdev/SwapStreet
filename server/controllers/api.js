@@ -4,7 +4,7 @@ const apiRouter = express.Router()
 
 const User = require('../models/UserSchema.js')
 const Job = require('../models/JobSchema.js')
-
+const Comment = require('../models/CommentSchema.js')
 
 const mongoose = require('mongoose')
 const scrub = ({ password, ...user }) => user
@@ -24,6 +24,14 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFind
 ///USER API ENDPOINTS
 apiRouter.get('/api/users', (request, response) => {
   User.find({}).then(users => {
+    response.json(users)
+    console.log(users)
+  })
+})
+
+apiRouter.get('/api/users/:id', (request, response) => {
+  const id = request.params.id
+  User.find({_id: id}).then(users => {
     response.json(users)
     console.log(users)
   })
@@ -159,6 +167,55 @@ apiRouter.delete('/api/jobs/:id', (request, response) => {
     Job.find({}).then(jobs => {
       response.json(jobs)
       console.log(jobs)
+    })
+  });
+})
+
+//comments API endpoints
+apiRouter.get('/api/comments/', (request, response) => {
+  Comment.find({}).then(comment => {
+    response.json(comment)
+    console.log(comment)
+  })
+})
+
+apiRouter.get('/api/usercomments/:id', (request, response) => {
+  const id = request.params.id
+  Comment.find({providerUserId: id}).then(comment => {
+    response.json(comment)
+    console.log(comment)
+  })
+})
+
+apiRouter.post('/api/comments', async (request, response) => {
+  const body = request.body
+
+  if (!body.providerUserId || !body.clientUserId || !body.comment) {
+    return response.status(400).json({
+      error: 'content missing'
+    })
+  }
+
+  const comment = new Comment({
+    clientUserId: body.clientUserId,
+    providerUserId: body.providerUserId,
+    comment: body.comment
+  })
+
+  comment.save().then(comment => {
+    return response.status(200).json(comment)
+  })
+})
+
+apiRouter.delete('/api/comments/:id', (request, response) => {
+  const id = request.params.id
+  Comment.deleteOne({ _id: id }, function (err) {
+    if (err) {
+      console.log(err)
+    }
+    Comment.find({}).then(comment => {
+      response.json(comment)
+      console.log(comment)
     })
   });
 })
