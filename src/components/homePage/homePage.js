@@ -71,7 +71,7 @@ const HomePage = () => {
       </Link>
     );
   })*/
-  const user = isAuthenticated();
+  const user = isAuthenticated ? isAuthenticated().user : false;
 
   const [jobList, setJobList] = useState([])
 
@@ -126,7 +126,7 @@ const HomePage = () => {
 </ul>
 
      <div className="row row-cols-1  row-cols-lg-3 row-cols-md-2 mb-3 hpage" id="activefavours">
-     {jobList.filter(job => job.active && job.clientUserId === "").map(job => (
+     {jobList.filter(job => job.active && job.clientUserId === "" && (user ? job.providerUserId !== user._id : true)).map(job => (
      <div key={job._id} className="col-md">
         <div className="card mb-4  shadow-sm">
           <div className="card-header py-3">
@@ -139,7 +139,7 @@ const HomePage = () => {
             </ul>
             <div className="row">
                 <div className="col">
-                <Link to="/job"><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
+                <Link to={`/job/${job._id}`}><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
                 
                 </div>
             </div>
@@ -149,7 +149,7 @@ const HomePage = () => {
        </div>
 
        <div className="row row-cols-1  row-cols-lg-3 row-cols-md-2 mb-3 hpage nodisplaytab" id="favoursrequested">
-     {jobList.filter(job => job.active && job.providerUserId === "").map(job => (
+     {jobList.filter(job => job.active && job.providerUserId === "" && (user ? job.clientUserId !== user._id : true)).map(job => (
      <div key={job._id} className="col-md">
         <div className="card mb-4  shadow-sm">
           <div className="card-header py-3">
@@ -162,7 +162,7 @@ const HomePage = () => {
             </ul>
             <div className="row">
                 <div className="col">
-                <Link to="/job"><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
+                <Link to={`/job/${job._id}`}><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
                 
                 </div>
             </div>
