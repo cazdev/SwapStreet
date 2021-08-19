@@ -14,7 +14,6 @@ const JobDetails = () => {
     const j = await getJob(jobId)
     setJob(j)
     const u = await getUser(j.providerUserId === "" ? j.clientUserId : j.providerUserId)
-    console.log(u)
     setUser(u)
   }, [])
 
@@ -40,9 +39,8 @@ const JobDetails = () => {
           <ul className="mt-3 mb-4">
               <li>{user.email}</li>
               <li>{user.address}</li>
-              <li>{user.about}</li>
+              {user.about !== "" && <li>{user.about}</li>}
             </ul>
-          <button class="btn btn-outline-secondary" type="button">Example button</button>
         </div>
       </div>
       </div>
