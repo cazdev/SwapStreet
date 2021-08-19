@@ -1,17 +1,22 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
+import { useHistory } from 'react-router';
 import 'bootstrap/dist/css/bootstrap.css';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
+import { isAuthenticated } from '../../auth/index';
+import { addJob } from '../../jobAPIRequests';
 
-class jobDataFill extends Component {
+const JobDataFill = (props) => {
 
-    constructor(props) {
+    /*constructor(props) {
         super(props);
         this.state = {
             type: this.props.location.pathname
         }
         
     }
+
+
 
     componentDidMount(){
         this.state.type === "/edit" ? this.updateVariables() : this.newJob()
@@ -75,64 +80,85 @@ class jobDataFill extends Component {
                         <label>Edit The Job</label>
                         <input type="text" className="form-control" id="inputType" ref={this.inputType = "Edit"} placeholder="Enter User ID" disabled value=""/>
                     </div>}
-                    */
+                    
 
-    render() {
-        return (
-            <div style={{margin : "10px"}}>
+    render() {*/
 
-                <form onSubmit={a => this.submitData(a)}>
+    const history = useHistory()
+    const { user: { _id, name, email, address, about, coins } } = isAuthenticated();
 
-                    <div className="form-group">
-                        <label>Title</label>
-                        <input type="text" className="form-control" id="titleInput" ref={(input) => this.title = input} placeholder="Enter Title"/>
-                    </div>
+    const [values, setValues] = useState({
+        providerUserId: props.path === "/providefavour" ? _id : '',
+        clientUserId: props.path === "/needfavour" ? _id : '',
+        title: '',
+        description: '',
+        skills: [],
+        price: '',
+        location: ''
+    })
 
-                    <div className="form-group">
-                        <label>Description</label>
-                        <input type="text" className="form-control" id="descInput" ref={(input) => this.desc = input} placeholder="Enter Description"/>
-                    </div>                   
-
-                    <div className="form-group">
-                        <label>Job Price</label>
-                        <input type="number" className="form-control" id="priceInput" placeholder="Enter Price" ref={(input) => this.price = input}/>
-                    </div>
-
-                    <div className="form-group">
-                        <label>Location</label>
-                        <input type="text" className="form-control" id="locationInput" placeholder="Enter Location" ref={(input) => this.location = input}/>
-                    </div>
-
-                    <div className="form-group">
-                        <label>jobStatus</label>
-                        <select className="form-control form-control-sm" id="jobStatusInput" ref={(input) => this.jobStatus = input}>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                        </select>
-                    </div>
-                    {this.state.type === "/edit" && (
-                        <div className="form-group">
-                            <label>chosenUserID</label>
-                            <input type="text" className="form-control" id="jobChosenUserIDInput" ref={(input) => this.chosenUserID = input} placeholder="Enter User ID"/>
-                        </div>)
-                    }
-
-                    <span> 
-                        <button type="submit" className="btn btn-primary btn-lg active">{this.state.type === "/edit" ? "Apply" : "Create"}</button>
-                        <Link to="/dashboard">
-                            <button className="btn btn-danger btn-lg active">
-                                Cancel
-                            </button>
-                        </Link>
-                    </span>
-
-                </form>
-
-            </div>
-        );
+    const handleChange = name => event => {
+        if (name === 'skills') {
+            let skillArray = event.target.value.split(",")
+            setValues({ ...values, [name]: skillArray });
+        } else {
+            setValues({ ...values, [name]: event.target.value });
+        }
+        
     }
+
+    const formHandler = async (event) => {
+        event.preventDefault()
+        const submitted = await addJob(values).catch((error) => {
+            console.log(error.response.data.error)
+            alert(error.response.data.error);
+        })
+        console.log(submitted)
+        history.push("/dashboard")
+    }
+
+    return (
+        <div style={{ margin: "10px" }}>
+
+            <form onSubmit={formHandler}>
+
+                <div className="form-group">
+                    <label>Title</label>
+                    <input type="text" className="form-control" id="titleInput" placeholder="Enter Title" onChange={handleChange('title')} value={values.title} />
+                </div>
+
+                <div className="form-group">
+                    <label>Description</label>
+                    <input type="text" className="form-control" id="descInput" placeholder="Enter Description" onChange={handleChange('description')} value={values.description} />
+                </div>
+                <div className="form-group">
+                    <label>Skills (separate with commas)</label>
+                    <input type="text" className="form-control" id="locationInput" placeholder="Enter Skills" onChange={handleChange('skills')} />
+                </div>
+
+                <div className="form-group">
+                    <label>Job Price</label>
+                    <input type="number" className="form-control" id="priceInput" placeholder="Enter Price" onChange={handleChange('price')} value={values.price} />
+                </div>
+
+                {props.path === "/needfavour" && (<div className="form-group">
+                    <label>Location</label>
+                    <input type="text" className="form-control" id="locationInput" placeholder="Enter Location"  onChange={handleChange('location')} value={values.location}/>
+                </div>)}
+
+                <span>
+                    <button type="submit" className="btn btn-primary btn-lg active">{props.path === "/edit" ? "Apply" : "Create"}</button>
+                    <Link to="/dashboard">
+                        <button className="btn btn-danger btn-lg active">
+                            Cancel
+                        </button>
+                    </Link>
+                </span>
+
+            </form>
+
+        </div>
+    );
 }
 
-export default jobDataFill;
+export default JobDataFill;
