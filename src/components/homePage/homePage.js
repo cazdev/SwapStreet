@@ -24,7 +24,7 @@ const HomePage = () => {
   function search(qry) {
     console.log(qry)
     if (qry != "") {
-      let records = jobList.filter(job => job.description.toLowerCase().search(qry.toLowerCase()) !== -1 
+      let records = ogJobList.filter(job => job.description.toLowerCase().search(qry.toLowerCase()) !== -1 
       || job.title.toLowerCase().search(qry.toLowerCase()) !== -1
       || job.location.toLowerCase().search(qry.toLowerCase()) !== -1
       || job.price.toString().toLowerCase().search(qry.toLowerCase()) !== -1)
