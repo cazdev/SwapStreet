@@ -8,6 +8,8 @@ const Comment = require('../models/CommentSchema.js')
 
 const mongoose = require('mongoose')
 const scrub = ({ password, coins, ...user }) => user
+const scrubAuthentic = ({ password, ...user }) => user
+
 if (process.argv.length < 3) {
   console.log('Please provide the password as an argument: node mongo.js <password>')
   process.exit(1)
@@ -82,7 +84,7 @@ apiRouter.post('/api/login', async (req, res) => {
   }
   if (user.password === PWord) {
     console.log('Got User', user)
-    return res.status(200).json({ user: scrub(user.toJSON()) })
+    return res.status(200).json({ user: scrubAuthentic(user.toJSON()) })
   }
   else {
     return res.status(401).json({ error: 'invalid user or password' })
@@ -110,7 +112,7 @@ apiRouter.post('/api/register', async (request, response) => {
   })
 
   user.save().then(user => {
-    return response.status(200).json({ user: scrub(user.toJSON()) })
+    return response.status(200).json({ user: scrubAuthentic(user.toJSON()) })
   })
 })
 

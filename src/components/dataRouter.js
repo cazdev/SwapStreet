@@ -11,6 +11,7 @@ import ChangeInfo from "./userProfile/changeInfo";
 import HomePage from "./homePage/homePage"
 import Dashboard from "./dashboard/dashboard"
 import JobPage from "./jobPage/jobPage"
+import About from './about/about';
 import JobDataFill from "./dataFill/dataFillPage"
 import Register from '../user/Register';
 import Login from '../user/Login';
@@ -96,6 +97,7 @@ class dataRouter extends Component {
 
                         {/*<PrivateRoute component={Dashboard} path="/dashboard" jobs={this.state.jobs} userID={this.state.userID} exact />*/}
                         <Route exact path="/dashboard"><Dashboard/></Route>
+                        <Route exact path="/about"><About/></Route>
 
                         <Route path = "/job/:id"><JobDetails/></Route>
                         {/*<Route exact path = "/job" render={(props) => <JobPage {...props} userID={this.state.userID}/> }/>*/}

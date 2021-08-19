@@ -43,7 +43,7 @@ const HeadingBar = ({ history }) => {
         <div className="collapse navbar-collapse" id="navbarsExample09">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
           <li className="nav-item"><Link to="/" className="nav-link" aria-current="page">Home</Link></li>
-        <li className="nav-item"><Link to="/" className="nav-link">About</Link></li>
+        <li className="nav-item"><Link to="/about" className="nav-link">About</Link></li>
         {isAuthenticated() ? (<><li className="nav-item"><Link to="/dashboard" className="nav-link">Dashboard</Link></li>
         <li className="nav-item" onClick={UserLogout}><Link to="/" className="nav-link">Logout</Link></li></>) :
         (<li className="nav-item"> <Link to="/login" className="nav-link">Login/Sign Up</Link></li>)}

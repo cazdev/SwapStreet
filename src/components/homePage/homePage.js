@@ -9,76 +9,31 @@ import { isAuthenticated } from "../../auth/index";
 import mower from '../../img/lawn.jpeg'
 
 const HomePage = () => {
-  /*constructor(props) {
-    super(props);
-
-    this.state = {
-      searchResults : this.props.jobs
-    };
-
-  }
-
-  handleSelect (e) {
-    this.setState({location : e})
-  }
-
-  searchData = e => {
-    const queryResult = e.target.value;
-
-    if(e === ""){
-        this.state = {
-          searchResults : this.props.jobs
-        };
-        return;
-    }
-
-    let data = []
-
-    this.props.jobs.forEach(e => {
-        if(e.description.toLowerCase().search(queryResult.toLowerCase()) !== -1 
-        || e.title.toLowerCase().search(queryResult.toLowerCase()) !== -1
-        || e.location.toLowerCase().search(queryResult.toLowerCase()) !== -1){
-            data.push(e);
-        }
-    });
-
-    this.setState({ searchQuery: e.target.value, searchResults: data })
-  }
   
-  handleSubmit = e => {
-    e.preventDefault()
-  }
-  
-  if(this.state.searchResults.length === 0){
-    this.state = {
-      searchResults : this.props.jobs
-    };
-  }*/
-
-  /*let jobList = this.state.searchResults.map(job => {
-    return (job.userID != this.props.userID && job.jobStatus !== 4 &&
-      <Link className="job" to={{pathname: "/job", state: {job: job, prevLocation : "/"}}}>
-      <div className="homeCard border-dark mb-3">
-        <div className="homeCardBody text-dark">
-            <h5 className="card-title">{job.title}</h5>
-            <p className="card-text">{job.description}</p>
-        </div>
-        <div className="card-footer bg-transparent border-dark">
-          <p className="homeJobLocation">Location: {job.location}</p>
-          <p className="homeJobCost">Cost: {job.price}</p>
-        </div>
-      </div>
-      </Link>
-    );
-  })*/
   const user = isAuthenticated ? isAuthenticated().user : false;
 
   const [jobList, setJobList] = useState([])
+  const [ogJobList, setOgJobList] = useState([])
 
   useEffect(async () => {
     const jobs = await allJobs()
     setJobList(jobs)
+    setOgJobList(jobs)
   }, [])
+
+  function search(qry) {
+    console.log(qry)
+    if (qry != "") {
+      let records = jobList.filter(job => job.description.toLowerCase().search(qry.toLowerCase()) !== -1 
+      || job.title.toLowerCase().search(qry.toLowerCase()) !== -1
+      || job.location.toLowerCase().search(qry.toLowerCase()) !== -1
+      || job.price.toString().toLowerCase().search(qry.toLowerCase()) !== -1)
+      console.log(records)
+      setJobList(records)
+    } else {
+      setJobList(ogJobList)
+    }
+  }
 
   const toggleTabs = (event) => {
     let newActiveID = event.target.href
@@ -109,6 +64,7 @@ const HomePage = () => {
         <div className="col-md-7">
         <form className="form-inline">
           <input className="form-control mr-sm-2" type="search" placeholder="Search for services..." aria-label="Search"
+            onChange={(e) => search(e.target.value)}
             id="Search"
           />
         </form>
