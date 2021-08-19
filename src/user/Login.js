@@ -48,7 +48,8 @@ const Login = () => {
 
 
     const registerForm = () => (
-        <form>
+        
+        <form className="col-md-8">
             <div className="form-group">
                 <label className="text-muted">Email</label>
                 <input onChange={handleChange('email')} type="text" className="form-control" value={email} />
@@ -58,10 +59,12 @@ const Login = () => {
                 <label className="text-muted">Password</label>
                 <input onChange={handleChange('password')} type="password" className="form-control" value={password} />
            
-            <button onClick={clickSubmit} className="btn btn-primary  mt-3">
+           <div className="py-4">
+            <button onClick={clickSubmit} className="btn btn-primary ">
                 Login
             </button>
-            <p class="mt-3">Don't have an account? <Link to="/register" className="pl-5">Sign up</Link></p>
+            </div>
+            <p class="mt-2">Don't have an account? <Link to="/register" className="pl-5">Sign up</Link></p>
             </div>
            
         </form>

@@ -81,8 +81,9 @@ const HomePage = () => {
   </li>
 </ul>
 
-     <div className="row row-cols-1  row-cols-lg-3 row-cols-md-2 mb-3 hpage" id="activefavours">
-     {jobList.filter(job => job.active && job.clientUserId === "" && (user ? job.providerUserId !== user._id : true)).map(job => (
+     <div className="row row-cols-1  row-cols-lg-3 row-cols-md-2 mb-3 hpage tab-cont" id="activefavours">
+     {jobList.filter(job => job.active && job.clientUserId === "" && (user ? job.providerUserId !== user._id : true)).length > 0 ? 
+     (jobList.filter(job => job.active && job.clientUserId === "" && (user ? job.providerUserId !== user._id : true)).map(job => (
      <div key={job._id} className="col-md">
         <div className="card mb-4  shadow-sm">
           <div className="card-header py-3">
@@ -90,10 +91,10 @@ const HomePage = () => {
           </div>
           <div className="card-body">
             <h1 className="card-title pricing-card-title txt-blue">{job.price} coins<small className="text-muted fw-light"></small></h1>
-            <ul className="mt-3 mb-4">
+            <ul className="mt-3 mb-4 card-body-scroll">
               <li>{job.description}</li>
             </ul>
-            <div className="row">
+            <div className="row more">
                 <div className="col">
                 <Link to={`/job/${job._id}`}><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
                 
@@ -101,11 +102,14 @@ const HomePage = () => {
             </div>
           </div>
         </div>
-        </div>))}
+        </div>))) : (
+          <p className="no-data">No favours to display</p>
+        )}
        </div>
 
-       <div className="row row-cols-1  row-cols-lg-3 row-cols-md-2 mb-3 hpage nodisplaytab" id="favoursrequested">
-     {jobList.filter(job => job.active && job.providerUserId === "" && (user ? job.clientUserId !== user._id : true)).map(job => (
+       <div className="row row-cols-1  row-cols-lg-3 row-cols-md-2 mb-3 hpage nodisplaytab tab-cont" id="favoursrequested">
+     {jobList.filter(job => job.active && job.providerUserId === "" && (user ? job.clientUserId !== user._id : true)).length > 0 ? 
+     (jobList.filter(job => job.active && job.providerUserId === "" && (user ? job.clientUserId !== user._id : true)).map(job => (
      <div key={job._id} className="col-md">
         <div className="card mb-4  shadow-sm">
           <div className="card-header py-3">
@@ -113,10 +117,10 @@ const HomePage = () => {
           </div>
           <div className="card-body">
             <h1 className="card-title pricing-card-title txt-blue">{job.price} coins<small className="text-muted fw-light"></small></h1>
-            <ul className="mt-3 mb-4">
+            <ul className="mt-3 mb-4 card-body-scroll">
               <li>{job.description}</li>
             </ul>
-            <div className="row">
+            <div className="row more">
                 <div className="col">
                 <Link to={`/job/${job._id}`}><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
                 
@@ -124,7 +128,9 @@ const HomePage = () => {
             </div>
           </div>
         </div>
-        </div>))}
+        </div>))) : (
+          <p className="no-data">No favours to display</p>
+        )}
        </div>
       
        <p className="py-5">&nbsp;</p>

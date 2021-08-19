@@ -119,6 +119,8 @@ const JobDataFill = (props) => {
 
     return (
         <div style={{ margin: "10px" }}>
+            <div className="row">
+                <div className="col-md-10">
 
             <form onSubmit={formHandler}>
 
@@ -129,7 +131,7 @@ const JobDataFill = (props) => {
 
                 <div className="form-group">
                     <label>Description</label>
-                    <input type="text" className="form-control" id="descInput" placeholder="Enter Description" onChange={handleChange('description')} value={values.description} />
+                    <textarea rows="5" className="form-control" id="descInput" placeholder="Enter Description" onChange={handleChange('description')} value={values.description} />
                 </div>
                 <div className="form-group">
                     <label>Skills (separate with commas)</label>
@@ -138,7 +140,7 @@ const JobDataFill = (props) => {
 
                 <div className="form-group">
                     <label>Job Price</label>
-                    <input type="number" className="form-control" id="priceInput" placeholder="Enter Price" onChange={handleChange('price')} value={values.price} />
+                    <input type="number" className="cell-sm form-control" id="priceInput" placeholder="Enter Price" onChange={handleChange('price')} value={values.price} />
                 </div>
 
                 {props.path === "/needfavour" && (<div className="form-group">
@@ -146,16 +148,18 @@ const JobDataFill = (props) => {
                     <input type="text" className="form-control" id="locationInput" placeholder="Enter Location"  onChange={handleChange('location')} value={values.location}/>
                 </div>)}
 
-                <span>
-                    <button type="submit" className="btn btn-primary btn-lg active">{props.path === "/edit" ? "Apply" : "Create"}</button>
+                <div className="py-4">
+                    <button type="submit" className="btn btn-primary mr-2 btn-sm">{props.path === "/edit" ? "Save" : "Create Favour"}</button>
                     <Link to="/dashboard">
-                        <button className="btn btn-danger btn-lg active">
+                        <button className="btn btn-outline-secondary btn-sm">
                             Cancel
                         </button>
                     </Link>
-                </span>
+                </div>
 
             </form>
+            </div>
+            </div>
 
         </div>
     );

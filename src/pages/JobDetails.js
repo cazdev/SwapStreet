@@ -32,10 +32,10 @@ const JobDetails = () => {
       </div>
     </div>
 
-    <div class="row g-5 py-5">
+    <div class="row py-5">
     <div class="col-md-6">
-        <div class="h-100 p-5 bg-light border rounded-3">
-          <h2>{user.name}</h2>
+        <div class="p-3 b border">
+          <h2> About {user.name}</h2>
           <ul className="mt-3 mb-4">
               <li>{user.email}</li>
               <li>{user.address}</li>
