@@ -112,7 +112,7 @@ const Dashboard = () => {
             </ul>
             <div className="row">
                 <div className="col">
-                <Link to="/job"><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
+                <Link to={`/job/${job._id}`}><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
                 
                 </div>
             </div>
@@ -134,7 +134,7 @@ const Dashboard = () => {
             </ul>
             <div className="row">
                 <div className="col">
-                <Link to="/job"><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
+                <Link to={`/job/${job._id}`}><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
                 
                 </div>
             </div>
@@ -156,7 +156,7 @@ const Dashboard = () => {
             </ul>
             <div className="row">
                 <div className="col">
-                <Link to="/job"><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
+                <Link to={`/job/${job._id}`}><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
                 
                 </div>
             </div>
@@ -178,7 +178,7 @@ const Dashboard = () => {
             </ul>
             <div className="row">
                 <div className="col">
-                <Link to="/job"><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
+                <Link to={`/job/${job._id}`}><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
                 
                 </div>
             </div>

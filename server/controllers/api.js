@@ -7,7 +7,7 @@ const Job = require('../models/JobSchema.js')
 const Comment = require('../models/CommentSchema.js')
 
 const mongoose = require('mongoose')
-const scrub = ({ password, ...user }) => user
+const scrub = ({ password, coins, ...user }) => user
 if (process.argv.length < 3) {
   console.log('Please provide the password as an argument: node mongo.js <password>')
   process.exit(1)
@@ -31,9 +31,8 @@ apiRouter.get('/api/users', (request, response) => {
 
 apiRouter.get('/api/users/:id', (request, response) => {
   const id = request.params.id
-  User.find({_id: id}).then(users => {
-    response.json(users)
-    console.log(users)
+  User.findOne({_id: id}).then(user => {
+    return response.status(200).json(scrub(user.toJSON()))
   })
 })
 
@@ -120,6 +119,13 @@ apiRouter.post('/api/register', async (request, response) => {
 apiRouter.get('/api/jobs', (request, response) => {
   Job.find({}).then(jobs => {
     return response.status(200).json(jobs)
+  })
+})
+
+apiRouter.get('/api/jobs/:id', (request, response) => {
+  const id = request.params.id
+  Job.findOne({_id: id}).then(job => {
+    return response.status(200).json(job)
   })
 })
 
