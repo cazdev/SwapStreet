@@ -1,4 +1,4 @@
-import React, { Component , useState} from '../../../node_modules/react';
+import React, { Component , useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
 import './homePage.css';
 
@@ -7,10 +7,12 @@ import 'bootstrap/dist/js/bootstrap.bundle'
 
 import '../../styles/custom.css'
 
+import { allJobs } from '../../jobAPIRequests/index'
+
 import mower from '../../img/lawn.jpeg'
 
-class HomePage extends Component {
-  constructor(props) {
+const HomePage = () => {
+  /*constructor(props) {
     super(props);
 
     this.state = {
@@ -50,29 +52,36 @@ class HomePage extends Component {
     e.preventDefault()
   }
   
-  render() {
-    if(this.state.searchResults.length === 0){
-      this.state = {
-        searchResults : this.props.jobs
-      };
-    }
- 
-    let jobList = this.state.searchResults.map(job => {
-      return (job.userID != this.props.userID && job.jobStatus !== 4 &&
-        <Link className="job" to={{pathname: "/job", state: {job: job, prevLocation : "/"}}}>
-        <div className="homeCard border-dark mb-3">
-          <div className="homeCardBody text-dark">
-              <h5 className="card-title">{job.title}</h5>
-              <p className="card-text">{job.description}</p>
-          </div>
-          <div className="card-footer bg-transparent border-dark">
-            <p className="homeJobLocation">Location: {job.location}</p>
-            <p className="homeJobCost">Cost: {job.price}</p>
-          </div>
+  if(this.state.searchResults.length === 0){
+    this.state = {
+      searchResults : this.props.jobs
+    };
+  }*/
+
+  /*let jobList = this.state.searchResults.map(job => {
+    return (job.userID != this.props.userID && job.jobStatus !== 4 &&
+      <Link className="job" to={{pathname: "/job", state: {job: job, prevLocation : "/"}}}>
+      <div className="homeCard border-dark mb-3">
+        <div className="homeCardBody text-dark">
+            <h5 className="card-title">{job.title}</h5>
+            <p className="card-text">{job.description}</p>
         </div>
-        </Link>
-      );
-    })
+        <div className="card-footer bg-transparent border-dark">
+          <p className="homeJobLocation">Location: {job.location}</p>
+          <p className="homeJobCost">Cost: {job.price}</p>
+        </div>
+      </div>
+      </Link>
+    );
+  })*/
+
+  const [jobList, setJobList] = useState([])
+
+  useEffect(async () => {
+    const jobs = await allJobs()
+    setJobList(jobs)
+  }, [])
+
     
     return (
       <div className= "homePage">
@@ -88,7 +97,6 @@ class HomePage extends Component {
         <form className="form-inline">
           <input className="form-control mr-sm-2" type="search" placeholder="Search for services..." aria-label="Search"
             id="Search"
-            onChange={this.searchData}
           />
         </form>
         </div>
@@ -96,22 +104,17 @@ class HomePage extends Component {
       </div>
     </div>
      <div className="row row-cols-1  row-cols-lg-3 row-cols-md-2 mb-3  ">
-      <div className="col-md">
+     {jobList.map(job => (
+     <div key={job._id} className="col-md">
         <div className="card mb-4  shadow-sm">
           <div className="card-header py-3">
-            <h4 className="my-0 ">Plumbing and Electrical</h4>
+            <h4 className="my-0 ">{job.title}</h4>
           </div>
           <div className="card-body">
-            <h1 className="card-title pricing-card-title txt-blue">50 coins<small className="text-muted fw-light"></small></h1>
+            <h1 className="card-title pricing-card-title txt-blue">{job.price} coins<small className="text-muted fw-light"></small></h1>
             <ul className="mt-3 mb-4">
-              <li>Blocked Drains</li>
-              <li>Tap and Toilet Repair</li>
-              <li>Fixed Upfront no Surprise</li>
-              <li>Help center access</li>
+              <li>{job.description}</li>
             </ul>
-
-            
-            <p>This business servicing Canberra is a local SME in the Plumbers & Gas Fitters category. </p>
             <div className="row">
                 <div className="col">
                 <Link to="/job"><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
@@ -120,132 +123,8 @@ class HomePage extends Component {
             </div>
           </div>
         </div>
-        </div>
-        <div className="col-md">
-       <div className="card mb-4  shadow-sm">
-          <div className="card-header py-3">
-            <h4 className="my-0 ">Lawn Mowing</h4>
-          </div>
-          <div className="card-body">
-            <h1 className="card-title pricing-card-title txt-blue">10 coins<small className="text-muted fw-light"></small></h1>
-            <ul className="mt-3 mb-4">
-              <li>Mowing Lawn</li>
-              <li>Weeding</li>
-              <li>Will trim hedges if you are nice</li>
-              <li>No dogs</li>
-            </ul>
-
-            
-            <p>This business helps keep your backyard looking sharp. Contact us today or you'll have a messy lawn! </p>
-            <div className="row">
-                <div className="col">
-                <Link to="/job"><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
-                </div>
-            </div>
-          </div>
-        </div>
-        </div>
-        <div className="col-md">
-        <div className="card mb-4  shadow-sm">
-          <div className="card-header py-3">
-            <h4 className="my-0 ">Driver</h4>
-          </div>
-          <div className="card-body">
-            <h1 className="card-title pricing-card-title txt-blue">80 coins<small className="text-muted fw-light"></small></h1>
-            <ul className="mt-3 mb-4">
-              <li>Expert Driver</li>
-              <li>Pets allowed in car</li>
-              <li>Will start up a conversation if requested</li>
-              <li>Baby seat included</li>
-            </ul>
-
-            
-            <p>This driver is qualified. Will drive anywhere, including from one side of the country to the other.</p>
-            <div className="row">
-                <div className="col">
-                <Link to="/job"><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
-                
-                </div>
-            </div>
-          </div>
-        </div>
-        </div>
-        <div className="col-md">
-        <div className="card mb-4  shadow-sm">
-          <div className="card-header py-3">
-            <h4 className="my-0 ">Plumbing and Electrical</h4>
-          </div>
-          <div className="card-body">
-            <h1 className="card-title pricing-card-title txt-blue">90 coins<small className="text-muted fw-light"></small></h1>
-            <ul className="mt-3 mb-4">
-              <li>Blocked Drains</li>
-              <li>Tap and Toilet Repair</li>
-              <li>Fixed Upfront no Surprise</li>
-              <li>Help center access</li>
-            </ul>
-
-            
-            <p>This business servicing Canberra is a local SME in the Plumbers & Gas Fitters category. </p>
-            <div className="row">
-                <div className="col">
-                <Link to="/job"><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
-                
-                </div>
-            </div>
-          </div>
-        </div>
-        </div>
-        <div className="col-md">
-        <div className="card mb-4  shadow-sm">
-          <div className="card-header py-3">
-            <h4 className="my-0 ">Plumbing and Electrical</h4>
-          </div>
-          <div className="card-body">
-            <h1 className="card-title pricing-card-title txt-blue">120 coins<small className="text-muted fw-light"></small></h1>
-            <ul className="mt-3 mb-4">
-              <li>Blocked Drains</li>
-              <li>Tap and Toilet Repair</li>
-              <li>Fixed Upfront no Surprise</li>
-              <li>Help center access</li>
-            </ul>
-
-            
-            <p>This business servicing Canberra is a local SME in the Plumbers & Gas Fitters category. </p>
-            <div className="row">
-                <div className="col">
-                <Link to="/job"><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
-                
-                </div>
-            </div>
-          </div>
-        </div>
-        </div>
-        <div className="col-md">
-        <div className="card mb-4  shadow-sm">
-          <div className="card-header py-3">
-            <h4 className="my-0 ">Plumbing and Electrical</h4>
-          </div>
-          <div className="card-body">
-            <h1 className="card-title pricing-card-title txt-blue">30 coins<small className="text-muted fw-light"></small></h1>
-            <ul className="mt-3 mb-4">
-              <li>Blocked Drains</li>
-              <li>Tap and Toilet Repair</li>
-              <li>Fixed Upfront no Surprise</li>
-              <li>Help center access</li>
-            </ul>
-
-            
-            <p>This business servicing Canberra is a local SME in the Plumbers & Gas Fitters category. </p>
-            <div className="row">
-                <div className="col">
-                <Link to="/job"><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
-                
-                </div>
-            </div>
-          </div>
-        </div>
-        </div>
-       
+        </div>))}
+        
      
        </div>
       
@@ -254,8 +133,6 @@ class HomePage extends Component {
       
 
     )
-  }
-
 }
 
 export default HomePage;
