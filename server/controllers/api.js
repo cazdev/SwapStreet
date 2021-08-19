@@ -120,7 +120,6 @@ apiRouter.post('/api/register', async (request, response) => {
 apiRouter.get('/api/jobs', (request, response) => {
   Job.find({}).then(jobs => {
     return response.status(200).json(jobs)
-    console.log(jobs)
   })
 })
 
