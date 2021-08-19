@@ -170,7 +170,8 @@ const Dashboard = () => {
                         <Link to={`/job/${job._id}`}><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
                        </div>
                        <div className="col-sm-6 txt-right py-2 px-3">
-                       <i class="bi bi-check2-square"></i>
+                       <i class="bi bi-check2-square px-2"></i>
+                       <i className="bi bi-trash"></i>
                       </div>
                     </div>
                   </div>
