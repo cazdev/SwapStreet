@@ -19,7 +19,7 @@ const JobDataFill = (props) => {
 
 
     componentDidMount(){
-        this.state.type === "/edit" ? this.updateVariables() : this.newJob()
+        this.state.type === "/editfavour" ? this.updateVariables() : this.newJob()
     }
 
 
@@ -32,8 +32,8 @@ const JobDataFill = (props) => {
 
         event.preventDefault();
 
-        let url = new URL("http://localhost:3200/jobs?" + (this.state.type === "/edit" ? "replace" : "add") + "=true")
-        if(this.state.type === "/edit"){
+        let url = new URL("http://localhost:3200/jobs?" + (this.state.type === "/editfavour" ? "replace" : "add") + "=true")
+        if(this.state.type === "/editfavour"){
             url.searchParams.set("replaceID", this.replaceID)
         }
         url.searchParams.set("userID", this.props.userID)
@@ -76,7 +76,7 @@ const JobDataFill = (props) => {
 
     /*
 
-                    {this.props.location.pathname == "/edit" && <div className="form-group">
+                    {this.props.location.pathname == "/editfavour" && <div className="form-group">
                         <label>Edit The Job</label>
                         <input type="text" className="form-control" id="inputType" ref={this.inputType = "Edit"} placeholder="Enter User ID" disabled value=""/>
                     </div>}
@@ -116,11 +116,15 @@ const JobDataFill = (props) => {
         console.log(submitted)
         history.push("/dashboard")
     }
+    console.log(props.path)
 
     return (
         <div style={{ margin: "10px" }}>
             <div className="row">
                 <div className="col-md-10">
+                <h1 class="txt-blue">
+                {props.path === "/needfavour" || props.path === "/providefavour" ? <>New Favour</> :<>Edit Favour</>}
+            </h1>
 
             <form onSubmit={formHandler}>
 
@@ -143,13 +147,13 @@ const JobDataFill = (props) => {
                     <input type="number" className="cell-sm form-control" id="priceInput" placeholder="Enter Price" onChange={handleChange('price')} value={values.price} />
                 </div>
 
-                {props.path === "/needfavour" && (<div className="form-group">
+                {(props.path === "/needfavour" || props.path === "/editneedfavour") && (<div className="form-group">
                     <label>Location</label>
                     <input type="text" className="form-control" id="locationInput" placeholder="Enter Location"  onChange={handleChange('location')} value={values.location}/>
                 </div>)}
 
                 <div className="py-4">
-                    <button type="submit" className="btn btn-primary mr-2 btn-sm">{props.path === "/edit" ? "Save" : "Create Favour"}</button>
+                    <button type="submit" className="btn btn-primary mr-2 btn-sm">{props.path === "/needfavour" || props.path === "/providefavour" ? "Create Favour" : "Save Changes"}</button>
                     <Link to="/dashboard">
                         <button className="btn btn-outline-secondary btn-sm">
                             Cancel

@@ -88,12 +88,14 @@ class dataRouter extends Component {
 
                         <Route path='/login' exact component={Login}/>
                         <Route path='/register' exact component={Register}/>
-                        <PrivateRoute component={UserProfile} path="/profile" exact />
+                        <Route path='/editprofile/:id' exact component={Register}/>
+                        {/*<PrivateRoute component={UserProfile} path="/profile" exact />*/}
 
 
-                        <Route exact path = "/providefavour"><JobDataFill path={"/providefavour"}/></Route>
-                        <Route exact path = "/needfavour"><JobDataFill path={"/needfavour"}/></Route>
-                        <Route exact path = "/edit"><JobDataFill path={"/edit"}/></Route>
+                        <Route path = "/providefavour"><JobDataFill path={"/providefavour"}/></Route>
+                        <Route path = "/needfavour"><JobDataFill path={"/needfavour"}/></Route>
+                        <Route path = "/editneedfavour/:id"><JobDataFill path={"/editneedfavour"}/></Route>
+                        <Route path = "/editprovidefavour/:id"><JobDataFill path={"/editprovidefavour"}/></Route>
 
                         {/*<PrivateRoute component={Dashboard} path="/dashboard" jobs={this.state.jobs} userID={this.state.userID} exact />*/}
                         <Route exact path="/dashboard"><Dashboard/></Route>
