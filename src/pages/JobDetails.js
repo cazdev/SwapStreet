@@ -25,10 +25,10 @@ const JobDetails = () => {
     if(!isAuthenticated()) {
       history.push("/login")
     } else {
-      const submitted = job.providerUserId === "" ? (await updateJob({...job, providerUserId: userProf._id}).catch((error) => {
+      const submitted = job.providerUserId === "" ? (await updateJob({...job, providerUserId: userProf._id, status: 2}).catch((error) => {
         console.log(error.response.data.error)
         alert(error.response.data.error);
-      })) : (await updateJob({...job, clientUserId: userProf._id}).catch((error) => {
+      })) : (await updateJob({...job, clientUserId: userProf._id, status: 2}).catch((error) => {
         console.log(error.response.data.error)
         alert(error.response.data.error);
       }))
@@ -53,7 +53,7 @@ const JobDetails = () => {
           ))}
         </ul>
         </>)}
-        {!userProf || (job.providerUserId !== undefined && job.providerUserId !== userProf._id && job.clientUserId !== userProf._id) ? 
+        {!userProf || (job.status === 0) ? 
         (<div class="d-grid gap-2 d-md-flex justify-content-md-start">
           <button onClick={(e) => buyProvideJob(e)} type="button" class="btn btn-primary btn-sm px-4 me-md-2">{job.price} Swapstreet Coins</button>
           <button type="button" class="btn btn-outline-secondary btn-sm px-4">Swap Services</button>

@@ -82,8 +82,8 @@ const HomePage = () => {
 </ul>
 
      <div className="row row-cols-1  row-cols-lg-3 row-cols-md-2 mb-3 hpage tab-cont" id="activefavours">
-     {jobList.filter(job => job.active && job.clientUserId === "" && (user ? job.providerUserId !== user._id : true)).length > 0 ? 
-     (jobList.filter(job => job.active && job.clientUserId === "" && (user ? job.providerUserId !== user._id : true)).map(job => (
+     {jobList.filter(job => job.status === 0 && job.providerUserId !== "" && job.clientUserId === "").length > 0 ? 
+     (jobList.filter(job => job.status === 0 && job.providerUserId !== "" && job.clientUserId === "").map(job => (
      <div key={job._id} className="col-md">
         <div className="card mb-4  shadow-sm">
           <div className="card-header py-3">
@@ -108,8 +108,8 @@ const HomePage = () => {
        </div>
 
        <div className="row row-cols-1  row-cols-lg-3 row-cols-md-2 mb-3 hpage nodisplaytab tab-cont" id="favoursrequested">
-     {jobList.filter(job => job.active && job.providerUserId === "" && (user ? job.clientUserId !== user._id : true)).length > 0 ? 
-     (jobList.filter(job => job.active && job.providerUserId === "" && (user ? job.clientUserId !== user._id : true)).map(job => (
+     {jobList.filter(job => job.status === 0 && job.providerUserId === "" && job.clientUserId !== "").length > 0 ? 
+     (jobList.filter(job => job.status === 0 && job.providerUserId === "" && job.clientUserId !== "").map(job => (
      <div key={job._id} className="col-md">
         <div className="card mb-4  shadow-sm">
           <div className="card-header py-3">
