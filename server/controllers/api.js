@@ -156,6 +156,7 @@ apiRouter.put('/api/jobs/:id', async (request, response) => {
   job.skill = body.skill ? body.skill : []
   job.price = body.price ? body.price : job.price
   job.location = body.location ? body.location : job.location
+  job.status = body.status ? body.status : job.status
 
   job.save().then(job => {
     return response.status(200).json(job)
@@ -179,7 +180,7 @@ apiRouter.post('/api/jobs', async (request, response) => {
     price: body.price || "",
     skill: body.skill || [],
     clientUserId: body.clientUserId || "",
-    active: true
+    status: body.status || 0
   })
 
   job.save().then(job => {

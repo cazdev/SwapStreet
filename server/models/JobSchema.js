@@ -8,7 +8,7 @@ const JobSchema = new mongoose.Schema({
    price: {type: Number, required: true},
    skill: {type: [String], required: false },
    clientUserId: {type: String, required: false},
-   active:  {type: Boolean, required: false},
+   status:  {type: Number, required: true}
 })
 
 module.exports = mongoose.model('Job', JobSchema)
