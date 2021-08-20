@@ -141,6 +141,27 @@ apiRouter.get('/api/userjobs/:id', async (request, response) => {
   })
 })
 
+apiRouter.put('/api/jobs/:id', async (request, response) => {
+  const id = request.params.id
+  let job = await Job.findOne({_id: id})
+  if (!job) {
+    return res.status(401).json({ error: 'job does not exist' })
+  }
+  const body = request.body
+
+  job.providerUserId = body.providerUserId ? body.providerUserId : job.providerUserId
+  job.clientUserId = body.clientUserId ? body.clientUserId : job.clientUserId
+  job.title = body.title ? body.title : job.title
+  job.description = body.description ? body.description : job.description
+  job.skill = body.skill ? body.skill : []
+  job.price = body.price ? body.price : job.price
+  job.location = body.location ? body.location : job.location
+
+  job.save().then(job => {
+    return response.status(200).json(job)
+  })
+})
+
 apiRouter.post('/api/jobs', async (request, response) => {
   const body = request.body
 

@@ -1,10 +1,9 @@
-import React, { Component, useState } from 'react';
-import { useHistory } from 'react-router';
+import React, { Component, useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import { Link } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 import { isAuthenticated } from '../../auth/index';
-import { addJob } from '../../jobAPIRequests';
+import { updateJob, addJob, getJob } from '../../jobAPIRequests';
 
 const JobDataFill = (props) => {
 
@@ -85,20 +84,34 @@ const JobDataFill = (props) => {
     render() {*/
 
     const history = useHistory()
+    const jobId = useParams().id
+
     const { user: { _id, name, email, address, about, coins } } = isAuthenticated();
 
     const [values, setValues] = useState({
-        providerUserId: props.path === "/providefavour" ? _id : '',
-        clientUserId: props.path === "/needfavour" ? _id : '',
+        providerUserId: props.path === "/providefavour" || props.path === "/editprovidefavour" ? _id : '',
+        clientUserId: props.path === "/needfavour" || props.path === "/editneedfavour" ? _id : '',
         title: '',
         description: '',
-        skills: [],
+        skill: [],
         price: '',
         location: ''
     })
 
+    useEffect(async () => {
+        if(props.path === "/editneedfavour" || props.path === "/editprovidefavour") {
+            const jobEdit = await getJob(jobId)
+            setValues({...values, 
+                title: jobEdit.title, 
+                description: jobEdit.description, 
+                skill: jobEdit.skill, 
+                price: jobEdit.price, 
+                location: jobEdit.location})
+        }
+      }, [])
+
     const handleChange = name => event => {
-        if (name === 'skills') {
+        if (name === 'skill') {
             let skillArray = event.target.value.split(",")
             setValues({ ...values, [name]: skillArray });
         } else {
@@ -109,14 +122,22 @@ const JobDataFill = (props) => {
 
     const formHandler = async (event) => {
         event.preventDefault()
-        const submitted = await addJob(values).catch((error) => {
-            console.log(error.response.data.error)
-            alert(error.response.data.error);
-        })
-        console.log(submitted)
+        if(props.path === "/needfavour" || props.path === "/providefavour") {
+            const submitted = await addJob(values).catch((error) => {
+                console.log(error.response.data.error)
+                alert(error.response.data.error);
+            })
+            console.log(submitted)
+        }
+        if(props.path === "/editneedfavour" || props.path === "/editprovidefavour") {
+            const submitted = await updateJob({...values, _id: jobId}).catch((error) => {
+                console.log(error.response.data.error)
+                alert(error.response.data.error);
+            })
+            console.log(submitted)
+        }
         history.push("/dashboard")
     }
-    console.log(props.path)
 
     return (
         <div style={{ margin: "10px" }}>
@@ -139,7 +160,7 @@ const JobDataFill = (props) => {
                 </div>
                 <div className="form-group">
                     <label>Skills (separate with commas)</label>
-                    <input type="text" className="form-control" id="locationInput" placeholder="Enter Skills" onChange={handleChange('skills')} />
+                    <input type="text" className="form-control" id="locationInput" placeholder="Enter Skills" onChange={handleChange('skill')} value={values.skill && values.skill.toString()} />
                 </div>
 
                 <div className="form-group">
