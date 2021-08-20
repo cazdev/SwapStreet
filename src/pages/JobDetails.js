@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import logo from '../img/swap.png'
 import mower from '../img/mower.jpeg'
-import { useParams } from 'react-router-dom';
-import { getJob } from '../jobAPIRequests';
-import { getUser } from '../auth';
+import { useParams, useHistory } from 'react-router-dom';
+import { getJob, updateJob } from '../jobAPIRequests';
+import { getUser, isAuthenticated } from '../auth';
 
 const JobDetails = () => {
+
+  const history = useHistory()
   const jobId = useParams().id
   const [job, setJob] = useState({})
   const [user, setUser] = useState({})
+
+  const userProf = isAuthenticated().user
 
   useEffect(async () => {
     const j = await getJob(jobId)
@@ -17,6 +21,22 @@ const JobDetails = () => {
     setUser(u)
   }, [])
 
+  const buyProvideJob = async (event) => {
+    if(!isAuthenticated()) {
+      history.push("/login")
+    } else {
+      const submitted = job.providerUserId === "" ? (await updateJob({...job, providerUserId: userProf._id}).catch((error) => {
+        console.log(error.response.data.error)
+        alert(error.response.data.error);
+      })) : (await updateJob({...job, clientUserId: userProf._id}).catch((error) => {
+        console.log(error.response.data.error)
+        alert(error.response.data.error);
+      }))
+      console.log(submitted)
+      history.push("/dashboard")
+    }
+  }
+  console.log(job)
   return (<>
     <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
       <div class="col-10 col-sm-8 col-lg-6">
@@ -33,10 +53,11 @@ const JobDetails = () => {
           ))}
         </ul>
         </>)}
-        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-          <button type="button" class="btn btn-primary btn-sm px-4 me-md-2">{job.price} Swapstreet Coins</button>
+        {!userProf || (job.providerUserId !== undefined && job.providerUserId !== userProf._id && job.clientUserId !== userProf._id) ? 
+        (<div class="d-grid gap-2 d-md-flex justify-content-md-start">
+          <button onClick={(e) => buyProvideJob(e)} type="button" class="btn btn-primary btn-sm px-4 me-md-2">{job.price} Swapstreet Coins</button>
           <button type="button" class="btn btn-outline-secondary btn-sm px-4">Swap Services</button>
-        </div>
+        </div>) :(<></>)}
       </div>
     </div>
 

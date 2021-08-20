@@ -90,7 +90,7 @@ const Login = () => {
             /*if (user) {
                 return <Redirect to="/" />;
             }*/
-            history.push("/dashboard")
+            history.goBack()
         }
     };
 
