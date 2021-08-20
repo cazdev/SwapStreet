@@ -114,7 +114,7 @@ const Dashboard = () => {
                         <Link to={`/job/${job._id}`}><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
                        </div>
                        <div className="col-sm-6 txt-right py-2 px-3">
-                        <i className="bi bi-pencil-square px-2"></i>
+                       <Link to={`/editneedfavour/${job._id}`}><i className="bi bi-pencil-square px-2"></i></Link>
                         <i className="bi bi-trash"></i>
                       </div>
                     </div>
@@ -142,7 +142,7 @@ const Dashboard = () => {
                         <Link to={`/job/${job._id}`}><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
                        </div>
                        <div className="col-sm-6 txt-right py-2 px-3">
-                        <i className="bi bi-pencil-square px-2"></i>
+                       <Link to={`/editprovidefavour/${job._id}`}><i className="bi bi-pencil-square px-2"></i></Link>
                         <i className="bi bi-trash"></i>
                       </div>
                     </div>

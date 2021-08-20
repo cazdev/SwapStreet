@@ -24,7 +24,15 @@ const JobDetails = () => {
       </div>
       <div class="col-md-6">
         <h1 class="lh-1 mb-3 txt-blue">{job.title}</h1>
-        <p class="lead mb-5">{job.description}</p>
+        <p class="lead">{job.description}</p>
+        {job.location && <p class="lead">{job.location}</p>}
+        {job.skill !== undefined && job.skill.length > 0 && (<><p class="lead">Skills needed</p>
+        <ul>
+          {job.skill && job.skill.map(skill => (
+            <li>{skill}</li>
+          ))}
+        </ul>
+        </>)}
         <div class="d-grid gap-2 d-md-flex justify-content-md-start">
           <button type="button" class="btn btn-primary btn-sm px-4 me-md-2">{job.price} Swapstreet Coins</button>
           <button type="button" class="btn btn-outline-secondary btn-sm px-4">Swap Services</button>

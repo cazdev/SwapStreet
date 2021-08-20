@@ -61,3 +61,18 @@ export const addJob = (content) => {
     return job
 }
 
+export const updateJob = (content) => {
+    const job = axios.put(`http://localhost:3001/api/jobs/${content._id}`, content)
+    .then(response => {
+        //console.log(response.data)
+        if(response.error) {
+            console.log("error")
+            return
+        } else {
+            const validJob = response.data
+            return validJob
+        }
+    })
+    return job
+}
+
