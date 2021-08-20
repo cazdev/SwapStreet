@@ -194,8 +194,7 @@ apiRouter.delete('/api/jobs/:id', (request, response) => {
       console.log(err)
     }
     Job.find({}).then(jobs => {
-      response.json(jobs)
-      console.log(jobs)
+      return response.json(jobs)
     })
   });
 })
