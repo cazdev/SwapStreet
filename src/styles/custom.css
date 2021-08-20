@@ -34,6 +34,9 @@ nav-pills .nav-link.active, .nav-pills .show > .nav-link {
 }
 .txt-blue {color: #00adee;}
 
+a {
+    text-decoration: none;
+}
 
 .edit-btn i {
     font-size: 0.4em;

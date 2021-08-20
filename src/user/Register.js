@@ -1,11 +1,23 @@
 import React, {useState} from 'react';
 import Layout from '../components/Layout'
-import { Link } from 'react-router-dom'
-import { register, authenticate, isAuthenticated } from '../auth/index'
+import { Link, useParams } from 'react-router-dom'
+import { updateUser, register, authenticate, isAuthenticated } from '../auth/index'
 
 const Register = () => {
+    const id = useParams().id
+    const user = isAuthenticated().user
 
-    const [values, setValues] = useState({
+    const [values, setValues] = useState(id ? 
+        {
+            name: user.name,
+            email: user.email,
+            address: user.address,
+            about: user.about,
+            password: '',
+            error: false,
+            success: false
+        } :
+        {
         name:'',
         email: '',
         address: '',
@@ -16,7 +28,6 @@ const Register = () => {
     })
 
     const { name, email, address, about, password, success, error } = values;
-    const {user} = isAuthenticated()
 
     const handleChange = name => event => {
         setValues({ ...values, error: false, [name]: event.target.value });
@@ -26,7 +37,10 @@ const Register = () => {
         // prevent browser from reloading
         event.preventDefault();
         setValues({ ...values, error: false });
-        let userRegistered = await register({name, email, address, about, password}).catch((error) => {
+        let userRegistered = id ? await updateUser({id, name, email, address, about, password}).catch((error) => {
+            console.log(error)
+            alert(error);
+        }) : await register({name, email, address, about, password}).catch((error) => {
             console.log(error)
             alert(error);
         })
@@ -70,19 +84,23 @@ const Register = () => {
 
             <div className="form-group">
                 <label className="text-muted">About yourself (Optional)</label>
-                <input onChange={handleChange('about')} type="text" className="form-control" value={about} />
+                <textarea rows="3" onChange={handleChange('about')} className="form-control" value={about} />
             </div>
 
             <div className="form-group">
                 <label className="text-muted">Password</label>
                 <input onChange={handleChange('password')} type="password" className="form-control" value={password} />
             </div>
-            <div className="py-4">
+            {id ? (<div className="py-4">
+            <button onClick={clickSubmit} className="btn btn-primary">
+                Save Changes
+            </button>
+            </div>) : (<><div className="py-4">
             <button onClick={clickSubmit} className="btn btn-primary">
                 Register
             </button>
             </div>
-            <p class="mt-2">Already have an account? <Link to="/login" className="pl-5">Sign in</Link></p>
+            <p class="mt-2">Already have an account? <Link to="/login" className="pl-5">Sign in</Link></p></>)}
         </form>
     )
 
@@ -94,13 +112,13 @@ const Register = () => {
 
     const showSuccess = () => (
         <div className="alert alert-info" style={{ display: success ? '' : 'none' }}>
-            New account is created. Please <Link to="/login">log in</Link>
+            {id ? <>Profile updated.</> : <>New account is created.</>} Please <Link to="/login">log in</Link>
         </div>
     );
 
 
     return (
-        <Layout title="Register " description='Register for a new account' className='container col-md-8 offset-md-2'>
+        <Layout title={id ? "Update Profile" : "Register"} description={id ? "Update your profile" : 'Register for a new account'} className='container col-md-8 offset-md-2'>
             {showSuccess()}
             {showError()}
             {registerForm()}

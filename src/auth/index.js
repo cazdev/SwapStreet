@@ -31,6 +31,22 @@ export const login = (user) => {
     return log
 }
 
+export const updateUser = (user) => {
+    console.log(user)
+    const log = axios.put(`http://localhost:3001/api/users/${user.id}`,user)
+    .then(response => {
+        //console.log(response.data)
+        if(response.error) {
+            console.log("error")
+            return
+        } else {
+            const validUser = response.data
+            return validUser
+        }
+    })
+    return log
+}
+
 export const authenticate = (data, next) => {
     if (typeof window !== 'undefined') {
         localStorage.setItem('jwt', JSON.stringify(data));

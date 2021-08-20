@@ -73,7 +73,7 @@ const Dashboard = () => {
         <div class="row">
           
           <div class="col-md">
-            <h1>Hello {name} <span className="edit-btn"><i className="bi bi-pencil-square">&nbsp;edit</i> </span></h1>
+            <h1>Hello {name} <Link to={`/editprofile/${_id}`}> <span className="edit-btn"><i className="bi bi-pencil-square">&nbsp;edit</i> </span></Link></h1>
             <p>email: {email}</p>
             <p>address: {address}</p>
             {about && <p>about: {about}</p>}

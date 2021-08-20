@@ -61,12 +61,13 @@ apiRouter.put('/api/users/:id', async (request, response) => {
 
   user.name = body.name ? body.name : (user.name ? user.name : ""), 
   user.email = body.email ? body.email : (user.email ? user.email : ""),
+  user.password = body.password ? body.password : (user.password ? user.password : ""),
   user.address = body.address ? body.address : (user.address ? user.address : ""),
-  user.about = body.about ? body.about : (user.about ? user.about : ""),
+  user.about = body.about ? body.about : ""
   user.coins = body.coins ? body.coins : (user.coins ? user.coins : 0)
 
   user.save().then(user => {
-    response.status(200).json({ user: scrub(user.toJSON()) })
+    return response.status(200).json({ user: scrub(user.toJSON()) })
   })
 })
 
