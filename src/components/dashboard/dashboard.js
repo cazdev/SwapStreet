@@ -9,7 +9,7 @@ import History from './history';
 import Info from './info';
 //import Datafill from '../dataFill/dataFillPage';
 import { isAuthenticated } from "../../auth/index";
-import { allJobs, userJobs } from '../../jobAPIRequests/index'
+import { allJobs, userJobs, deleteJob } from '../../jobAPIRequests/index'
 
 
 const Dashboard = () => {
@@ -67,6 +67,18 @@ const Dashboard = () => {
     }
   }
 
+  const deleteAnActiveJob = async (jobId) => {
+    console.log(jobId)
+    let submitted = await deleteJob(jobId).catch((error) => {
+      console.log(error.response.data.error)
+      alert(error.response.data.error);
+    })
+    console.log(submitted)
+    const userJobs = submitted.filter(job => job.clientUserId === _id || job.providerUserId === _id) 
+    console.log(userJobs)
+    setUserJobList(userJobs)
+  }
+
   return (
     <div>
       <div class="container">
@@ -115,7 +127,7 @@ const Dashboard = () => {
                        </div>
                        <div className="col-sm-6 txt-right py-2 px-3">
                        <Link to={`/editneedfavour/${job._id}`}><i className="bi bi-pencil-square px-2"></i></Link>
-                        <i className="bi bi-trash"></i>
+                       <i className="bi bi-trash" onClick={(e) => deleteAnActiveJob(job._id)}></i>
                       </div>
                     </div>
                   </div>
@@ -143,7 +155,7 @@ const Dashboard = () => {
                        </div>
                        <div className="col-sm-6 txt-right py-2 px-3">
                        <Link to={`/editprovidefavour/${job._id}`}><i className="bi bi-pencil-square px-2"></i></Link>
-                        <i className="bi bi-trash"></i>
+                        <i className="bi bi-trash" onClick={(e) => deleteAnActiveJob(job._id)}></i>
                       </div>
                     </div>
                   </div>

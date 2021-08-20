@@ -31,6 +31,21 @@ export const getJob = (id) => {
     return job
 }
 
+export const deleteJob = (id) => {
+    const jobs = axios.delete(`http://localhost:3001/api/jobs/${id}`)
+    .then(response => {
+        //console.log(response.data)
+        if(response.error) {
+            console.log("error")
+            return
+        } else {
+            const validJobs = response.data
+            return validJobs
+        }
+    })
+    return jobs
+}
+
 export const userJobs = (userId) => {
     const jobs = axios.get(`http://localhost:3001/api/userjobs/${userId}`)
     .then(response => {
