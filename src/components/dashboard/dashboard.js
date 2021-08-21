@@ -8,8 +8,8 @@ import CurrentJobs from './currentJobs';
 import History from './history';
 import Info from './info';
 //import Datafill from '../dataFill/dataFillPage';
-import { isAuthenticated } from "../../auth/index";
-import { allJobs, userJobs, deleteJob } from '../../jobAPIRequests/index'
+import { isAuthenticated, updateUser, getUser, authenticate } from "../../auth/index";
+import { allJobs, userJobs, deleteJob, updateJob } from '../../jobAPIRequests/index'
 
 
 const Dashboard = () => {
@@ -79,6 +79,63 @@ const Dashboard = () => {
     setUserJobList(userJobs)
   }
 
+  const pendCloseJob = async (job) => {
+    console.log(job)
+    let submitted = job.clientUserId === _id ? (await updateJob({...job, status: 3}).catch((error) => {
+      console.log(error.response.data.error)
+      alert(error.response.data.error);
+    })) : (await updateJob({...job, status: 4}).catch((error) => {
+      console.log(error.response.data.error)
+      alert(error.response.data.error);
+    }))
+    console.log(submitted)
+    let userTempJobs = userJobList
+    userTempJobs.splice(userTempJobs.indexOf(job),1,submitted)
+    console.log(userTempJobs)
+    setUserJobList(userTempJobs)
+  }
+
+  const closeJob = async (job) => {
+    console.log(job)
+    let submitted = await updateJob({...job, status: 5}).catch((error) => {
+      console.log(error.response.data.error)
+      alert(error.response.data.error);
+    })
+    console.log(submitted)
+    var clientUpdate;
+    var providerUpdate;
+    if (submitted.clientUserId === _id) {
+
+      clientUpdate = await updateUser({id: submitted.clientUserId, coins: coins-submitted.price})
+      console.log(clientUpdate)
+
+      let user = await getUser(submitted.providerUserId)
+      providerUpdate = await updateUser({id: user._id, coins: user.coins+submitted.price})
+      console.log(providerUpdate)
+
+      authenticate(clientUpdate, () => {
+        console.log(clientUpdate)
+      })
+
+    } else {
+      let user = await getUser(submitted.clientUserId)
+      clientUpdate = await updateUser({id: user._id, coins: user.coins-submitted.price})
+      console.log(clientUpdate)
+
+      providerUpdate = await updateUser({id: submitted.providerUserId, coins: coins+submitted.price})
+      console.log(providerUpdate)
+
+      authenticate(providerUpdate, () => {
+        console.log(clientUpdate)
+      })
+    }
+    
+    let userTempJobs = userJobList
+    userTempJobs.splice(userTempJobs.indexOf(job),1,submitted)
+    console.log(userTempJobs)
+    setUserJobList(userTempJobs)
+  }
+
   return (
     <div>
       <div class="container">
@@ -102,6 +159,9 @@ const Dashboard = () => {
             </li>
             <li class="nav-item">
               <a class="nav-link htab" href="#agreedfavours" onClick={(e) => toggleTabs(e)}>Agreed Favours</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link htab" href="#pendingclosure" onClick={(e) => toggleTabs(e)}>Pending Closure</a>
             </li>
             <li class="nav-item">
               <a class="nav-link htab" href="#closedfavours" onClick={(e) => toggleTabs(e)}>Closed Favours</a>
@@ -182,8 +242,65 @@ const Dashboard = () => {
                         <Link to={`/job/${job._id}`}><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
                        </div>
                        <div className="col-sm-6 txt-right py-2 px-3">
-                       <i class="bi bi-check2-square px-2"></i>
-                       <i className="bi bi-trash"></i>
+                       <i className="bi bi-check2-square px-2" onClick={(e) => pendCloseJob(job)}></i>
+                       <i class="bi bi-question-circle"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>))) : (
+                <p className="no-data">No favours to display</p>
+              )}
+          </div>
+          <div className="row row-cols-1 row-cols-lg-3 row-cols-md-2 mb-3 hpage nodisplaytab tab-cont" id="pendingclosure">
+            <h4 className="col-md-12 mb-3">Pending Provider Approval</h4>
+            {userJobList.filter(job => job.status === 3).length > 0 ?
+            (userJobList.filter(job => job.status === 3).map(job => (
+              <div key={job._id} className="col-md">
+                <div className="card mb-4  shadow-sm">
+                  <div className="card-header py-3">
+                    <h4 className="my-0 ">{job.title}</h4>
+                  </div>
+                  <div className="card-body">
+                    <h1 className="card-title pricing-card-title txt-blue">{job.price} coins<small className="text-muted fw-light"></small></h1>
+                    <ul className="mt-3 mb-4 card-body-scroll">
+                      <li>{job.description}</li>
+                    </ul>
+                    <div className="row more">
+                      <div className="col-sm-6">
+                        <Link to={`/job/${job._id}`}><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
+                       </div>
+                       <div className="col-sm-6 txt-right py-2 px-3">
+                       {job.providerUserId === _id && <i class="bi bi-check2-square px-2" onClick={(e) => closeJob(job)}></i>}
+                       <i class="bi bi-question-circle"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>))) : (
+                <p className="no-data">No favours to display</p>
+              )}
+              <hr className="col-md-12"/>
+              <h4 className="col-md-12 mb-3">Pending Client Approval</h4>
+              {userJobList.filter(job => job.status === 4).length > 0 ?
+            (userJobList.filter(job => job.status === 4).map(job => (
+              <div key={job._id} className="col-md">
+                <div className="card mb-4  shadow-sm">
+                  <div className="card-header py-3">
+                    <h4 className="my-0 ">{job.title}</h4>
+                  </div>
+                  <div className="card-body">
+                    <h1 className="card-title pricing-card-title txt-blue">{job.price} coins<small className="text-muted fw-light"></small></h1>
+                    <ul className="mt-3 mb-4 card-body-scroll">
+                      <li>{job.description}</li>
+                    </ul>
+                    <div className="row more">
+                      <div className="col-sm-6">
+                        <Link to={`/job/${job._id}`}><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
+                       </div>
+                       <div className="col-sm-6 txt-right py-2 px-3">
+                       {job.clientUserId === _id && <i class="bi bi-check2-square px-2" onClick={(e) => closeJob(job)}></i>}
+                       <i class="bi bi-question-circle"></i>
                       </div>
                     </div>
                   </div>
@@ -217,9 +334,8 @@ const Dashboard = () => {
                 <p className="no-data">No favours to display</p>
               )}
           </div>
-          <div class="col-">
-
-          </div>
+        
+        <p className="py-5">&nbsp;</p>
         </div>
       </div>
     </div>
