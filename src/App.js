@@ -9,8 +9,8 @@ function App() {
     
     return(
         <div className="App container mt-0">
-           <DataRouter/>
-           <Footer/>
+           <DataRouter/>  
+           {/* <Footer/> */}  {/*removed for testing about us page*/}
        </div>
     )
 }
