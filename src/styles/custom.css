@@ -50,6 +50,10 @@ i {
     color: #999;
 }
 
+.clearfix {
+    clear: both !important;
+}
+
 .pos-rel {
     position: relative;
 }

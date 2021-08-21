@@ -7,7 +7,7 @@ const Job = require('../models/JobSchema.js')
 const Comment = require('../models/CommentSchema.js')
 
 const mongoose = require('mongoose')
-const scrub = ({ password, coins, ...user }) => user
+const scrub = ({ password, ...user }) => user
 const scrubAuthentic = ({ password, ...user }) => user
 
 if (process.argv.length < 3) {
