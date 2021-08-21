@@ -14,6 +14,7 @@ const HeadingBar = ({ history }) => {
   const UserLogout = () => {
     logout()
     console.log("working")
+    window.location.reload();
   }
 
   return (
