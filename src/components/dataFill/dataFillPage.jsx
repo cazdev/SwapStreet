@@ -168,10 +168,10 @@ const JobDataFill = (props) => {
                     <input type="number" className="cell-sm form-control" id="priceInput" placeholder="Enter Price" onChange={handleChange('price')} value={values.price} />
                 </div>
 
-                {(props.path === "/needfavour" || props.path === "/editneedfavour") && (<div className="form-group">
+                <div className="form-group">
                     <label>Location</label>
                     <input type="text" className="form-control" id="locationInput" placeholder="Enter Location"  onChange={handleChange('location')} value={values.location}/>
-                </div>)}
+                </div>
 
                 <div className="py-4">
                     <button type="submit" className="btn btn-primary mr-2 btn-sm">{props.path === "/needfavour" || props.path === "/providefavour" ? "Create Favour" : "Save Changes"}</button>

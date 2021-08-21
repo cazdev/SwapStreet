@@ -22,6 +22,11 @@ nav-pills .nav-link.active, .nav-pills .show > .nav-link {
 .cell-sm {
     max-width: 10em;
 }
+
+.bg-pink {
+    background: pink;
+}
+
 .btn-outline-secondary {border-color: #00adee; text-transform: uppercase; color:#00adee}
 .card {border-radius: 0;}
 .card:hover {border: 1px solid #8ad8ee; background: #f6fdff;}
@@ -70,6 +75,10 @@ i {
 }
 .card-body {
     min-height: 15em;
+}
+
+.cb-2 {
+    min-height: 7em;
 }
 
 .card-body-scroll {

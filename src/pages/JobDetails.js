@@ -17,7 +17,7 @@ const JobDetails = () => {
   useEffect(async () => {
     const j = await getJob(jobId)
     setJob(j)
-    const u = await getUser(j.providerUserId === "" ? j.clientUserId : j.providerUserId)
+    const u = await getUser((j.status === 0 && j.clientUserId === "") || (userProf && j.clientUserId === userProf._id && j.providerUserId !== "") ? j.providerUserId : j.clientUserId)
     setUser(u)
   }, [])
 
@@ -53,7 +53,7 @@ const JobDetails = () => {
           ))}
         </ul>
         </>)}
-        {!userProf || (job.status === 0) ? 
+        {!userProf || (userProf && job.status === 0 && userProf._id !== job.clientUserId && userProf._id !== job.providerUserId) ? 
         (<div class="d-grid gap-2 d-md-flex justify-content-md-start">
           <button onClick={(e) => buyProvideJob(e)} type="button" class="btn btn-primary btn-sm px-4 me-md-2">{job.price} Swapstreet Coins</button>
           <button type="button" class="btn btn-outline-secondary btn-sm px-4">Swap Services</button>

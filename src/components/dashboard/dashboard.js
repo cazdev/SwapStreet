@@ -89,10 +89,7 @@ const Dashboard = () => {
       alert(error.response.data.error);
     }))
     console.log(submitted)
-    let userTempJobs = userJobList
-    userTempJobs.splice(userTempJobs.indexOf(job),1,submitted)
-    console.log(userTempJobs)
-    setUserJobList(userTempJobs)
+    window.location.reload();
   }
 
   const closeJob = async (job) => {
@@ -129,11 +126,7 @@ const Dashboard = () => {
         console.log(clientUpdate)
       })
     }
-    
-    let userTempJobs = userJobList
-    userTempJobs.splice(userTempJobs.indexOf(job),1,submitted)
-    console.log(userTempJobs)
-    setUserJobList(userTempJobs)
+    window.location.reload();
   }
 
   return (
@@ -252,7 +245,9 @@ const Dashboard = () => {
                 <p className="no-data">No favours to display</p>
               )}
           </div>
-          <div className="row row-cols-1 row-cols-lg-3 row-cols-md-2 mb-3 hpage nodisplaytab tab-cont" id="pendingclosure">
+          <div className="row  mb-3 hpage nodisplaytab tab-cont" id="pendingclosure">
+            <div className="col-md-6">
+              <div className="row">
             <h4 className="col-md-12 mb-3">Pending Provider Approval</h4>
             {userJobList.filter(job => job.status === 3).length > 0 ?
             (userJobList.filter(job => job.status === 3).map(job => (
@@ -261,11 +256,8 @@ const Dashboard = () => {
                   <div className="card-header py-3">
                     <h4 className="my-0 ">{job.title}</h4>
                   </div>
-                  <div className="card-body">
+                  <div className="card-body cb-2">
                     <h1 className="card-title pricing-card-title txt-blue">{job.price} coins<small className="text-muted fw-light"></small></h1>
-                    <ul className="mt-3 mb-4 card-body-scroll">
-                      <li>{job.description}</li>
-                    </ul>
                     <div className="row more">
                       <div className="col-sm-6">
                         <Link to={`/job/${job._id}`}><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
@@ -280,7 +272,10 @@ const Dashboard = () => {
               </div>))) : (
                 <p className="no-data">No favours to display</p>
               )}
-              <hr className="col-md-12"/>
+              </div>
+              </div>
+              <div className="col-md-6">
+              <div className="row">
               <h4 className="col-md-12 mb-3">Pending Client Approval</h4>
               {userJobList.filter(job => job.status === 4).length > 0 ?
             (userJobList.filter(job => job.status === 4).map(job => (
@@ -289,11 +284,8 @@ const Dashboard = () => {
                   <div className="card-header py-3">
                     <h4 className="my-0 ">{job.title}</h4>
                   </div>
-                  <div className="card-body">
+                  <div className="card-body cb-2">
                     <h1 className="card-title pricing-card-title txt-blue">{job.price} coins<small className="text-muted fw-light"></small></h1>
-                    <ul className="mt-3 mb-4 card-body-scroll">
-                      <li>{job.description}</li>
-                    </ul>
                     <div className="row more">
                       <div className="col-sm-6">
                         <Link to={`/job/${job._id}`}><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
@@ -308,6 +300,8 @@ const Dashboard = () => {
               </div>))) : (
                 <p className="no-data">No favours to display</p>
               )}
+              </div>
+              </div>
           </div>
           <div className="row row-cols-1 row-cols-lg-3 row-cols-md-2 mb-3 hpage nodisplaytab tab-cont" id="closedfavours">
             {userJobList.filter(job => job.providerUserId !== "" && job.clientUserId !== "" && job.status === 5).length ? 
