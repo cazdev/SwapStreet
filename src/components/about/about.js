@@ -38,7 +38,7 @@ const About = () => {
                 <div class="container p-1 p-sm-3">
                     <div class="row">
                         <div class="col-12 text-center p-3">   
-                            <h1>Our Awesome Team</h1>
+                            <h1>Meet Our team</h1>
                         </div>
                     </div>
                     <div class="row">
