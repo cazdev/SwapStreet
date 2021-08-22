@@ -23,7 +23,7 @@ const About = () => {
                             <h1>Our Vision</h1>
                         </div> */}
                         <div>  
-                            <p class="vision-title text-center col-md-12">"Great Satisfaction comes from sharing and growing together"</p>
+                            <p class="vision-title text-center col-md-12">"Great Satisfaction comes from Sharing with Others"</p>
                            
                         </div>
                     </div>
@@ -42,37 +42,61 @@ const About = () => {
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4 text-center">
-                            <img class="img-fluid team-img img-thumbnail"  src={p0} alt="" />
-                            <h5>Dr Kate Stefanov</h5> 
-                            <p2>Product Manager</p2>
+                        <div class="col-md-4 col-sm-6 p-3">
+                            <div class= "card">
+                                <img class="img-fluid center"  src={p0} alt="" />
+                                <div class="card-text">
+                                    <h3>Dr Kate Stefanov</h3> 
+                                    <h5>Product Manager</h5>
+                                </div>
+                            </div>   
                         </div>
-                        <div class="col-md-4 text-center">
-                            <img class="img-fluid team-img img-thumbnail"  src={p1} alt="" />
-                            <h5>Kriti Chawla</h5> 
-                            <p2>Frontend Developer</p2>
+                        <div class="col-md-4 col-sm-6 p-3">
+                            <div class= "card">
+                                <img class="img-fluid"  src={p1} alt="" />
+                                <div class="card-text">
+                                    <h3>Kriti Chawla</h3> 
+                                    <h5>Frontend Developer</h5>
+                                </div>
+                            </div>   
                         </div>
-                        <div class="col-md-4 text-center">
-                            <img class="img-fluid team-img img-thumbnail"  src={p2} alt="" />
-                            <h5>Joshua Archer</h5> 
-                            <p2>Backend Developer</p2>
+                        <div class="col-md-4 col-sm-6 p-3">
+                            <div class= "card">
+                                <img class="img-fluid"  src={p2} alt="" />
+                                <div class="card-text">
+                                    <h3>Joshua Archer</h3> 
+                                    <h5>Backend Developer</h5>
+                                </div>
+                            </div>   
                         </div>
                     </div>
-                    <div class="row pt-5">
-                        <div class="col-md-4 text-center">
-                            <img class="img-fluid team-img img-thumbnail"  src={p3} alt="" />
-                            <h5>Joshua Dodanduwa</h5> 
-                            <p2>Fullstack Developer</p2>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6">
+                            <div class= "card">
+                                <img class="img-fluid"  src={p3} alt="" />
+                                <div class="card-text">
+                                    <h3>Joshua Dodanduwa</h3> 
+                                    <h5>Fullstack Developer</h5>
+                                </div>
+                            </div>   
                         </div>
-                        <div class="col-md-4 text-center">
-                            <img class="img-fluid team-img img-thumbnail"  src={p4} alt="" />
-                            <h5>Chaz Lambrechtsen</h5> 
-                            <p2>Web Lead</p2>
+                        <div class="col-md-4 col-sm-6">
+                            <div class= "card">
+                                <img class="img-fluid"  src={p4} alt="" />
+                                <div class="card-text">
+                                    <h3>Chaz Lambrechtsen</h3> 
+                                    <h5>Web Lead</h5>
+                                </div>
+                            </div>   
                         </div>
-                        <div class="col-md-4 text-center">
-                            <img class="img-fluid team-img img-thumbnail"  src={p5} alt="" />
-                            <h5>Rushan Baral</h5> 
-                            <p2>Frontend Developer</p2>
+                        <div class="col-md-4 col-sm-6">
+                            <div class= "card">
+                                <img class="img-fluid"  src={p5} alt="" />
+                                <div class="card-text">
+                                    <h3>Rushan Baral</h3> 
+                                    <h5>Frontend Developer</h5>
+                                </div>
+                            </div>   
                         </div>
                     </div>
                 </div>
@@ -87,10 +111,10 @@ const About = () => {
                     <div class="row">
                         <div class="col-12 text-center">   
                             <h1>Official Partners</h1>
-                            <img class="img-fluid team-img"  src={partner2} alt="" />
-                            <img class="img-fluid team-img"  src={partner1} alt="" />
-                            <img class="img-fluid team-img"  src={partner4} alt="" />
-                            <img class="img-fluid team-img"  src={partner3} alt="" />
+                            <img class="img-fluid img"  src={partner2} alt="" />
+                            <img class="img-fluid img"  src={partner1} alt="" />
+                            <img class="img-fluid img"  src={partner4} alt="" />
+                            <img class="img-fluid img"  src={partner3} alt="" />
                         </div>
                     </div>
                 </div>
