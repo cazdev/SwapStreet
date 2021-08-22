@@ -1,0 +1,104 @@
+section{
+    position:relative;
+    display:flex;
+    flex-direction: column;
+    min-height: 400px;
+    z-index:0;
+}
+
+section h1{
+    color: white;
+    font-size: 48px;
+    line-height: 1;
+    text-shadow: 1px 1px 1px rgb(0 0 0 / 40%);
+}
+
+
+
+.vision{
+    padding-bottom: 100px;
+    overflow:hidden;
+    background: linear-gradient(to left, #74ebd5, #acb6e5);
+}
+
+.vision-title{
+    color: white;
+    padding-top:60px;
+    font-size: 38px;
+}
+
+.team{
+    background: #ffff;
+    padding-bottom:50px;
+    padding-top:10px;
+    
+}
+
+.partners .team-img{
+    padding-top:0px;
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 200px;
+    background-color: transparent;
+}
+
+.team-img{
+    width: 200px;
+    background-color: transparent;
+}
+
+.team h1{
+    color:black;
+}
+
+.partners{
+    background: linear-gradient(to left, #74ebd5, #acb6e5);
+    min-height:100px;
+    padding-bottom:100px;
+    padding-top:10px;
+    z-index: -1;
+}
+
+
+
+
+.waves {
+    position: absolute;
+    bottom: 0;
+    left: -3px;
+    width: 110%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.waves svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 96px;
+}
+
+.waves .shape-fill {
+    fill: #ffff;
+}
+
+.waves2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    z-index: 1;
+}
+
+.waves2 svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 96px;
+}
+
+.waves2 .shape-fill {
+    fill: #ffffff;
+}
