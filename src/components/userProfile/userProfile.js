@@ -14,16 +14,16 @@ import { isAuthenticated } from "../../auth/index";
 
 const Profile = () => {
   const {
-    user: { _id, name, email, address, balance, about, role }
+    user: { _id, name, email, address, about, coins }
   } = isAuthenticated();
 
-  let rating = 0;
+  /*let rating = 0;
   
   fetch('http://localhost:3200/rating?total=true&chosenUserID=' + _id)
   .then( resp => resp.json())
   .then((data)=> {
      rating = data.total
-  })
+  })*/
 
 
   return (
@@ -37,7 +37,7 @@ const Profile = () => {
                     </Link>
                 </div>
                 <div className="sidebarnav">
-                    <Link to='/changeinfo'>
+                    <Link to={`/editprofile/${_id}`}>
                         <h2 className="titles">Change Personal Information</h2>
                     </Link>
                 </div>
@@ -56,6 +56,7 @@ const Profile = () => {
                 <div className="card-body">
                     <h5 className="card-title">Hello {name},</h5>
                     <p className="card-text">View or change your information.</p>
+                    <p className="card-text">{about}</p>
                 </div>
             </div>
 
@@ -92,7 +93,7 @@ const Profile = () => {
                     <h5 clas="card-title">Your Balance</h5>
                 </div>
                 <blockquote className="blockquote balance">
-                    <h5>${balance}</h5>
+                    <h5>${coins}</h5>
                 </blockquote>
 
             </div>

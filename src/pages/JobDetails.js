@@ -4,6 +4,7 @@ import mower from '../img/mower.jpeg'
 import { useParams, useHistory } from 'react-router-dom';
 import { getJob, updateJob } from '../jobAPIRequests';
 import { getUser, isAuthenticated } from '../auth';
+import { getUserComments, addComment } from '../commentAPIRequests';
 
 const JobDetails = () => {
 
@@ -11,6 +12,8 @@ const JobDetails = () => {
   const jobId = useParams().id
   const [job, setJob] = useState({})
   const [user, setUser] = useState({})
+  const [userComments, setUserComments] = useState([])
+  const [newComment, setNewComment] = useState("")
 
   const userProf = isAuthenticated().user
 
@@ -19,6 +22,9 @@ const JobDetails = () => {
     setJob(j)
     const u = await getUser((j.status === 0 && j.clientUserId === "") || (userProf && j.clientUserId === userProf._id && j.providerUserId !== "") ? j.providerUserId : j.clientUserId)
     setUser(u)
+    const uc = await getUserComments(u._id)
+    console.log(uc)
+    setUserComments(uc)
   }, [])
 
   const buyProvideJob = async (event) => {
@@ -36,7 +42,19 @@ const JobDetails = () => {
       history.push("/dashboard")
     }
   }
-  console.log(job)
+
+  const addCom = async () => {
+    const submitted = await addComment({comment: newComment, providerUserId: userComments[0].providerUserId, clientUserId: userProf._id }).catch((error) => {
+      console.log(error.response.data.error)
+      alert(error.response.data.error);
+    })
+    if(submitted){
+      setUserComments([...userComments, submitted])
+      const tarea = document.getElementById("txtcom")
+      tarea.disabled = true
+    }
+  }
+
   return (<>
     <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
       <div class="col-10 col-sm-8 col-lg-6">
@@ -69,7 +87,20 @@ const JobDetails = () => {
               <li>{user.email}</li>
               <li>{user.address}</li>
               {user.about !== "" && <li>{user.about}</li>}
+          </ul>
+            {userComments && (<><h2>Reviews</h2>
+            <ul className="mt-3 mb-4">
+              {userComments.map(com => <li key={com._id}>{com.comment}</li>)}
             </ul>
+          </>)}
+          {job.clientUserId === "" && userProf._id !== job.clientUserId && userProf._id !== job.providerUserId && (
+          <form>
+          <div className="form-group">
+                <label className="text-muted">Comment on {user.name}'s services</label>
+                <textarea rows="2" onChange={(e) => setNewComment(e.target.value)} className="form-control" value={newComment} id="txtcom"/>
+            </div>
+          <button onClick={addCom} type="button" class="btn btn-primary btn-sm px-4 me-md-2">Add Comment</button>
+          </form>)}
         </div>
       </div>
       </div>

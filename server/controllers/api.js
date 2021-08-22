@@ -216,7 +216,7 @@ apiRouter.get('/api/usercomments/:id', (request, response) => {
   })
 })
 
-apiRouter.post('/api/comments', async (request, response) => {
+apiRouter.post('/api/comments/:id', async (request, response) => {
   const body = request.body
 
   if (!body.providerUserId || !body.clientUserId || !body.comment) {
