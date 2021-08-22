@@ -27,14 +27,14 @@ section h1{
     font-size: 48px;
 }
 
-.card{
+.team .card{
     position: relative;
     overflow: hidden;
     width: 70%;
     margin: 0 50px;
 }
 
-.card::before{
+.team .card::before{
     position: absolute;
     content:'';
     width:80%;
@@ -48,16 +48,16 @@ section h1{
     transition: .5s;
 }
 
-.card:hover:before{
+.team .card:hover:before{
     left:60%;
 }
 
-.card img{
+.team .card img{
     width: 100%;
     height: auto;
 }
 
-.card-text{
+.team .card-text{
     width: 100%;
     padding: 0 20px;
     position: absolute;
@@ -69,7 +69,7 @@ section h1{
 
 }
 
-.card:hover .card-text {
+.team .card:hover .card-text {
     top: 80px;
 }
 
