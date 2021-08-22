@@ -11,7 +11,7 @@ const Login = () => {
         username: '',
         email: '',
         password: '',
-        error: '',
+        error: false,
         loading: false,
         redirectToReferrer: false,
     })
@@ -26,24 +26,30 @@ const Login = () => {
     const clickSubmit = async (event) => {
         // prevent browser from reloading
         event.preventDefault();
-        setValues({ ...values, error: false, loading: true });
-        let userValid = await login({email, password}).catch((error) => {
-            console.log(error.response.data.error)
-            alert(error.response.data.error);
-          })
-        console.log(userValid)
-        if(!userValid) {
-            console.log("invalid user")
-            setValues({...values, error: userValid, loading: false})
-        } else {
-            authenticate(userValid, () => {
-                setValues({
-                    ...values,
-                    redirectToReferrer: true
+        try {
+            setValues({ ...values, error: false, loading: true });
+            let userValid = await login({email, password}).catch((error) => {
+                console.log(error.response.data.error)
+                alert(error.response.data.error);
+              })
+            console.log(userValid)
+            if(!userValid) {
+                console.log("invalid user")
+                setValues({...values, error: userValid, loading: false})
+            } else {
+                authenticate(userValid, () => {
+                    setValues({
+                        ...values,
+                        redirectToReferrer: true
+                    })
                 })
-            })
+            }
+            console.log(isAuthenticated())
         }
-        console.log(isAuthenticated())
+        catch (error) {
+            console.log(error)
+            setValues({error: true});
+        }
     };
 
 
@@ -71,9 +77,11 @@ const Login = () => {
     )
 
     const showError = () => (
-        <div className="alert alert-danger" style={{ display: error ? '' : 'none' }}>
-            {error}
-        </div>
+        error && (
+            <div className="alert alert-danger" style={{ display: error ? '' : 'none' }}>
+                <h2>Could not connect to remote service.</h2>
+            </div>
+        )
     );
 
     const showLoading = () => (
