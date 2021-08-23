@@ -36,6 +36,7 @@ const HomePage = () => {
   }
 
   const toggleTabs = (event) => {
+    event.preventDefault()
     let newActiveID = event.target.href
     let tabArray = document.getElementsByClassName('htab')
     let tabPageArray = document.getElementsByClassName('hpage')
