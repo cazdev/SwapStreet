@@ -1,11 +1,11 @@
 const express = require('express')
-
+const bcrypt = require('bcrypt')
 const apiRouter = express.Router()
-
+const { createToken, retrieveToken, decodeToken } = require('../utils/auth')
 const User = require('../models/UserSchema.js')
 const Job = require('../models/JobSchema.js')
 const Comment = require('../models/CommentSchema.js')
-
+const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
 const scrub = ({ password, ...user }) => user
 const scrubAuthentic = ({ password, ...user }) => user
@@ -16,7 +16,6 @@ if (process.argv.length < 3) {
 }
 
 const password = process.argv[2]
-//s
 const url =
   `mongodb+srv://fullstack:${password}@cluster0.cuxqo.mongodb.net/SwapStreet-app?retryWrites=true`
 
@@ -27,7 +26,10 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFind
 apiRouter.get('/api/users', (request, response) => {
   User.find({}).then(users => {
     response.json(users)
-    console.log(users)
+    console.log(users )
+    users.map(u=> {
+      const pwcrypt = bcrypt.hash(u.password, 10).then(result => console.log(u.email, result))
+    })
   })
 })
 
@@ -55,7 +57,7 @@ apiRouter.put('/api/users/:id', async (request, response) => {
   const id = request.params.id
   let user = await User.findOne({_id: id})
   if (!user) {
-    return res.status(401).json({ error: 'user does not exist' })
+    return response.status(401).json({ error: 'user does not exist' })
   }
   const body = request.body
 
@@ -72,41 +74,45 @@ apiRouter.put('/api/users/:id', async (request, response) => {
 })
 
 apiRouter.post('/api/login', async (req, res) => {
-
   console.log("post request initialised")
   const UEmail = req.body.email
   const PWord = req.body.password
-  console.log(UEmail, PWord)
+  
 
-  const user = await User.findOne({ email: UEmail, password: PWord })
+  const user = await User.findOne({ email: UEmail })
 
   if (!user) {
     return res.status(401).json({ error: 'invalid user or password' })
   }
-  if (user.password === PWord) {
-    console.log('Got User', user)
-    return res.status(200).json({ user: scrubAuthentic(user.toJSON()) })
+  console.log('Got User', user)
+  if(bcrypt.compareSync(PWord, user.password)) {
+    console.log("password is good")
+    
+    return res.status(200).json({ user: scrub(user.toJSON())})
   }
-  else {
-    return res.status(401).json({ error: 'invalid user or password' })
-  }
-
+  return res.status(401).json({ error: 'invalid user or password' })
 })
 
 apiRouter.post('/api/register', async (request, response) => {
-
+  const emailSearch = request.body.email
+  const password = request.body.password
   const body = request.body
+  const existingEmail = await User.findOne({ email: emailSearch })
+  if(existingEmail) {
+    return response.status(400).json({ error: 'Existing user with this username or email.' })
+  }
 
-  if (!body.email || !body.password || !body.address || !body.name) {
+  const encryptedPass = bcrypt.hashSync(password, 10)
+  /*if (!body.email || !body.password || !body.address || !body.name) {
     return response.status(400).json({
       error: 'content missing'
     })
-  }
+  }*/
 
-  const user = new User({
+  const user = await new User({
     name: body.name,
     email: body.email,
-    password: body.password,
+    password: encryptedPass,
     address: body.address,
     about: body.about || "",
     coins: 20
@@ -145,7 +151,7 @@ apiRouter.put('/api/jobs/:id', async (request, response) => {
   const id = request.params.id
   let job = await Job.findOne({_id: id})
   if (!job) {
-    return res.status(401).json({ error: 'job does not exist' })
+    return response.status(401).json({ error: 'job does not exist' })
   }
   const body = request.body
 

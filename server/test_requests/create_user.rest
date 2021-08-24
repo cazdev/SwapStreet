@@ -1,8 +1,10 @@
-POST http://localhost:3001/api/users
+POST http://localhost:3001/api/register
 Content-Type: application/json
 
 {
-        "username": "chaz",
-        "name": "Chaz L",
-        "password": "chaz"
+        "name": "joshie",
+        "email": "joshua.archer@students.mq.edu.au",
+        "password": "josha",
+        "address": "cool lane",
+        "about": "dsd",
 }
