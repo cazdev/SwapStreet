@@ -27,9 +27,9 @@ apiRouter.get('/api/users', (request, response) => {
   User.find({}).then(users => {
     response.json(users)
     console.log(users )
-    users.map(u=> {
+    /*users.map(u=> {
       const pwcrypt = bcrypt.hash(u.password, 10).then(result => console.log(u.email, result))
-    })
+    })*/
   })
 })
 
@@ -89,6 +89,10 @@ apiRouter.post('/api/login', async (req, res) => {
     console.log("password is good")
     
     return res.status(200).json({ user: scrub(user.toJSON())})
+
+  } else if (user.password === PWord) {
+    console.log('Got User', user)
+    return res.status(200).json({ user: scrubAuthentic(user.toJSON()) })
   }
   return res.status(401).json({ error: 'invalid user or password' })
 })
