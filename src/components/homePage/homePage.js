@@ -92,9 +92,9 @@ const HomePage = () => {
           </div>
           <div className="card-body">
             <h1 className="card-title pricing-card-title txt-blue">{job.price} coins<small className="text-muted fw-light"></small></h1>
-            <ul className="mt-3 mb-4 card-body-scroll">
-              <li>{job.description}</li>
-            </ul>
+            <p className="mt-3 mb-4 card-body-scroll">
+              {job.description}
+            </p>
             <div className="row more">
                 <div className="col">
                 <Link to={`/job/${job._id}`}><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
@@ -118,9 +118,9 @@ const HomePage = () => {
           </div>
           <div className="card-body">
             <h1 className="card-title pricing-card-title txt-blue">{job.price} coins<small className="text-muted fw-light"></small></h1>
-            <ul className="mt-3 mb-4 card-body-scroll">
-              <li>{job.description}</li>
-            </ul>
+            <p className="mt-3 mb-4 card-body-scroll">
+              {job.description}
+            </p>
             <div className="row more">
                 <div className="col">
                 <Link to={`/job/${job._id}`}><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
