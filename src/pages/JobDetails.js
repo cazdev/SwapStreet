@@ -117,7 +117,7 @@ const JobDetails = () => {
                 <label className="text-muted">Comment on {user.name}'s services</label>
                 <textarea rows="2" onChange={(e) => setNewComment(e.target.value)} className="form-control" value={newComment} id="txtcom"/>
             </div>
-          <button onClick={addCom} type="button" class="btn btn-primary btn-sm px-4 me-md-2">Add Comment</button>
+          <button onClick={addCom} type="button" class="btn btn-primary btn-sm px-4 mt-2 me-md-2">Add Comment</button>
           </form>)}
         </div>
       </div>

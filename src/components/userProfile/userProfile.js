@@ -61,12 +61,12 @@ const Profile = () => {
 
 
   return (
-      <div className="Profile-page">
+      <div className="container">
 
 <div className="row mb-3">
             {jobList.length > 0 ?
             (jobList.map(job => (
-              <div key={job._id} className="col-md">
+              <div key={job._id} className="col-md-4">
                 <div className="card mb-4  shadow-sm">
                   <div className="card-header py-3">
                     <h4 className="my-0 ">{job.title}</h4>
@@ -81,7 +81,7 @@ const Profile = () => {
                         <Link to={`/job/${job._id}`}><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
                        </div>
                        <div className="col-sm-6 txt-right py-2 px-3">
-                       <i class="bi bi-arrows-angle-contract" onClick={(e) => swapJobs(job)}></i>
+                       <i class="bi bi-arrow-left-right" onClick={(e) => swapJobs(job)}></i>
                         </div>
                     </div>
                   </div>
@@ -166,7 +166,6 @@ const Profile = () => {
 
   </div>*/}
         
-
 
 
         </div>
