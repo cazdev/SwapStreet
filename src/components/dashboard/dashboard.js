@@ -68,6 +68,16 @@ const Dashboard = () => {
     }
   }
 
+  const removeSwapRequest = async (job) => {
+    console.log(job)
+    let submitted = await updateJob({...job, swapReqUserId: undefined, status: 0}).catch((error) => {
+      console.log(error.response.data.error)
+      alert(error.response.data.error);
+    })
+    console.log(submitted)
+    window.location.reload();
+  }
+
   const deleteAnActiveJob = async (jobId) => {
     console.log(jobId)
     let submitted = await deleteJob(jobId).catch((error) => {
@@ -152,6 +162,9 @@ const Dashboard = () => {
               <a class="nav-link htab" href="#providedfavours" onClick={(e) => toggleTabs(e)}>Provided Favours</a>
             </li>
             <li class="nav-item">
+              <a class="nav-link htab" href="#swapfavours" onClick={(e) => toggleTabs(e)}>Swap Favours Request</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link htab" href="#agreedfavours" onClick={(e) => toggleTabs(e)}>Agreed Favours</a>
             </li>
             <li class="nav-item">
@@ -210,6 +223,34 @@ const Dashboard = () => {
                        <div className="col-sm-6 txt-right py-2 px-3">
                        <Link to={`/editprovidefavour/${job._id}`}><i className="bi bi-pencil-square px-2"></i></Link>
                         <i className="bi bi-trash" onClick={(e) => deleteAnActiveJob(job._id)}></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>))) : (
+                <p className="no-data">No favours to display</p>
+              )}
+          </div>
+          <div className="row row-cols-1 row-cols-lg-3 row-cols-md-2 mb-3 hpage nodisplaytab tab-cont" id="swapfavours">
+            {userJobList.filter(job => job.status === 1).length > 0 ?
+            (userJobList.filter(job => job.status === 1).map(job => (
+              <div key={job._id} className="col-md">
+                <div className="card mb-4  shadow-sm">
+                  <div className="card-header py-3">
+                    <h4 className="my-0 ">{job.title}</h4>
+                  </div>
+                  <div className="card-body">
+                    <h1 className="card-title pricing-card-title txt-blue">{job.price} coins<small className="text-muted fw-light"></small></h1>
+                    <ul className="mt-3 mb-4 card-body-scroll">
+                      <li>{job.description}</li>
+                    </ul>
+                    <div className="row more">
+                      <div className="col-sm-6">
+                        <Link to={`/job/${job._id}`}><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
+                       </div>
+                       <div className="col-sm-6 txt-right py-2 px-3">
+                       {job.swapReqUserId !== _id && (job.clientUserId === "" ? <Link to={`/profile/${job.swapReqUserId}/provided/${job._id}`}>see user's jobs</Link>  : <Link to={`/profile/${job.swapReqUserId}/requested/${job._id}`}>see user's jobs</Link>)}
+                       <i className="bi bi-trash" onClick={(e) => removeSwapRequest(job)}></i>
                       </div>
                     </div>
                   </div>

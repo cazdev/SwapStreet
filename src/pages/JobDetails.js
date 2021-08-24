@@ -20,7 +20,7 @@ const JobDetails = () => {
   useEffect(async () => {
     const j = await getJob(jobId)
     setJob(j)
-    const u = await getUser((j.status === 0 && j.clientUserId === "") || (userProf && j.clientUserId === userProf._id && j.providerUserId !== "") ? j.providerUserId : j.clientUserId)
+    const u = await getUser((j.status < 2 && j.clientUserId === "") || (userProf && j.clientUserId === userProf._id && j.providerUserId !== "") ? j.providerUserId : j.clientUserId)
     setUser(u)
     const uc = await getUserComments(u._id)
     console.log(uc)
@@ -55,6 +55,24 @@ const JobDetails = () => {
     }
   }
 
+  const swapFav = async () => {
+    if(!isAuthenticated()) {
+      history.push("/login")
+    } else {
+      const submitted = job.providerUserId === "" ? (await updateJob({...job, swapReqUserId: userProf._id, status: 1}).catch((error) => {
+        console.log(error.response.data.error)
+        alert(error.response.data.error);
+      })) : (await updateJob({...job, swapReqUserId: userProf._id, status: 1}).catch((error) => {
+        console.log(error.response.data.error)
+        alert(error.response.data.error);
+      }))
+      console.log(submitted)
+      history.push("/dashboard")
+    }
+  }
+
+  console.log(job)
+
   return (<>
     <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
       <div class="col-10 col-sm-8 col-lg-6 job-image">
@@ -74,7 +92,7 @@ const JobDetails = () => {
         {!userProf || (userProf && job.status === 0 && userProf._id !== job.clientUserId && userProf._id !== job.providerUserId) ? 
         (<div class="d-grid gap-2 d-md-flex justify-content-md-start">
           <button onClick={(e) => buyProvideJob(e)} type="button" class="btn btn-primary btn-sm px-4 me-md-2">{job.price} Swapstreet Coins</button>
-          <button type="button" class="btn btn-outline-secondary btn-sm px-4">Swap Services</button>
+          <button onClick={(e) => swapFav()} type="button" class="btn btn-outline-secondary btn-sm px-4">Swap Services</button>
         </div>) :(<></>)}
       </div>
     </div>
@@ -93,7 +111,7 @@ const JobDetails = () => {
               {userComments.map(com => <li key={com._id}>{com.comment}</li>)}
             </ul>
           </>)}
-          {job.clientUserId === "" && userProf._id !== job.clientUserId && userProf._id !== job.providerUserId && (
+          {isAuthenticated() && job.clientUserId === "" && userProf._id !== job.clientUserId && userProf._id !== job.providerUserId && (
           <form>
           <div className="form-group">
                 <label className="text-muted">Comment on {user.name}'s services</label>
