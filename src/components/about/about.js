@@ -15,7 +15,7 @@ import partner4 from '../../img/partner4.png';
 
 const About = () => {
     return (
-        <section class="about-company-section">
+        <section class="about-company-section  active">
             <section class="vision">
                 <div class="container p-1 p-sm-3">
                     <div class="row">
