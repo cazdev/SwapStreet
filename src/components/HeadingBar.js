@@ -34,7 +34,9 @@ const HeadingBar = ({ history }) => {
         
       </ul>
 </header>*/}
-<nav className="navbar navbar-expand-lg navbar-light rounded" aria-label="Eleventh navbar example">
+
+<div className="navbar-container fixed-top">
+<nav className="navbar navbar-expand-lg navbar-light rounded bg-light" aria-label="Eleventh navbar example">
       <div className="container-fluid">
         <Link to="/" className="navbar-brand"><h1><img src={logo} width="30" className=""/><span className="px-3">swap street</span></h1></Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,6 +55,7 @@ const HeadingBar = ({ history }) => {
       </div>
     </nav>
 
+    </div>
     </div>
 );
 }
