@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import logo from '../img/swap.png'
-import mower from '../img/mower.jpeg'
+import handshake from '../img/handshake.png'
 import { useParams, useHistory } from 'react-router-dom';
 import { getJob, updateJob } from '../jobAPIRequests';
 import { getUser, isAuthenticated } from '../auth';
@@ -57,8 +57,8 @@ const JobDetails = () => {
 
   return (<>
     <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
-      <div class="col-10 col-sm-8 col-lg-6">
-        <img src={mower} class="d-block mx-lg-auto img-fluid" alt="" width="700" height="500" loading="lazy" />
+      <div class="col-10 col-sm-8 col-lg-6 job-image">
+        <img src={handshake} class="d-block mx-lg-auto img-fluid" alt="" width="700" height="500" loading="lazy" />
       </div>
       <div class="col-md-6">
         <h1 class="lh-1 mb-3 txt-blue">{job.title}</h1>

@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,200;0,300;0,400;1,700&display=swap');
 
 body {font-family: 'Lato', sans-serif; color: #666666; padding-top: 80px;}
+@media (max-width: 1000px) { body {padding-top: 200px;} }
 h1 {font-size: 2em; font-weight: 300;letter-spacing: -1.5px; color: #666666; }
 h2 {font-size: 1.2em; font-weight: 300;letter-spacing: -1px; color: #666666; }
 h4 {font-size: 1em; font-weight: 300; letter-spacing: -0.5px; text-transform: uppercase;}
@@ -93,8 +94,13 @@ i {
 }
 
 .card-body-scroll {
-    max-height: 7em;
-    overflow-y: scroll;
+    max-height: 10em;
+    overflow:hidden;
+}
+
+.card-body-scroll p {
+    text-overflow: ellipsis;
+    max-height: 8em;
 }
 
 .more {
@@ -107,13 +113,13 @@ i {
     text-align: right;
 }
 
-.hero-bg {background-image:url('../img/lawn.jpeg'); background-size: cover;
+.hero-bg {background-image:url('../img/gradient-background.png'); border-radius: 10px; background-size: cover;
     padding: 22px;
     margin: -15px 0px 30px 0px;     
     background-position-y: bottom;} 
 
-    .hero-bg .lead {color: #2e560f; font-weight: 400;     line-height: 1.5em;}
-    .hero-bg h1 {color: #ff0000;  }
+    .hero-bg .lead {color: #ffffff; font-weight: 400; line-height: 1.5em;}
+    .hero-bg h1 {color: #ffffff; font-weight: bold; }
 
 .footer { background-color: #f3f3f3;  }
 .footer p, .footer i {  color: #aaaaaa; font-weight: 300;}
