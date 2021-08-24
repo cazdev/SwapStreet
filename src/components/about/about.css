@@ -21,6 +21,16 @@ section h1{
     background: linear-gradient(to left, #74ebd5, #acb6e5);
 }
 
+@media (min-width: 1000px) {
+    .vision { 
+        margin: 0px -300px;
+    }
+
+    .partners {
+        margin: 0px -300px;
+    }
+}
+
 .vision-title{
     color: white;
     padding-top:60px;
