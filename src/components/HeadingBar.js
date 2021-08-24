@@ -33,29 +33,27 @@ const HeadingBar = ({ history }) => {
         (<li className="nav-item"> <Link to="/login" className="nav-link">Login/Sign Up</Link></li>)}
         
       </ul>
-</header>*/}
+      </header>*/}
 
-<div className="navbar-container fixed-top">
-<nav className="navbar navbar-expand-lg navbar-light rounded bg-light" aria-label="Eleventh navbar example">
-      <div className="container-fluid">
-        <Link to="/" className="navbar-brand"><h1><img src={logo} width="30" className=""/><span className="px-3">swap street</span></h1></Link>
-        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
-        </button>
-
-        <div className="collapse navbar-collapse" id="navbarsExample09">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-          <li className="nav-item"><Link to="/" className="nav-link" aria-current="page">Home</Link></li>
-        <li className="nav-item"><Link to="/about" className="nav-link">About</Link></li>
-        {isAuthenticated() ? (<><li className="nav-item"><Link to="/dashboard" className="nav-link">Dashboard</Link></li>
-        <li className="nav-item" onClick={UserLogout}><Link to="/" className="nav-link">Logout</Link></li></>) :
-        (<li className="nav-item"> <Link to="/login" className="nav-link">Login/Sign Up</Link></li>)}
-          </ul>
-        </div>
+      <div className="navbar-container fixed-top">
+        <nav className="navbar navbar-expand-lg navbar-light rounded bg-light" aria-label="Eleventh navbar example">
+          <div className="container-fluid">
+            <Link to="/" className="navbar-brand"><h1><img src={logo} width="30" className=""/><span className="px-3">swap street</span></h1></Link>
+            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
+              <span className="navbar-toggler-icon"></span>
+            </button>
+            <div className="collapse navbar-collapse" id="navbarsExample09">
+              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                <li className="nav-item"><Link to="/" className="nav-link" aria-current="page">Home</Link></li>
+                <li className="nav-item"><Link to="/about" className="nav-link">About</Link></li>
+                {isAuthenticated() ? (<><li className="nav-item"><Link to="/dashboard" className="nav-link">Dashboard</Link></li>
+                <li className="nav-item" onClick={UserLogout}><Link to="/" className="nav-link">Logout</Link></li></>) :
+                (<li className="nav-item"> <Link to="/login" className="nav-link">Login/Sign Up</Link></li>)}
+              </ul>
+            </div>
+          </div>
+        </nav>
       </div>
-    </nav>
-
-    </div>
     </div>
 );
 }

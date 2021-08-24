@@ -148,3 +148,10 @@ section h1{
 .waves2 .shape-fill {
     fill: #ffffff;
 }
+
+.about-description p {
+    font-size: 20px;
+    padding-right: 80px;
+    padding-left: 80px;
+    padding-top: 30px;
+}
