@@ -36,6 +36,19 @@ const About = () => {
             </section>
             <section class="team">
                 <div class="container p-1 p-sm-3">
+                <div class="row">
+                        <div class="col-12 text-center p-3"> 
+                            <div className="about-description">  
+                            <h1>What is SwapStreet?</h1>
+                            <p>
+                                SwapStreet is a Web application that allows for people who live locally to swap favours. Members 
+                                offer to do favours in exchange for other favours within a certain proximity to each other.
+                                The app is aimed for people to get to know their neighbours through those interactions. Thus, not 
+                                only do they help each other, but also a happier local community is established.
+                            </p>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-12 text-center p-3">   
                             <h1>Meet Our team</h1>
