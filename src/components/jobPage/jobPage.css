@@ -11,6 +11,11 @@
     padding: 5px
 }
 
+.job-image img {
+    width: 60%;
+    height: 60%;
+    border-radius: 10px;
+}
 
 .ratingContainer{
     display: flex;
