@@ -25,6 +25,7 @@ export const login = (user) => {
             return
         } else {
             const validUser = response.data
+            console.log(response.data)
             return validUser
         }
     })
