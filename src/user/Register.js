@@ -14,6 +14,7 @@ const Register = () => {
             address: user.address,
             about: user.about,
             password: '',
+            errormsg: '',
             error: false,
             success: false
         } :
@@ -23,31 +24,33 @@ const Register = () => {
         address: '',
         about: '',
         password: '',
+        errormsg: '',
         error: false,
         success: false
     })
 
-    const { name, email, address, about, password, success, error } = values;
+    const { name, email, address, about, password, errormsg, error, success } = values;
 
     const handleChange = name => event => {
-        setValues({ ...values, error: false, [name]: event.target.value });
+        setValues({ ...values, errormsg: '', error: false, [name]: event.target.value });
     }
 
     const clickSubmit = async (event) => {
         // prevent browser from reloading
         event.preventDefault();
+        try {
         setValues({ ...values, error: false });
-        let userRegistered = id ? await updateUser({id, name, email, address, about, password}).catch((error) => {
-            console.log(error)
-            alert(error);
-        }) : await register({name, email, address, about, password}).catch((error) => {
-            console.log(error)
-            alert(error);
+        let userRegistered = id ? await updateUser({id, name, email, address, about, password}).catch((errMsg) => {
+            console.log(errMsg)
+            setValues({errormsg: 'Failed to Update account: ' + errMsg.message, error: true});
+        }) : await register({name, email, address, about, password}).catch((errMsg) => {
+            console.log(errMsg)
+            setValues({errormsg: 'Failed to register account: ' + errMsg.message, error: true});
         })
         console.log(userRegistered)
         if(!userRegistered) {
-            console.log("invalid user")
-            setValues({...values, error: true})
+            console.log("Please fill out all required fields")
+            setValues({...values, errormsg: 'Invalid user', error: true})
         } else {
             authenticate(userRegistered, () => {
                 setValues({
@@ -56,12 +59,17 @@ const Register = () => {
                     address: '',
                     about: '',
                     password: '',
+                    errormsg: '',
                     error: false,
                     success: true
                 })
             })
         }
-        
+    }
+    catch (error) {
+        console.log(error)
+        setValues({errormsg: 'Error: ' + error.message, error: true});
+    }
     };
 
 
@@ -106,7 +114,7 @@ const Register = () => {
 
     const showError = () => (
         <div className="alert alert-danger" style={{ display: error ? '' : 'none' }}>
-            {error}
+            <h2>Error: {errormsg}</h2>
         </div>
     );
 
