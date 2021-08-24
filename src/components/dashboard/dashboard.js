@@ -249,7 +249,7 @@ const Dashboard = () => {
                         <Link to={`/job/${job._id}`}><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
                        </div>
                        <div className="col-sm-6 txt-right py-2 px-3">
-                       {job.swapReqUserId !== _id && (job.clientUserId === "" ? <Link to={`/profile/${job.swapReqUserId}/provided/${job._id}`}>see user's jobs</Link>  : <Link to={`/profile/${job.swapReqUserId}/requested/${job._id}`}>see user's jobs</Link>)}
+                       {job.swapReqUserId !== _id && (job.clientUserId === "" ? <Link to={`/profile/${job.swapReqUserId}/provided/${job._id}`}><i class="bi bi-person px-2"></i></Link> : <Link to={`/profile/${job.swapReqUserId}/requested/${job._id}`}><i class="bi bi-person px-2"></i></Link>)}
                        <i className="bi bi-trash" onClick={(e) => removeSwapRequest(job)}></i>
                       </div>
                     </div>
@@ -293,7 +293,7 @@ const Dashboard = () => {
             <h4 className="col-md-12 mb-3">Pending Provider Approval</h4>
             {userJobList.filter(job => job.status === 3).length > 0 ?
             (userJobList.filter(job => job.status === 3).map(job => (
-              <div key={job._id} className="col-md">
+              <div key={job._id} className="col-lg-6 col-md-12">
                 <div className="card mb-4  shadow-sm">
                   <div className="card-header py-3">
                     <h4 className="my-0 ">{job.title}</h4>
@@ -301,13 +301,11 @@ const Dashboard = () => {
                   <div className="card-body cb-2">
                     <h1 className="card-title pricing-card-title txt-blue">{job.price} coins<small className="text-muted fw-light"></small></h1>
                     <div className="row more">
-                      <div className="col-sm-6">
-                        <Link to={`/job/${job._id}`}><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
+                      <div className="col-sm-12">
+                       <div className="more-cell"><Link to={`/job/${job._id}`}><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link></div>
+                       <div className="more-action">{job.providerUserId === _id && <i class="bi bi-check2-square px-2" onClick={(e) => closeJob(job)}></i>}
+                       <i class="bi bi-question-circle"></i></div>
                        </div>
-                       <div className="col-sm-6 txt-right py-2 px-3">
-                       {job.providerUserId === _id && <i class="bi bi-check2-square px-2" onClick={(e) => closeJob(job)}></i>}
-                       <i class="bi bi-question-circle"></i>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -316,12 +314,12 @@ const Dashboard = () => {
               )}
               </div>
               </div>
-              <div className="col-md-6">
+              <div className="col-md-6 bdr-l">
               <div className="row">
               <h4 className="col-md-12 mb-3">Pending Client Approval</h4>
               {userJobList.filter(job => job.status === 4).length > 0 ?
             (userJobList.filter(job => job.status === 4).map(job => (
-              <div key={job._id} className="col-md">
+              <div key={job._id} className="col-lg-6 col-md-12">
                 <div className="card mb-4  shadow-sm">
                   <div className="card-header py-3">
                     <h4 className="my-0 ">{job.title}</h4>
@@ -329,13 +327,11 @@ const Dashboard = () => {
                   <div className="card-body cb-2">
                     <h1 className="card-title pricing-card-title txt-blue">{job.price} coins<small className="text-muted fw-light"></small></h1>
                     <div className="row more">
-                      <div className="col-sm-6">
-                        <Link to={`/job/${job._id}`}><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
+                    <div className="col-sm-12">
+                       <div className="more-cell"><Link to={`/job/${job._id}`}><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link></div>
+                       <div className="more-action">{job.clientUserId === _id && <i class="bi bi-check2-square px-2" onClick={(e) => closeJob(job)}></i>}
+                       <i class="bi bi-question-circle"></i></div>
                        </div>
-                       <div className="col-sm-6 txt-right py-2 px-3">
-                       {job.clientUserId === _id && <i class="bi bi-check2-square px-2" onClick={(e) => closeJob(job)}></i>}
-                       <i class="bi bi-question-circle"></i>
-                      </div>
                     </div>
                   </div>
                 </div>
