@@ -7,7 +7,7 @@ h1 {font-size: 2em; font-weight: 300;letter-spacing: -1.5px; color: #666666; }
 h2 {font-size: 1.2em; font-weight: 300;letter-spacing: -1px; color: #666666; }
 h4 {font-size: 1em; font-weight: 300; letter-spacing: -0.5px; text-transform: uppercase;}
 p, li  {font-size: 0.8em; font-weight: 400; color: #666666;;}
-.lead {font-size: 1em; line-height: 2em; font-weight: 300}
+.lead {font-size: 1em; line-height: 1.5em; font-weight: 300}
 
 .btn-outline-primary {border-color: #4EC3DB;;}
 
@@ -36,8 +36,20 @@ p, li  {font-size: 0.8em; font-weight: 400; color: #666666;;}
     display: none;
 }
 
-.btn-primary {background-color: #4EC3DB; text-transform: uppercase; border-color: #4EC3DB;}
+.btn-primary {background: rgba(78,195,221,1);
+    background: -moz-linear-gradient(left, rgba(78,195,221,1) 0%, rgba(73,205,182,1) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(78,195,221,1)), color-stop(100%, rgba(73,205,182,1)));
+    background: -webkit-linear-gradient(left, rgba(78,195,221,1) 0%, rgba(73,205,182,1) 100%);
+    background: -o-linear-gradient(left, rgba(78,195,221,1) 0%, rgba(73,205,182,1) 100%);
+    background: -ms-linear-gradient(left, rgba(78,195,221,1) 0%, rgba(73,205,182,1) 100%);
+    background: linear-gradient(to right, rgba(78,195,221,1) 0%, rgba(73,205,182,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4ec3dd', endColorstr='#49cdb6', GradientType=1 ); text-transform: uppercase; border-color: #4EC3DB;}
 .btn-primary:hover {background-color: #1392ac; border-color: #1392ac;}
+
+.btn-sm {
+    padding: 0.5rem 0.6rem;
+}
+
 .cell-sm {
     max-width: 10em;
 }
@@ -111,8 +123,8 @@ i {
 }
 
 .card-body-scroll {
-    max-height: 10em;
-    overflow:hidden;
+    max-height: 8em;
+    overflow-y:scroll;
 }
 
 .card-body-scroll p {
@@ -132,7 +144,7 @@ i {
 
 .hero-bg {background-image:url('../img/gradient-background.png'); border-radius: 10px; background-size: cover;
     padding: 22px;
-    margin: -15px 0px 30px 0px;     
+    margin: 40px 0px 30px 0px;     
     background-position-y: bottom;} 
 
     .hero-bg .lead {color: #ffffff; font-weight: 400; line-height: 1.5em;}

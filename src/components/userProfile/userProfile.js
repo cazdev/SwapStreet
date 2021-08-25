@@ -8,9 +8,10 @@ import './sideBarNav.css'
 import "./userInfo.css"
 import {  Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';
-import { isAuthenticated } from "../../auth/index";
+import { isAuthenticated, getUser } from "../../auth/index";
 import { useParams, useHistory } from 'react-router-dom';
 import { userJobs, getJob, updateJob } from '../../jobAPIRequests';
+import { getUserComments } from '../../commentAPIRequests';
 
 
 
@@ -34,6 +35,8 @@ const Profile = () => {
   })*/
 
   const [jobList, setJobList] = useState([])
+  const [swapUser, setSwapUser] = useState({})
+  const [swapUserComments, setSwapUserComments] = useState([])
 
   useEffect(async () => {
     let j = await userJobs(useId)
@@ -45,6 +48,9 @@ const Profile = () => {
     }
     console.log(j)
     setJobList(j)
+    setSwapUser(await getUser(useId))
+    let com = await getUserComments(useId)
+    setSwapUserComments(com.filter(c => c.providerUserId))
   }, [])
 
   const swapJobs = async (jobswap) => {
@@ -62,6 +68,19 @@ const Profile = () => {
 
   return (
       <div className="container">
+
+<div class="col-md">
+            <h2>About {swapUser.name} </h2>
+            <p>email: {swapUser.email}</p>
+            <p>address: {swapUser.address}</p>
+            {about && <p>about: {swapUser.about}</p>}
+          </div>
+          <hr/>
+          {swapUserComments && (<><h2>Reviews</h2>
+            <ul className="mt-3 mb-4">
+              {swapUserComments.map(com => <li key={com._id}>{com.comment}</li>)}
+            </ul>
+          </>)}
 
 <div className="row mb-3">
             {jobList.length > 0 ?
