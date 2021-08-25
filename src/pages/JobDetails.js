@@ -44,7 +44,7 @@ const JobDetails = () => {
   }
 
   const addCom = async () => {
-    const submitted = await addComment({comment: newComment, providerUserId: userComments[0].providerUserId, clientUserId: userProf._id }).catch((error) => {
+    const submitted = await addComment({comment: newComment, providerUserId: job.providerUserId, clientUserId: userProf._id }).catch((error) => {
       console.log(error.response.data.error)
       alert(error.response.data.error);
     })

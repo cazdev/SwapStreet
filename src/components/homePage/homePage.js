@@ -54,9 +54,8 @@ const HomePage = () => {
     
     return (
       <div className= "homePage">
-        <div className="row row-cols-1  row-cols-lg-3 row-cols-md-2 mb-3  ">
-        </div>
-        <div className="row align-items-center g-5 py-5 hero-bg">
+        <div className="row align-items-center 
+         py-5 hero-bg">
        
       <div className="col-md-9">
         <h1 className="lh-1 mb-3  ">Help is just a click away</h1>
@@ -73,6 +72,7 @@ const HomePage = () => {
         </div>
       </div>
     </div>
+ 
     <ul class="nav nav-tabs">
   <li class="nav-item">
     <a class="nav-link htab active" aria-current="page" href="#activefavours" onClick={(e) => toggleTabs(e)}>Active Favours</a>
