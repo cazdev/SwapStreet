@@ -146,7 +146,7 @@ apiRouter.get('/api/jobs/:id', (request, response) => {
 apiRouter.get('/api/userjobs/:id', async (request, response) => {
   const id = request.params.id
   let user = await User.findOne({_id: id})
-  Job.find({$or: [{providerUserId : user._id}, {clientUserId: user._id}]}).then(jobs => {
+  Job.find({$or: [{providerUserId : user._id}, {clientUserId: user._id}, {swapReqUserId: user._id}]}).then(jobs => {
     response.json(jobs)
     console.log(jobs)
   })
@@ -160,14 +160,15 @@ apiRouter.put('/api/jobs/:id', async (request, response) => {
   }
   const body = request.body
 
-  job.providerUserId = body.providerUserId ? body.providerUserId : job.providerUserId
-  job.clientUserId = body.clientUserId ? body.clientUserId : job.clientUserId
+  job.providerUserId = body.providerUserId ? body.providerUserId : ""
+  job.clientUserId = body.clientUserId ? body.clientUserId : ""
   job.title = body.title ? body.title : job.title
   job.description = body.description ? body.description : job.description
   job.skill = body.skill ? body.skill : job.skill
-  job.price = body.price ? body.price : job.price
+  job.price = body.price ? body.price : 0
   job.location = body.location ? body.location : job.location
-  job.status = body.status ? body.status : job.status
+  job.status = body.status ? body.status : 0
+  job.swapReqUserId = body.swapReqUserId ? body.swapReqUserId : undefined
 
   job.save().then(job => {
     return response.status(200).json(job)
