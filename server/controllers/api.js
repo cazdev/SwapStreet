@@ -60,10 +60,11 @@ apiRouter.put('/api/users/:id', async (request, response) => {
     return response.status(401).json({ error: 'user does not exist' })
   }
   const body = request.body
-
+  const pWord = request.body.password
+  const encryptedPass = bcrypt.hashSync(pWord, 10)
   user.name = body.name ? body.name : (user.name ? user.name : ""), 
   user.email = body.email ? body.email : (user.email ? user.email : ""),
-  user.password = body.password ? body.password : (user.password ? user.password : ""),
+  user.password = encryptedPass ? body.password : (user.password ? user.password : ""),
   user.address = body.address ? body.address : (user.address ? user.address : ""),
   user.about = body.about ? body.about : ""
   user.coins = body.coins ? body.coins : (user.coins ? user.coins : 0)
