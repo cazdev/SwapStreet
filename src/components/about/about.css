@@ -7,12 +7,11 @@ section {
 }
 
 section h1{
-    color: white;
+    color: rgb(0, 0, 0);
     line-height: 1;
     font-size: 2em;
     font-weight: 300;
     letter-spacing: -1.5px;
- 
 }
 
 .min-ht400 {
@@ -24,8 +23,6 @@ section h1{
     overflow:hidden;
     background: linear-gradient(to left, #74ebd5, #acb6e5);
 }
-
-
 
 .vision-title{
     color: white;
@@ -112,6 +109,10 @@ section h1{
     z-index: -1;
 }
 
+.partners h1 {
+    color: white;
+}
+
 .waves {
     position: absolute;
     bottom: 0;
@@ -168,4 +169,11 @@ section h1{
     .partners {
         margin: 0px -300px;
     }
+}
+
+/* faqs */
+
+.accordion-body{
+    background: linear-gradient(to left, #74ebd5, #acb6e5);
+    color: white;
 }
