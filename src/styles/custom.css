@@ -123,13 +123,14 @@ i {
 }
 
 .card-body-scroll {
-    max-height: 8em;
-    overflow-y:scroll;
-}
-
-.card-body-scroll p {
-    text-overflow: ellipsis;
-    max-height: 8em;
+        display:block;
+        width:100%;
+        text-overflow:ellipsis;
+        overflow:hidden;
+        max-height:200px;
+        display: -webkit-box;
+        -webkit-line-clamp: 7;
+        -webkit-box-orient: vertical;
 }
 
 .more {
