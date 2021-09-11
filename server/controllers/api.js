@@ -61,7 +61,7 @@ apiRouter.put('/api/users/:id', async (request, response) => {
   user.name = body.name ? body.name : (user.name ? user.name : "")
   user.email = body.email ? body.email : (user.email ? user.email : "")
   user.password = encryptedPass ? encryptedPass : (user.password ? user.password : "")
-  user.address = body.address ? body.address : (user.address ? user.address : "")
+  user.address = body.address ? body.address : (user.address ? user.address : {x: 100000, y: 100000, label: ''})
   user.about = body.about ? body.about : ""
   user.coins = body.coins ? body.coins : (user.coins ? user.coins : 0)
 
@@ -184,7 +184,7 @@ apiRouter.post('/api/jobs', async (request, response) => {
     providerUserId: body.providerUserId || "",
     title: body.title,
     description: body.description,
-    location: body.location || "",
+    location: body.location || {x: 100000, y: 100000, label: ''},
     price: body.price || "",
     skill: body.skill || [],
     clientUserId: body.clientUserId || "",

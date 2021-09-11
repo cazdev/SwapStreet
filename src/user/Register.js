@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import Layout from '../components/Layout'
 import { Link, useParams } from 'react-router-dom'
 import { updateUser, register, authenticate, isAuthenticated } from '../auth/index'
+import OpenStreetMapProvider from '../components/map/openStreetMapProvider';
 
 const Register = () => {
     const id = useParams().id
@@ -31,8 +32,29 @@ const Register = () => {
 
     const { name, email, address, about, password, errormsg, error, success } = values;
 
+    const prov = OpenStreetMapProvider();
+    const [results, setResults] = useState([])
+    const [loc, setLoc] = useState(typeof address === "string" ? address : address.label)
+
     const handleChange = name => event => {
-        setValues({ ...values, errormsg: '', error: false, [name]: event.target.value });
+        if (name === 'address') {
+            async function srch(val) {
+                const res = await prov.search({ query: val });
+                console.log(res)
+                setResults(res)
+                if(res.length === 1) {
+                    setValues({ ...values, errormsg: '', error: false, [name]: {x: res[0].x, y: res[0].y, label: event.target.value} });
+                } else {
+                    setValues({ ...values, errormsg: '', error: false, [name]: {x: 100000, y: 100000, label: event.target.value} });
+                }
+            } 
+            srch(event.target.value)
+            setLoc(event.target.value)
+            console.log(results)
+        } else {
+            setValues({ ...values, errormsg: '', error: false, [name]: event.target.value });
+        }
+        
     }
 
     const clickSubmit = async (event) => {
@@ -87,7 +109,11 @@ const Register = () => {
 
             <div className="form-group">
                 <label className="text-muted">Address</label>
-                <input onChange={handleChange('address')} type="text" className="form-control" value={address} />
+                <input list="locations" className="form-control" id="locationInput" onChange={handleChange('address')} value={loc}/>
+                    <datalist id="locations">
+                        {results.map((item, index) => (
+                                <option>{item.label}</option>))}
+                </datalist>
             </div>
 
             <div className="form-group">

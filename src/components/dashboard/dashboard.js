@@ -148,7 +148,7 @@ const Dashboard = () => {
           <div class="col-md">
             <h2>Hello {name} <Link to={`/editprofile/${_id}`}> <span className="edit-btn"><i className="bi bi-pencil-square">&nbsp;edit</i> </span></Link></h2>
             <p>email: {email}</p>
-            <p>address: {address}</p>
+            <p>address: {typeof address === "string" ? address: address.label}</p>
             {about && <p>about: {about}</p>}
             <p>coins: {coins}</p>
             <Link to="/needfavour"><button type="button" class="btn btn-sm btn-primary mr-2">I need a favour</button></Link>
