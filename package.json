@@ -13,10 +13,14 @@
     "cors": "^2.8.5",
     "fs": "0.0.1-security",
     "jsonwebtoken": "^8.5.1",
+    "leaflet": "^1.7.1",
+    "leaflet-geosearch": "^3.5.0",
     "mongodb": "^4.1.0",
     "mongoose": "^5.13.6",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-leaflet": "^3.2.1",
+    "react-leaflet-geosearch": "^0.3.4",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
     "web-vitals": "^1.0.1"
@@ -34,18 +38,11 @@
       "react-app/jest"
     ]
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ],
   "devDependencies": {
     "json-server": "^0.16.3",
     "nodemon": "^2.0.12"
