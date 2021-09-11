@@ -81,7 +81,7 @@ const JobDetails = () => {
       <div class="col-md-6">
         <h1 class="lh-1 mb-3 txt-blue">{job.title}</h1>
         <p class="lead">{job.description}</p>
-        {job.location && <p class="lead">{job.location}</p>}
+        {job.location && <p class="lead">{typeof job.location === "string" ? job.location: job.location.label}</p>}
         {job.skill !== undefined && job.skill.length > 0 && (<><p class="lead">Skills needed</p>
         <ul>
           {job.skill && job.skill.map(skill => (
@@ -103,7 +103,7 @@ const JobDetails = () => {
           <h2> About {user.name}</h2>
           <ul className="mt-3 mb-4">
               <li>{user.email}</li>
-              <li>{user.address}</li>
+              {user.address && <li>{typeof user.address === "string" ? user.address: user.address.label}</li>}
               {user.about !== "" && <li>{user.about}</li>}
           </ul>
             {userComments && (<><h2>Reviews</h2>
