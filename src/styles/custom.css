@@ -78,7 +78,8 @@ p, li  {font-size: 0.8em; font-weight: 400; color: #666666;;}
     flex-grow: 0;
 }
 
-.txt-blue {color: #4EC3DB;}
+.txt-blue {color: #4EC3DB !important;}
+.txt-dblue {color: #005668 !important;}
 
 a {
     text-decoration: none;
@@ -150,6 +151,11 @@ i {
 
 .txt-right {
     text-align: right;
+}
+
+.txt-default {
+    color: #666;
+    font-family: 'Lato', sans-serif;
 }
 
 .hero-bg {background-image:url('../img/gradient-background.png'); border-radius: 10px; background-size: cover;

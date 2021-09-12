@@ -57,7 +57,7 @@ apiRouter.put('/api/users/:id', async (request, response) => {
   
   const body = request.body
   const pWord = request.body.password
-  const encryptedPass = bcrypt.hashSync(pWord, 10)
+  const encryptedPass = pWord ? bcrypt.hashSync(pWord, 10) : null
   user.name = body.name ? body.name : (user.name ? user.name : "")
   user.email = body.email ? body.email : (user.email ? user.email : "")
   user.password = encryptedPass ? encryptedPass : (user.password ? user.password : "")

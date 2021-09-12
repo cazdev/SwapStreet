@@ -5,6 +5,28 @@
   box-sizing: border-box;
 }
 
+.leaflet-popup-content-wrapper {
+  max-width: 300px;
+}
+
+.leaflet-popup-content-wrapper h3 {
+  font-size: 1.4em;
+  padding: 0;
+  margin: 0 0 5px 0;
+  font-family: 'Lato', sans-serif;
+}
+
+.leaflet-popup-content-wrapper h4 {
+  font-size: 1.2em;
+  text-transform: none !important;
+  font-weight: 400;
+  padding: 0;
+  margin: 5px 0;
+  font-family: 'Lato', sans-serif;
+  color: #0078A8; 
+}
+
+
 .leaflet-container {
   position: absolute;
   width: 100%;

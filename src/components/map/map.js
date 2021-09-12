@@ -57,14 +57,24 @@ const MapComp = (props) => {
             {jobList.map((item,index) => {
             if(jobList.length === 1) {
                 return item.location.x !== 100000 && (<Marker position={[item.location.y, item.location.x]}>
-                    <Popup>
-                        <Link to={`/job/${item._id}`}>{item.title}</Link>
+                   <Popup>
+                        <Link to={`/job/${item._id}`}> <h3>{item.title}</h3>
+                        
+                        <span className="txt-default txt-dblue my-2"><h4>Price: {item.price} coins</h4></span>
+                   
+                        <span className="txt-default">{item.description}</span>
+                        </Link>
                     </Popup>
                 </Marker>)}
             else {
                 return item.location.x !== 100000 && item.status === 0 && (<Marker position={[item.location.y, item.location.x]}>
                     <Popup>
-                        <Link to={`/job/${item._id}`}>{item.title}</Link>
+                        <Link to={`/job/${item._id}`}> <h3>{item.title}</h3>
+                        
+                        <span className="txt-default txt-dblue my-2"><h4>Price: {item.price} coins</h4></span>
+                   
+                        <span className="txt-default">{item.description}</span>
+                        </Link>
                     </Popup>
                 </Marker>)
             }})}
