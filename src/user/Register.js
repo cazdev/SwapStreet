@@ -1,12 +1,17 @@
 import React, {useState} from 'react';
 import Layout from '../components/Layout'
 import { Link, useParams } from 'react-router-dom'
-import { updateUser, register, authenticate, isAuthenticated } from '../auth/index'
+import { updateUser, register, authenticate, isAuthenticated, logout } from '../auth/index'
 import OpenStreetMapProvider from '../components/map/openStreetMapProvider';
 
 const Register = () => {
     const id = useParams().id
     const user = isAuthenticated().user
+
+    const UserLogout = () => {
+        logout()
+        console.log("working")
+    }
 
     const [values, setValues] = useState(id ? 
         {
@@ -146,7 +151,7 @@ const Register = () => {
 
     const showSuccess = () => (
         <div className="alert alert-info" style={{ display: success ? '' : 'none' }}>
-            {id ? <>Profile updated.</> : <>New account is created.</>} Please <Link to="/login">log in</Link>
+            {id ? <>Profile updated.</> : <>New account is created.</>} Please <Link to="/login" onClick={UserLogout}>log in</Link>
         </div>
     );
 
