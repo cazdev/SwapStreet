@@ -26,8 +26,8 @@ const HomePage = () => {
     if (qry != "") {
       let records = ogJobList.filter(job => job.description.toLowerCase().search(qry.toLowerCase()) !== -1
         || job.title.toLowerCase().search(qry.toLowerCase()) !== -1
-        || job.location.toLowerCase().search(qry.toLowerCase()) !== -1
-        || job.price.toString().toLowerCase().search(qry.toLowerCase()) !== -1)
+        || job.price.toString().toLowerCase().search(qry.toLowerCase()) !== -1
+        || job.location.label.toString().toLowerCase().search(qry.toLowerCase()) !== -1)
       console.log(records)
       setJobList(records)
     } else {
@@ -88,8 +88,7 @@ const HomePage = () => {
 
       <div className="row row-cols-1  row-cols-lg-3 row-cols-md-2 mb-3 hpage tab-cont">
       <div className="map-container">
-          <MapComp/>
-           
+          <MapComp jobList={jobList}/>
            </div>
         
       </div>

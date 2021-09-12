@@ -5,6 +5,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import { getJob, updateJob } from '../jobAPIRequests';
 import { getUser, isAuthenticated } from '../auth';
 import { getUserComments, addComment } from '../commentAPIRequests';
+import MapComp from '../components/map/map';
 
 const JobDetails = () => {
 
@@ -76,7 +77,9 @@ const JobDetails = () => {
   return (<>
     <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
       <div class="col-10 col-sm-8 col-lg-6 job-image">
-        <img src={handshake} class="d-block mx-lg-auto img-fluid" alt="" width="700" height="500" loading="lazy" />
+          <div className="map-container">
+          {job.location && <MapComp jobList={[job]}/>}
+          </div>
       </div>
       <div class="col-md-6">
         <h1 class="lh-1 mb-3 txt-blue">{job.title}</h1>

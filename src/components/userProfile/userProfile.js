@@ -69,12 +69,12 @@ const Profile = () => {
   return (
       <div className="container">
 
-<div class="col-md">
+          {Object.entries(swapUser).length !== 0 && (<div class="col-md">
             <h2>About {swapUser.name} </h2>
             <p>email: {swapUser.email}</p>
-            <p>address: {swapUser.address}</p>
+            <p>address: {typeof swapUser.address === "string" ? swapUser.address: swapUser.address.label}</p>
             {about && <p>about: {swapUser.about}</p>}
-          </div>
+          </div>)}
           <hr/>
           {swapUserComments && (<><h2>Reviews</h2>
             <ul className="mt-3 mb-4">
