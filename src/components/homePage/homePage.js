@@ -88,7 +88,7 @@ const HomePage = () => {
 
       <div className="row row-cols-1  row-cols-lg-3 row-cols-md-2 mb-3 hpage tab-cont">
       <div className="map-container">
-          <MapComp jobList={jobList}/>
+          <MapComp jobList={jobList.filter(item => item.status === 0)}/>
            </div>
         
       </div>
