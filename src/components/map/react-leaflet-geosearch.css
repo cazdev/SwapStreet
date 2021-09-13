@@ -26,12 +26,35 @@
   color: #0078A8; 
 }
 
+.leaflet-popup-content {font-family: 'Lato', sans-serif; color: #666666;}
+
+.srch-range {
+  position: absolute;
+  top: 8px;
+  right: 7px;
+  z-index: 9999999;
+  background: white;
+  padding: 10px 10px 0px 10px;
+  width: 148px;
+
+  font-size: 0.8em  ;
+  box-shadow: 0 3px 14px rgb(0 0 0 / 40%);
+  border-radius: 3px; 
+}
+
+.srch-range [type=text] {height: 25px; width: 40px;
+  font-size: 0.8em;
+  padding: 5px;}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 3px; }
 
 .leaflet-container {
   position: absolute;
   width: 100%;
   height: 100%;
   overflow: hidden;
+  z-index: 0;
 }
 
 /* leaflet button styling */

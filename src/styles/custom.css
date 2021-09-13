@@ -85,6 +85,14 @@ a {
     text-decoration: none;
 }
 
+.wd-sm {
+    width: 60px;
+}
+
+.flt-lf {
+    float: left;
+}
+
 .edit-btn i {
     font-size: 0.6em;
     margin-left: 10px;
@@ -109,7 +117,7 @@ i {
     overflow: hidden;
     position: relative;
     width: 99%;
-    height: 500px;
+    height: 600px;
     margin-bottom: 20px;}
 
 .mr-2 {
