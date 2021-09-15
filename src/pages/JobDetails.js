@@ -1,8 +1,9 @@
+import stopword from 'stopword';
 import React, { useState, useEffect } from 'react'
 import logo from '../img/swap.png'
 import handshake from '../img/handshake.png'
-import { useParams, useHistory } from 'react-router-dom';
-import { getJob, updateJob } from '../jobAPIRequests';
+import { useParams, useHistory, Link } from 'react-router-dom';
+import { getJob, allJobs, updateJob } from '../jobAPIRequests';
 import { getUser, isAuthenticated } from '../auth';
 import { getUserComments, addComment } from '../commentAPIRequests';
 import MapComp from '../components/map/map';
@@ -10,7 +11,8 @@ import MapComp from '../components/map/map';
 const JobDetails = () => {
 
   const history = useHistory()
-  const jobId = useParams().id
+  const [jobId, setJobId] = useState(useParams().id)
+  const [similarJobList, setSimilarJobList] = useState([])
   const [job, setJob] = useState({})
   const [user, setUser] = useState({})
   const [userComments, setUserComments] = useState([])
@@ -18,35 +20,62 @@ const JobDetails = () => {
 
   const userProf = isAuthenticated().user
 
+  function findSimilarJobs(currentJob, allJobs) {
+    const activeJobs = allJobs.filter(job => job !== currentJob && (job.status === 0 && currentJob.clientUserId === "" ? job.clientUserId === "" : job.providerUserId === ""))
+    const curJobWords = stopword.removeStopwords((currentJob.title).concat(currentJob.description).split(" "))
+    let simJobs = []
+    for(let i = 0; i < activeJobs.length; i++) {
+      let checkJob = stopword.removeStopwords((activeJobs[i].title).concat(activeJobs[i].description).split(" "))
+      for(let j = 0; j < checkJob.length; j++) {
+        if(curJobWords.includes(checkJob[j])) {
+          simJobs.push(activeJobs[i])
+          break
+        }
+      }
+    }
+    simJobs.sort(() => Math.random() - 0.5);
+    if(simJobs.length < 3) {
+      const actFilt = activeJobs.filter(job => !simJobs.includes(job))
+      actFilt.sort(() => Math.random() - 0.5);
+      for(let i = 0; i < actFilt.length; i++) {
+        simJobs.push(actFilt[i])
+        if(simJobs.length === 3) break;
+      }
+    }
+    setSimilarJobList(simJobs)
+  } 
+
   useEffect(async () => {
-    const j = await getJob(jobId)
+    const jobs = await allJobs()
+    const j = jobs.find(job => job._id === jobId)
     setJob(j)
     const u = await getUser((j.status < 2 && j.clientUserId === "") || (userProf && j.clientUserId === userProf._id && j.providerUserId !== "") ? j.providerUserId : j.clientUserId)
     setUser(u)
     const uc = await getUserComments(u._id)
-    console.log(uc)
+    //console.log(uc)
     setUserComments(uc)
-  }, [])
+    findSimilarJobs(j, jobs)
+  }, [jobId])
 
   const buyProvideJob = async (event) => {
     if (!isAuthenticated()) {
       history.push("/login")
     } else {
       const submitted = job.providerUserId === "" ? (await updateJob({ ...job, providerUserId: userProf._id, status: 2 }).catch((error) => {
-        console.log(error.response.data.error)
+        //console.log(error.response.data.error)
         alert(error.response.data.error);
       })) : (await updateJob({ ...job, clientUserId: userProf._id, status: 2 }).catch((error) => {
-        console.log(error.response.data.error)
+        //console.log(error.response.data.error)
         alert(error.response.data.error);
       }))
-      console.log(submitted)
+      //console.log(submitted)
       history.push("/dashboard")
     }
   }
 
   const addCom = async () => {
     const submitted = await addComment({ comment: newComment, providerUserId: job.providerUserId, clientUserId: userProf._id }).catch((error) => {
-      console.log(error.response.data.error)
+      //console.log(error.response.data.error)
       alert(error.response.data.error);
     })
     if (submitted) {
@@ -61,18 +90,17 @@ const JobDetails = () => {
       history.push("/login")
     } else {
       const submitted = job.providerUserId === "" ? (await updateJob({ ...job, swapReqUserId: userProf._id, status: 1 }).catch((error) => {
-        console.log(error.response.data.error)
+        //console.log(error.response.data.error)
         alert(error.response.data.error);
       })) : (await updateJob({ ...job, swapReqUserId: userProf._id, status: 1 }).catch((error) => {
-        console.log(error.response.data.error)
+        //console.log(error.response.data.error)
         alert(error.response.data.error);
       }))
-      console.log(submitted)
+      //console.log(submitted)
       history.push("/dashboard")
     }
   }
-
-  console.log(job)
+  //console.log(job)
 
   return (<>
     <div class="row g-5 py-5">
@@ -85,8 +113,8 @@ const JobDetails = () => {
             {job.location && <p class="lead">{typeof job.location === "string" ? job.location : job.location.label}</p>}
             {job.skill !== undefined && job.skill.length > 0 && (<><p class="lead">Skills needed</p>
               <ul>
-                {job.skill && job.skill.map(skill => (
-                  <li>{skill}</li>
+                {job.skill && job.skill.map((skill,index) => (
+                  <li key={index}>{skill}</li>
                 ))}
               </ul>
             </>)}
@@ -140,39 +168,21 @@ const JobDetails = () => {
       </div>
     </div>
     <div class="row g-4 py-3 row-cols-1 row-cols-md-3">
-      <div class="col d-flex align-items-start">
+      {similarJobList.map((job, index) => {
+      if(index < 3) return (
+      <div key={job._id} class="col d-flex align-items-start">
         <div class="icon-square bg-light txt-blue flex-shrink-0 me-3"><i class="bi bi-bricks"></i>
         </div>
         <div>
-          <h2>Building</h2>
-          <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-          <a href="/" class="btn btn-outline-secondary btn-sm px-4">
-            Get Service
-          </a>
+          <h2>{job.title}</h2>
+          <p>{job.description}</p>
+          <Link onClick={(e) => setJobId(job._id)} to={`/job/${job._id}`} class="btn btn-outline-secondary btn-sm px-4">
+            See Favour
+          </Link>
         </div>
       </div>
-      <div class="col d-flex align-items-start">
-        <div class="icon-square bg-light txt-blue flex-shrink-0 me-3"><i class="bi bi-shop"></i>
-        </div>
-        <div>
-          <h2>Grocery Shopping</h2>
-          <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-          <a href="/" class="btn btn-outline-secondary btn-sm px-4">
-            Get Service
-          </a>
-        </div>
-      </div>
-      <div class="col d-flex align-items-start">
-        <div class="icon-square bg-light txt-blue flex-shrink-0 me-3"><i class="bi bi-cart"></i>
-        </div>
-        <div>
-          <h2>Baby Sitting</h2>
-          <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-          <a href="/" class="btn btn-outline-secondary btn-sm px-4">
-            Get Service
-          </a>
-        </div>
-      </div>
+      )
+    })}
     </div>
     <p class="py-5">&nbsp;</p>
 
