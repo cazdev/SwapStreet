@@ -5,13 +5,14 @@ import './homePage.css';
 import '../../styles/custom.css'
 import MapComp from '../map/map';
 import { allJobs } from '../../jobAPIRequests/index'
-import { isAuthenticated } from "../../auth/index";
+import { isAuthenticated, allUsers } from "../../auth/index";
 import mower from '../../img/lawn.jpeg'
 
 const HomePage = () => {
 
   const user = isAuthenticated ? isAuthenticated().user : false;
 
+  const [userList, setUserList] = useState([])
   const [jobList, setJobList] = useState([])
   const [ogJobList, setOgJobList] = useState([])
 
@@ -19,15 +20,26 @@ const HomePage = () => {
     const jobs = await allJobs()
     setJobList(jobs)
     setOgJobList(jobs)
+    const users = await allUsers()
+    setUserList(users)
+    console.log(users)
   }, [])
 
   function search(qry) {
     console.log(qry)
     if (qry != "") {
+      const userSrch = userList.filter(user => user.name.toLowerCase().search(qry.toLowerCase()) !== -1
+      || user.email.toLowerCase().search(qry.toLowerCase()) !== -1
+      || user.about.toLowerCase().search(qry.toLowerCase()) !== -1)
+      
       let records = ogJobList.filter(job => job.description.toLowerCase().search(qry.toLowerCase()) !== -1
         || job.title.toLowerCase().search(qry.toLowerCase()) !== -1
         || job.price.toString().toLowerCase().search(qry.toLowerCase()) !== -1
-        || job.location.label.toString().toLowerCase().search(qry.toLowerCase()) !== -1)
+        || job.location.label.toString().toLowerCase().search(qry.toLowerCase()) !== -1
+        || userSrch.map(u => u._id).includes(job.clientUserId)
+        || userSrch.map(u => u._id).includes(job.providerUserId))
+
+      
       console.log(records)
       setJobList(records)
     } else {
