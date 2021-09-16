@@ -22,10 +22,10 @@ const JobDetails = () => {
 
   function findSimilarJobs(currentJob, allJobs) {
     const activeJobs = allJobs.filter(job => job !== currentJob && (job.status === 0 && currentJob.clientUserId === "" ? job.clientUserId === "" : job.providerUserId === ""))
-    const curJobWords = stopword.removeStopwords((currentJob.title).concat(currentJob.description).split(" "))
+    const curJobWords = stopword.removeStopwords((currentJob.title).concat(currentJob.description).split(/[\s/]+/))
     let simJobs = []
     for(let i = 0; i < activeJobs.length; i++) {
-      let checkJob = stopword.removeStopwords((activeJobs[i].title).concat(activeJobs[i].description).split(" "))
+      let checkJob = stopword.removeStopwords((activeJobs[i].title).concat(activeJobs[i].description).split(/[\s/]+/))
       for(let j = 0; j < checkJob.length; j++) {
         if(curJobWords.includes(checkJob[j])) {
           simJobs.push(activeJobs[i])
@@ -110,7 +110,7 @@ const JobDetails = () => {
 
             <h1 class="lh-1 mb-3 txt-blue">{job.title}</h1>
             <p class="lead">{job.description}</p>
-            {job.location && <p class="lead">{typeof job.location === "string" ? job.location : job.location.label}</p>}
+            {isAuthenticated() && job.location && <p class="lead">{typeof job.location === "string" ? job.location : job.location.label}</p>}
             {job.skill !== undefined && job.skill.length > 0 && (<><p class="lead">Skills needed</p>
               <ul>
                 {job.skill && job.skill.map((skill,index) => (
@@ -129,7 +129,7 @@ const JobDetails = () => {
             <div class="row py-5">
               <div class="col-md-12">
                 <hr />
-                <div class="p-3 b ">
+                {isAuthenticated() && (<div class="p-3 b ">
                   <h2> About {user.name}</h2>
                   <ul className="mt-3 mb-4">
                     <li>{user.email}</li>
@@ -141,7 +141,7 @@ const JobDetails = () => {
                       {userComments.map(com => <li key={com._id}>{com.comment}</li>)}
                     </ul>
                   </>)}
-                  {isAuthenticated() && job.clientUserId === "" && userProf._id !== job.clientUserId && userProf._id !== job.providerUserId && (
+                  {job.status === 5 && job.clientUserId === userProf._id && (
                     <form>
                       <div className="form-group">
                         <label className="text-muted">Comment on {user.name}'s services</label>
@@ -149,7 +149,7 @@ const JobDetails = () => {
                       </div>
                       <button onClick={addCom} type="button" class="btn btn-primary btn-sm px-4 mt-2 me-md-2">Add Comment</button>
                     </form>)}
-                </div>
+                </div>)}
               </div>
             </div>
           </div>
@@ -157,13 +157,13 @@ const JobDetails = () => {
       </div>
       <div class="col-sm-6 job-image">
         <div className="map-container">
-          {job.location && <MapComp jobList={[job]} />}
+          {job.location && <MapComp jobList={isAuthenticated() ? [job]: []} />}
         </div>
       </div>
     </div>
     <div class="row ">
       <div class="col">
-        <h2 class="txt-blue">Similar Services</h2>
+        <h2 class="txt-blue">Similar Favours</h2>
         <hr />
       </div>
     </div>
