@@ -43,6 +43,9 @@ const JobDataFill = (props) => {
                 location: jobEdit.location})
 
             setLoc(jobEdit.location ? jobEdit.location.label : '')
+        } else if (props.path === "/needfavour" || props.path === "/providefavour") {
+            setValues({...values, location: address})
+            setLoc(address.label)
         }
       }, [])
 
