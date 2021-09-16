@@ -30,12 +30,14 @@ const HomePage = () => {
     if (qry != "") {
       const userSrch = userList.filter(user => user.name.toLowerCase().search(qry.toLowerCase()) !== -1
       || user.email.toLowerCase().search(qry.toLowerCase()) !== -1
-      || user.about.toLowerCase().search(qry.toLowerCase()) !== -1)
+      || user.about.toLowerCase().search(qry.toLowerCase()) !== -1
+      || user._id.toLowerCase().search(qry.toLowerCase()) !== -1)
       
       let records = ogJobList.filter(job => job.description.toLowerCase().search(qry.toLowerCase()) !== -1
         || job.title.toLowerCase().search(qry.toLowerCase()) !== -1
         || job.price.toString().toLowerCase().search(qry.toLowerCase()) !== -1
         || job.location.label.toString().toLowerCase().search(qry.toLowerCase()) !== -1
+        || job._id.toString().toLowerCase().search(qry.toLowerCase()) !== -1
         || userSrch.map(u => u._id).includes(job.clientUserId)
         || userSrch.map(u => u._id).includes(job.providerUserId))
 
