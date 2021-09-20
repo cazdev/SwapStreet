@@ -38,6 +38,7 @@ const HomePage = () => {
         || job.price.toString().toLowerCase().search(qry.toLowerCase()) !== -1
         || job.location.label.toString().toLowerCase().search(qry.toLowerCase()) !== -1
         || job._id.toString().toLowerCase().search(qry.toLowerCase()) !== -1
+        || job.skill.filter(sk => sk.toString().toLowerCase().includes(qry.toLowerCase())).length > 0
         || userSrch.map(u => u._id).includes(job.clientUserId)
         || userSrch.map(u => u._id).includes(job.providerUserId))
 
