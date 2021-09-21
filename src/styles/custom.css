@@ -194,3 +194,7 @@ i {
     font-weight: 300;
 }
 
+label.custom-control-label {color: white;
+    margin-left: 8px;} 
+
+    .chkbx-row li {float: left; list-style:none; margin: 10px;}
