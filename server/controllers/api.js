@@ -1,14 +1,18 @@
 const express = require('express')
 const bcrypt = require('bcrypt')
 const apiRouter = express.Router()
-const { createToken, retrieveToken, decodeToken } = require('../utils/auth')
 const User = require('../models/UserSchema.js')
 const Job = require('../models/JobSchema.js')
 const Comment = require('../models/CommentSchema.js')
-const jwt = require('jsonwebtoken')
+//const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
 const scrub = ({ password, ...user }) => user
 const scrubAuthentic = ({ password, ...user }) => user
+
+
+//Picture upload import
+const upload = require('../utils/upload')
+const avatarUpload = upload.single('avatar')
 
 if (process.argv.length < 3) {
   console.log('Please provide the password as an argument: node mongo.js <password>')
@@ -26,11 +30,7 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFind
 apiRouter.get('/api/users', (request, response) => {
   User.find({}).then(users => {
     response.json(users)
-    console.log(users )
-    /*users.map(u=> {
-      const pwcrypt = bcrypt.hash(u.password, 10).then(result => console.log(u.email, result))
-    })*/
-  })
+    })
 })
 
 apiRouter.get('/api/users/:id', (request, response) => {
@@ -62,13 +62,14 @@ apiRouter.put('/api/users/:id', async (request, response) => {
   
   const body = request.body
   const pWord = request.body.password
-  const encryptedPass = bcrypt.hashSync(pWord, 10)
-  user.name = body.name ? body.name : (user.name ? user.name : ""), 
-  user.email = body.email ? body.email : (user.email ? user.email : ""),
-  user.password = encryptedPass ? encryptedPass : (user.password ? user.password : ""),
-  user.address = body.address ? body.address : (user.address ? user.address : ""),
+  const encryptedPass = pWord ? bcrypt.hashSync(pWord, 10) : null
+  user.name = body.name ? body.name : (user.name ? user.name : "")
+  user.email = body.email ? body.email : (user.email ? user.email : "")
+  user.password = encryptedPass ? encryptedPass : (user.password ? user.password : "")
+  user.address = body.address ? body.address : (user.address ? user.address : {x: 100000, y: 100000, label: ''})
   user.about = body.about ? body.about : ""
   user.coins = body.coins ? body.coins : (user.coins ? user.coins : 0)
+  user.photo = body.photo ? body.photo : ""
 
   user.save().then(user => {
     return response.status(200).json({ user: scrub(user.toJSON()) })
@@ -104,6 +105,7 @@ apiRouter.post('/api/register', async (request, response) => {
   const password = request.body.password
   const body = request.body
   const existingEmail = await User.findOne({ email: emailSearch })
+  const userPhoto = request.body.photo
   if(existingEmail) {
     return response.status(400).json({ error: 'Existing user with this username or email.' })
   }
@@ -121,11 +123,12 @@ apiRouter.post('/api/register', async (request, response) => {
     password: encryptedPass,
     address: body.address,
     about: body.about || "",
-    coins: 20
+    coins: 20,
+    photo: body.photo
   })
 
   user.save().then(user => {
-    return response.status(200).json({ user: scrubAuthentic(user.toJSON()) })
+    return response.status(200).json({user: scrubAuthentic(user.toJSON()) })
   })
 })
 
@@ -189,7 +192,7 @@ apiRouter.post('/api/jobs', async (request, response) => {
     providerUserId: body.providerUserId || "",
     title: body.title,
     description: body.description,
-    location: body.location || "",
+    location: body.location || {x: 100000, y: 100000, label: ''},
     price: body.price || "",
     skill: body.skill || [],
     clientUserId: body.clientUserId || "",
@@ -262,5 +265,21 @@ apiRouter.delete('/api/comments/:id', (request, response) => {
   });
 })
 
-
+apiRouter.post('/api/users/photo/:id', async (request, response) => {
+  console.log("you made it this far")
+  const id = request.params.id
+  let user = await User.findOne({_id: id})
+  if (!user) {
+    return response.status(401).json({ error: 'user does not exist' })
+  }
+  avatarUpload(request, response, async function (err) {
+    if(err) {
+      return response.status(401).json({ error: 'Image Upload Error' })
+    }
+  
+    await user.save()
+    return response.status(200).json({ user: scrubAuthentic(user.toJSON()) })
+  })
+} 
+) 
 module.exports = apiRouter
