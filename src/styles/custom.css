@@ -145,7 +145,8 @@ i {
 .hero-bg {background-image:url('../img/gradient-background.png'); border-radius: 10px; background-size: cover;
     padding: 22px;
     margin: 40px 0px 30px 0px;     
-    background-position-y: bottom;} 
+    background-position-y: bottom;
+} 
 
     .hero-bg .lead {color: #ffffff; font-weight: 400; line-height: 1.5em;}
     .hero-bg h1 {color: #ffffff; font-weight: bold; }
