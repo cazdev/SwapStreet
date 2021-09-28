@@ -1,4 +1,4 @@
-POST http://localhost:3001/api/login
+POST http://localhost:3001/api/users/photo/611c9523d06ae73c1d9e2a7f
 Content-Type: application/json
 
 {

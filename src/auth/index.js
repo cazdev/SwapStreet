@@ -88,3 +88,18 @@ export const isAuthenticated = () => {
     }
 };
 
+export const allUsers = () => {
+    const users = axios.get(`http://localhost:3001/api/users/`)
+    .then(response => {
+        //console.log(response.data)
+        if(response.error) {
+            console.log("error")
+            return
+        } else {
+            const validUsers = response.data
+            return validUsers
+        }
+    })
+    return users
+}
+

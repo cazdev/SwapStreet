@@ -4,89 +4,19 @@ import { Link, useParams, useHistory } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 import { isAuthenticated } from '../../auth/index';
 import { updateJob, addJob, getJob } from '../../jobAPIRequests';
+import OpenStreetMapProvider from '../map/openStreetMapProvider';
 
 const JobDataFill = (props) => {
-
-    /*constructor(props) {
-        super(props);
-        this.state = {
-            type: this.props.location.pathname
-        }
-        
-    }
-
-
-
-    componentDidMount(){
-        this.state.type === "/editfavour" ? this.updateVariables() : this.newJob()
-    }
-
-
-    // let price = req.query.price;
-    // let location = req.query.location;
-
-    submitData(event) {
-
-        console.log(this.jobStatus.value);
-
-        event.preventDefault();
-
-        let url = new URL("http://localhost:3200/jobs?" + (this.state.type === "/editfavour" ? "replace" : "add") + "=true")
-        if(this.state.type === "/editfavour"){
-            url.searchParams.set("replaceID", this.replaceID)
-        }
-        url.searchParams.set("userID", this.props.userID)
-        url.searchParams.set("jobStatus", this.jobStatus.value)
-        url.searchParams.set("chosenUserID", this.chosenUserID.value ? this.chosenUserID.value : "null")
-        url.searchParams.set("title", this.title.value)
-        url.searchParams.set("description", this.desc.value)
-        url.searchParams.set("price", this.price.value)
-        url.searchParams.set("location", this.location.value)
-
-        fetch(url.href).then(() =>
-            {
-                fetch('http://localhost:3200/jobs?fetch=true&userID=' + this.props.userID)
-                .then( resp => resp.json())
-                .then((data)=> {
-                        this.setState({
-                            jobs: data
-                        })
-                })
-            }
-        )
-    }
-
-    newJob(){
-        this.jobStatus = 1
-        this.chosenUserID = ""
-    }
-
-    updateVariables(){
-        var job = this.props.location.state.job;
-        this.replaceID = job._id;
-        this.jobStatus.value = job.jobStatus;
-        this.chosenUserID.value = job.chosenUserID;
-        this.title.value = job.title;
-        this.desc.value = job.description;
-        this.price.value = job.price;
-        this.location.value = job.location;
-    }
-
-
-    /*
-
-                    {this.props.location.pathname == "/editfavour" && <div className="form-group">
-                        <label>Edit The Job</label>
-                        <input type="text" className="form-control" id="inputType" ref={this.inputType = "Edit"} placeholder="Enter User ID" disabled value=""/>
-                    </div>}
-                    
-
-    render() {*/
 
     const history = useHistory()
     const jobId = useParams().id
 
     const { user: { _id, name, email, address, about, coins } } = isAuthenticated();
+
+    
+    const prov = OpenStreetMapProvider();
+    const [results, setResults] = useState([])
+    const [loc, setLoc] = useState('')
 
     const [values, setValues] = useState({
         providerUserId: props.path === "/providefavour" || props.path === "/editprovidefavour" ? _id : '',
@@ -95,7 +25,11 @@ const JobDataFill = (props) => {
         description: '',
         skill: [],
         price: '',
-        location: ''
+        location: {
+            x:100000,
+            y:100000,
+            label: ''
+        }
     })
 
     useEffect(async () => {
@@ -107,6 +41,11 @@ const JobDataFill = (props) => {
                 skill: jobEdit.skill, 
                 price: jobEdit.price, 
                 location: jobEdit.location})
+
+            setLoc(jobEdit.location ? jobEdit.location.label : '')
+        } else if (props.path === "/needfavour" || props.path === "/providefavour") {
+            setValues({...values, location: address})
+            setLoc(address.label)
         }
       }, [])
 
@@ -114,6 +53,20 @@ const JobDataFill = (props) => {
         if (name === 'skill') {
             let skillArray = event.target.value.split(",")
             setValues({ ...values, [name]: skillArray });
+        } else if (name === 'location') {
+            async function srch(val) {
+                const res = await prov.search({ query: val });
+                console.log(res)
+                setResults(res)
+                if(res.length === 1) {
+                    setValues({ ...values, [name]: {x: res[0].x, y: res[0].y, label: event.target.value} });
+                } else {
+                    setValues({ ...values, [name]: {x: 100000, y: 100000, label: event.target.value} });
+                }
+            } 
+            srch(event.target.value)
+            setLoc(event.target.value)
+            console.log(results)
         } else {
             setValues({ ...values, [name]: event.target.value });
         }
@@ -122,6 +75,7 @@ const JobDataFill = (props) => {
 
     const formHandler = async (event) => {
         event.preventDefault()
+        console.log(values)
         if(props.path === "/needfavour" || props.path === "/providefavour") {
             const submitted = await addJob(values).catch((error) => {
                 console.log(error.response.data.error)
@@ -170,7 +124,11 @@ const JobDataFill = (props) => {
 
                 <div className="form-group">
                     <label>Location</label>
-                    <input type="text" className="form-control" id="locationInput" placeholder="Enter Location"  onChange={handleChange('location')} value={values.location}/>
+                    <input list="locations" className="form-control" id="locationInput" placeholder="Enter Location"  onChange={handleChange('location')} value={loc}/>
+                    <datalist id="locations">
+                        {results.map((item, index) => (
+                                <option>{item.label}</option>))}
+                    </datalist>
                 </div>
 
                 <div className="py-4">

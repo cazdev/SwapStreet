@@ -2,9 +2,11 @@ POST http://localhost:3001/api/register
 Content-Type: application/json
 
 {
-        "name": "joshie",
-        "email": "joshua.archer@students.mq.edu.au",
-        "password": "josha",
-        "address": "cool lane",
-        "about": "dsd",
+   "name": "Billy Bob",
+   "email": "billdsys.bdsa@email.com",
+   "address": "Cool Man Lane",
+   "about" : "My name is Billy",
+   "password": "billyb",
+   "coins": 1000000,
+   "photo": "this is my default photo"
 }
