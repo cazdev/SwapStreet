@@ -3,9 +3,10 @@ Content-Type: application/json
 
 {
    "name": "Billy Bob",
-   "email": "billy.b@email.com",
+   "email": "billdsys.bdsa@email.com",
    "address": "Cool Man Lane",
    "about" : "My name is Billy",
    "password": "billyb",
-   "coins": 1000000
+   "coins": 1000000,
+   "photo": "this is my default photo"
 }
