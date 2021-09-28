@@ -9,6 +9,11 @@ const mongoose = require('mongoose')
 const scrub = ({ password, ...user }) => user
 const scrubAuthentic = ({ password, ...user }) => user
 
+
+//Picture upload import
+const upload = require('../utils/upload')
+const avatarUpload = upload.single('avatar')
+
 if (process.argv.length < 3) {
   console.log('Please provide the password as an argument: node mongo.js <password>')
   process.exit(1)
@@ -64,6 +69,7 @@ apiRouter.put('/api/users/:id', async (request, response) => {
   user.address = body.address ? body.address : (user.address ? user.address : {x: 100000, y: 100000, label: ''})
   user.about = body.about ? body.about : ""
   user.coins = body.coins ? body.coins : (user.coins ? user.coins : 0)
+  user.photo = body.photo ? body.photo : ""
 
   user.save().then(user => {
     return response.status(200).json({ user: scrub(user.toJSON()) })
@@ -99,6 +105,7 @@ apiRouter.post('/api/register', async (request, response) => {
   const password = request.body.password
   const body = request.body
   const existingEmail = await User.findOne({ email: emailSearch })
+  const userPhoto = request.body.photo
   if(existingEmail) {
     return response.status(400).json({ error: 'Existing user with this username or email.' })
   }
@@ -116,11 +123,12 @@ apiRouter.post('/api/register', async (request, response) => {
     password: encryptedPass,
     address: body.address,
     about: body.about || "",
-    coins: 20
+    coins: 20,
+    photo: body.photo
   })
 
   user.save().then(user => {
-    return response.status(200).json({ user: scrubAuthentic(user.toJSON()) })
+    return response.status(200).json({user: scrubAuthentic(user.toJSON()) })
   })
 })
 
@@ -257,5 +265,21 @@ apiRouter.delete('/api/comments/:id', (request, response) => {
   });
 })
 
-
+apiRouter.post('/api/users/photo/:id', async (request, response) => {
+  console.log("you made it this far")
+  const id = request.params.id
+  let user = await User.findOne({_id: id})
+  if (!user) {
+    return response.status(401).json({ error: 'user does not exist' })
+  }
+  avatarUpload(request, response, async function (err) {
+    if(err) {
+      return response.status(401).json({ error: 'Image Upload Error' })
+    }
+  
+    await user.save()
+    return response.status(200).json({ user: scrubAuthentic(user.toJSON()) })
+  })
+} 
+) 
 module.exports = apiRouter

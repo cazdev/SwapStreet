@@ -11,6 +11,15 @@ import Info from './info';
 import { isAuthenticated, updateUser, getUser, authenticate } from "../../auth/index";
 import { allJobs, userJobs, deleteJob, updateJob } from '../../jobAPIRequests/index'
 
+import defaultImgage from './default.jpg';
+
+function UserPic(props) {
+  const hasImage = props.hasImage
+  if(hasImage) {
+     return <p><img src={props.photo} alt="Image Loading ..." height="100" width="100"/></p>
+  }
+  return <p> <img src={defaultImgage} alt="Image Loading" height="100" width="100"/> </p>
+}
 
 const Dashboard = () => {
   /*constructor(props) {
@@ -43,7 +52,7 @@ const Dashboard = () => {
           return (job.userID === uID || job.chosenUserID === uID) && job.jobStatus === 4;
       });*/
 
-  const { user: { _id, name, email, address, about, coins } } = isAuthenticated();
+  const { user: { _id, name, email, address, about, coins, photo } } = isAuthenticated();
   const [userJobList, setUserJobList] = useState([])
 
   useEffect(async () => {
@@ -146,11 +155,13 @@ const Dashboard = () => {
         <div class="row">
           
           <div class="col-md">
+            
             <h2>Hello {name} <Link to={`/editprofile/${_id}`}> <span className="edit-btn"><i className="bi bi-pencil-square">&nbsp;edit</i> </span></Link></h2>
             <p>email: {email}</p>
             <p>address: {typeof address === "string" ? address: address.label}</p>
             {about && <p>about: {about}</p>}
             <p>coins: {coins}</p>
+            <UserPic hasImage={photo}/>
             <Link to="/needfavour"><button type="button" class="btn btn-sm btn-primary mr-2">I need a favour</button></Link>
             <Link to="/providefavour"><button type="button" class="btn btn-sm btn-primary">I can provide a favour</button></Link>
           </div>
