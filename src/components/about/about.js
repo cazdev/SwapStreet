@@ -23,7 +23,7 @@ const About = () => {
                             <h1>Our Vision</h1>
                         </div> */}
                         <div>  
-                            <p class="vision-title text-center col-md-12">"Great Satisfaction comes from Sharing with Others"</p>
+                            <p1 class="vision-title text-center col-md-12">"Great satisfaction comes from giving back to your community"</p1>
                            
                         </div>
                     </div>
@@ -40,18 +40,21 @@ const About = () => {
                         <div class="col-12 text-center p-3"> 
                             <div className="about-description">  
                                 <h1>What is SwapStreet?</h1>
-                                <p>
-                                    SwapStreet is a Web application that allows for people who live locally to swap favours. Members 
-                                    offer to do favours in exchange for other favours within a certain proximity to each other.
-                                    The app is aimed for people to get to know their neighbours through those interactions. Thus, not 
-                                    only do they help each other, but also a happier local community is established.
-                                </p>
+
+                                <p> SwapStreet is a platform that connects those in need of favours and those who can provide their services locally in exchange for favours. 
+                                    From a disaster striking to something as simple as needing a hand to do the dishes, your community will now have the opportunity to look out for you.</p>
+                                    
+                                <p> Our strategy is to create a better community where everyone gets the opportunity to think about giving back to their community with your services. 
+                                    No need to worry about big bills to get a simple task done anymore, just pay back to your community in favours. </p>
+
+                                <p> We aim for our community to stand together with us towards a brighter, happier, settled and more equitable future.</p>
+                            
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12 text-center p-3">   
-                            <h1>Meet Our team</h1>
+                            <h1>Our Team</h1>
                         </div>
                     </div>
                     <div class="row">
@@ -97,7 +100,7 @@ const About = () => {
                             <div class= "card">
                                 <img class="img-fluid"  src={p4} alt="" />
                                 <div class="card-text">
-                                    <h3>Chaz Lambrechtsen</h3> 
+                                    <h6>Chaz Lambrechtsen</h6> 
                                     <h5>Web Lead</h5>
                                 </div>
                             </div>   
