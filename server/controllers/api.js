@@ -4,6 +4,7 @@ const apiRouter = express.Router()
 const User = require('../models/UserSchema.js')
 const Job = require('../models/JobSchema.js')
 const Comment = require('../models/CommentSchema.js')
+const Photo = require('../models/PhotoSchema')
 //const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
 const scrub = ({ password, ...user }) => user
@@ -11,8 +12,30 @@ const scrubAuthentic = ({ password, ...user }) => user
 
 
 //Picture upload import
-const upload = require('../utils/upload')
-const avatarUpload = upload.single('avatar')
+const multer = require('multer')
+const { v4: uuidv4 } = require('uuid');
+let path = require('path');
+
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null,'./public/avatars');
+
+  },
+  filename: function(req, file, cb) {
+    cb(null, uuidv4() + - + Date.now() + path.extname(file.originalname))
+  }
+});
+const fileFilter = (req, file, cb) => {
+  const allowedFileTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+  if(allowedFileTypes.includes(file.mimetype)) {
+      cb(null, true);
+  } else {
+      cb(null, false);
+  }
+}
+let upload = multer({ storage, fileFilter})
+
+
 
 if (process.argv.length < 3) {
   console.log('Please provide the password as an argument: node mongo.js <password>')
@@ -25,6 +48,20 @@ const url =
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
 
+apiRouter.post('/api/users/photo', upload.single('photo'), (req, res) => {
+  const userID = req.body.userID;
+  const photo = req.file.filename;
+
+  const newPhotoData = {
+    userID,
+    photo
+  }
+  const newPhoto = new Photo(newPhotoData)
+  newPhoto.save()
+  .then(photoData => {
+    return res.status(200).json({photo: scrubAuthentic(photoData.toJSON()) })
+  })
+})
 
 ///USER API ENDPOINTS
 apiRouter.get('/api/users', (request, response) => {
