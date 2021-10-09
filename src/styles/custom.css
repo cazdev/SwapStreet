@@ -175,7 +175,7 @@ i {
     .hero-bg .lead {color: #ffffff; font-weight: 400; line-height: 1.5em;}
     .hero-bg h1 {color: #ffffff; font-weight: bold; }
 
-.footer { background-color: #f3f3f3;  }
+.footer { position:absolute; background-color: #f3f3f3;  }
 .footer p, .footer i {  color: #aaaaaa; font-weight: 300;}
 
 .form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
