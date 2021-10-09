@@ -169,12 +169,13 @@ i {
 .hero-bg {background-image:url('../img/gradient-background.png'); border-radius: 10px; background-size: cover;
     padding: 22px;
     margin: 40px 0px 30px 0px;     
-    background-position-y: bottom;} 
+    background-position-y: bottom;
+} 
 
     .hero-bg .lead {color: #ffffff; font-weight: 400; line-height: 1.5em;}
     .hero-bg h1 {color: #ffffff; font-weight: bold; }
 
-.footer { background-color: #f3f3f3;  }
+.footer { position:absolute; background-color: #f3f3f3;  }
 .footer p, .footer i {  color: #aaaaaa; font-weight: 300;}
 
 .form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
@@ -194,3 +195,7 @@ i {
     font-weight: 300;
 }
 
+label.custom-control-label {color: white;
+    margin-left: 8px;} 
+
+    .chkbx-row li {float: left; list-style:none; margin: 10px;}

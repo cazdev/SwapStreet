@@ -8,11 +8,49 @@ section {
 
 section h1{
     color: rgb(0, 0, 0);
-    line-height: 1;
+    line-height: 2;
     font-size: 2em;
     font-weight: 300;
     letter-spacing: -1.5px;
+    text-align: left;
+    font-family: copperplate;
 }
+
+
+ p1 {
+     font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+     border-right: solid 3px rgba(0,255,0,.75);
+     white-space: nowrap;
+     overflow: hidden;    
+     font-size: 28px;
+     color: rgba(255,255,255,.70);
+     margin: 0 auto;
+}
+
+/* Animation */
+p1 {
+  animation: animated-text 4s steps(29, end) 1s 1 normal both,
+             animated-cursor 600ms steps(29, end) infinite;
+ }
+/* text animation */
+
+@keyframes animated-text {
+    from {
+        width: 0;
+    }
+    to {
+        width: 472px;
+    }
+  }
+
+@keyframes animated-cursor {
+    from {
+        border-right-color: rgba(0,255,0,.75);
+    }
+    to {
+        border-right-color: transparent;
+    }
+  }
 
 .min-ht400 {
     min-height: 400px;
@@ -41,7 +79,7 @@ section h1{
 .team .card::before{
     position: absolute;
     content:'';
-    width:80%;
+    width:85%;
     height: 220%;
     background: linear-gradient(to top, rgb(116,235,213,0.7), rgb(172,182,229, 0.7));
     top:-50%;
@@ -90,15 +128,30 @@ section h1{
 }
 
 .team{
-    padding-bottom: 30px;
+    padding-bottom: 25px;
+    font-family: copperplate;
+  
+}
+
+.team h3{
+    text-align: left;
+    font-family: copperplate;
+    font-size: 2em;
+}
+
+.team h6{
+    text-align: left;
+    font-family: copperplate;
+    font-size: 1.71em;
 }
 
 .team h1{
-    text-transform: uppercase;
     color:black;
-    font-size: 2em;
+    font-size: 2.5em;
     font-weight: 300;
     letter-spacing: -1.5px;
+    font-family: copperplate;
+    text-align: left;
 }
 
 .partners{
@@ -159,6 +212,9 @@ section h1{
     padding-right: 80px;
     padding-left: 80px;
     padding-top: 30px;
+    text-align: left;
+    text-indent: 3em;
+    font-family: copperplate;
 }
 
 @media (min-width: 1000px) {
