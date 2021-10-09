@@ -13,14 +13,7 @@ import { allJobs, userJobs, deleteJob, updateJob } from '../../jobAPIRequests/in
 
 import defaultImgage from './default.jpg';
 
-function UserPic(props) {
-  const hasImage = props.hasImage
-  if(hasImage) {
-     return <p><img src={props.photo} alt="Image Loading ..." height="100" width="100"/></p>
-  }
-  return <p> <img src={defaultImgage} alt="Image Loading" height="100" width="100"/> </p>
-}
-
+import Photo from './photoUpload.js'
 const Dashboard = () => {
   /*constructor(props) {
       super(props);
@@ -52,7 +45,7 @@ const Dashboard = () => {
           return (job.userID === uID || job.chosenUserID === uID) && job.jobStatus === 4;
       });*/
 
-  const { user: { _id, name, email, address, about, coins, photo } } = isAuthenticated();
+  const { user: { _id, name, email, address, about, coins} } = isAuthenticated();
   const [userJobList, setUserJobList] = useState([])
 
   useEffect(async () => {
@@ -148,6 +141,7 @@ const Dashboard = () => {
     }
     window.location.reload();
   }
+  
 
   return (
     <div>
@@ -161,7 +155,9 @@ const Dashboard = () => {
             <p>address: {typeof address === "string" ? address: address.label}</p>
             {about && <p>about: {about}</p>}
             <p>coins: {coins}</p>
-            <UserPic hasImage={photo}/>
+            
+            <Photo currentUser={_id}/>
+           
             <Link to="/needfavour"><button type="button" class="btn btn-sm btn-primary mr-2">I need a favour</button></Link>
             <Link to="/providefavour"><button type="button" class="btn btn-sm btn-primary">I can provide a favour</button></Link>
           </div>
