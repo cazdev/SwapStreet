@@ -12,6 +12,7 @@ import HomePage from "./homePage/homePage"
 import Dashboard from "./dashboard/dashboard"
 import JobPage from "./jobPage/jobPage"
 import About from './about/about';
+import Mailer from './mailer/mailer';
 import JobDataFill from "./dataFill/dataFillPage"
 import Register from '../user/Register';
 import Login from '../user/Login';
@@ -101,7 +102,7 @@ class dataRouter extends Component {
                         <Route exact path="/dashboard"><Dashboard/></Route>
                         <Route exact path="/profile/:id/:favtype/:swapid"><UserProfile/></Route>
                         <Route exact path="/about"><About/></Route>
-
+                        <Route exact path="/mailer"><Mailer/></Route>
                         <Route path = "/job/:id"><JobDetails/></Route>
                         {/*<Route exact path = "/job" render={(props) => <JobPage {...props} userID={this.state.userID}/> }/>*/}
 
