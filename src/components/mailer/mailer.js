@@ -54,30 +54,3 @@ const Mailer = () => {
 }
 
 export default Mailer;
-
-
-{/* style={{marginTop:"50px",
-         width:'50%',
-        backgroundImage: `url('https://images.unsplash.com/photo-1506374322094-6021fc3926f1?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8c3lkbmV5fGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80')`,
-        backgroundPosition:"center",
-        backgroundSize:"cover"
-}}
-
-{<div class="mailer">
-            <h1>Contact Form</h1>
-            <form>
-                <div class="form-group">
-                <label>Full Name</label>
-                <input type ="text" name="name"/>
-
-                <label>Email address</label>
-                <input type ="email" name="user_email"/>
-
-                <label>Message</label>
-                <textarea name="message" rows='4'/>
-                <input type ="submit" name="Send"/>
-            </form>
-            <div class="space">
-
-            </div>
-        </div> } */}
