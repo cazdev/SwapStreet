@@ -54,12 +54,8 @@ const Photo = (currentUser) => {
                     name="photo"
                     onChange={handlePhoto} />
                 </label>
-
-
                 <label class="custom-file-upload">
-                    
                     <input 
-                    
                     type="submit"/>
                 </label>
             </form></div>
