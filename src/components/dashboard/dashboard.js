@@ -10,11 +10,12 @@ import Info from './info';
 //import Datafill from '../dataFill/dataFillPage';
 import { isAuthenticated, updateUser, getUser, authenticate } from "../../auth/index";
 import { allJobs, userJobs, deleteJob, updateJob } from '../../jobAPIRequests/index'
-
+import { useHistory } from 'react-router-dom';
 import defaultImgage from './default.jpg';
 
 import Photo from './photoUpload.js'
 const Dashboard = () => {
+  const history = useHistory()
   /*constructor(props) {
       super(props);
   }
@@ -285,7 +286,7 @@ const Dashboard = () => {
                        </div>
                        <div className="col-sm-6 txt-right py-2 px-3">
                        <i className="bi bi-check2-square px-2" onClick={(e) => pendCloseJob(job)}></i>
-                       <i class="bi bi-question-circle"></i>
+                       <i class="bi bi-question-circle" onClick={e=> history.push("/mailer")}></i>
                       </div>
                     </div>
                   </div>
@@ -311,7 +312,7 @@ const Dashboard = () => {
                       <div className="col-sm-12">
                        <div className="more-cell"><Link to={`/job/${job._id}`}><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link></div>
                        <div className="more-action">{job.providerUserId === _id && <i class="bi bi-check2-square px-2" onClick={(e) => closeJob(job)}></i>}
-                       <i class="bi bi-question-circle"></i></div>
+                       <i class="bi bi-question-circle" onClick={e=> history.push("/mailer")}></i></div>
                        </div>
                     </div>
                   </div>
