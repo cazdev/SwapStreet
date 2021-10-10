@@ -9,7 +9,8 @@ const Photo = (currentUser) => {
             userID: currentUser
         }
     );
-    const [photoPath, setPhotoPath] = useState(defaultImgage)
+    const [photoPath, setPhotoPath] = useState("http://localhost:3000/")
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData();
@@ -20,11 +21,10 @@ const Photo = (currentUser) => {
 
         axios.post('http://localhost:3001/api/users/photo', formData)
              .then(res => {
-                console.log(res.data);
-                setPhotoPath('"./' + res.data.photo.photo + '"')
-                console.log(URL.createObjectURL(newUser.photo))
+                console.log(URL.createObjectURL(newUser.photo));
+                //setPhotoPath(photoPath + res.data.photo.photo)
                 setPhotoPath(URL.createObjectURL(newUser.photo))
-                console.log("photo path - ", res.data.photo.photo)
+                
              })
              .catch(err => {
                 console.log(err);
@@ -32,7 +32,7 @@ const Photo = (currentUser) => {
     }
 
     
-    
+
     const handlePhoto = (e) => {
         setNewUser({photo: e.target.files[0]});
         
