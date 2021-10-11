@@ -82,8 +82,10 @@ const HomePage = () => {
          py-5 hero-bg">
 
         <div className="col-md-9">
-          <h1 className="lh-1 mb-3  ">Help is just a click away</h1>
-          <p className="lead mb-4">Just a click away from getting the services you need. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent varius vel lacus id facilisis. Nunc vel sapien non lectus condimentum sollicitudin eget non dolor. Nam in porttitor risus. </p>
+          {user ? (<><h1 className="lh-1 mb-3  ">Help is just a click away</h1>
+          <p className="lead mb-4">Just a click away from getting the services you need. See favours in tabs below or search favours here.</p></>)
+          : (<><h1 className="lh-1 mb-3  ">Login to see favours on map</h1>
+          <p className="lead mb-4">Or see Active and Favours Requested tab to view the available favours in SwapStreet</p></>)}
           <div className="row">
             <div className="col-md-7">
               <form className="form-inline">
