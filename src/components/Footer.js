@@ -12,11 +12,6 @@ const Footer = () => {
           SwapStreet is a software engineering team project in Comp4050 S2 2021, Macqurie University
         </i>
       </p>
-      <ul>
-        <li>
-          {/* <Link to="/tandc">Terms and conditions.</Link> */}
-        </li>
-      </ul>
     </div>
   );
 }
