@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import defaultImgage from './default.jpg';
+import { allPhotos } from '../../auth/index'
 const Photo = (currentUser) => {
+
     const [newUser, setNewUser] = useState(
         {
 
@@ -14,17 +16,14 @@ const Photo = (currentUser) => {
         e.preventDefault();
         const formData = new FormData();
         formData.append('photo', newUser.photo);
-        formData.append('userID', currentUser)
+        formData.append('userID', currentUser.currentUser)
 
 
 
         axios.post('http://localhost:3001/api/users/photo', formData)
             .then(res => {
                 console.log(res.data);
-                
-                console.log(URL.createObjectURL(newUser.photo))
-                setPhotoPath(URL.createObjectURL(newUser.photo))
-                console.log("photo path - ", res.data.photo.photo)
+                getPhoto()
             })
             .catch(err => {
                 console.log(err);
@@ -39,6 +38,29 @@ const Photo = (currentUser) => {
 
 
     }
+
+    const arrayBufferToBase64 = (buffer) => {
+        var binary = ''
+        var bytes = [].slice.call(new Uint8Array(buffer))
+        bytes.forEach((b) => binary += String.fromCharCode(b))
+        return window.btoa(binary)
+    }
+
+    const getPhoto = async () => {
+        const photos = await allPhotos()
+        const u = photos.find(p => p.userID === currentUser.currentUser)
+        if(u) {
+            var base64Flag = `data:${u.photo.contentType};base64,`;
+            var imageStr = arrayBufferToBase64(u.photo.data.data);
+            console.log(base64Flag + imageStr)
+            setPhotoPath(base64Flag + imageStr)
+        }
+    }
+
+    useEffect(() => {
+        getPhoto()
+      }, [])
+      
 
     return (
         <div>

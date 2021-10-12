@@ -7,6 +7,8 @@ const Comment = require('../models/CommentSchema.js')
 const Photo = require('../models/PhotoSchema')
 //const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
+const fs = require('fs')
+const IMAGE_FOLDER = `${__dirname}/../images/`
 const scrub = ({ password, ...user }) => user
 const scrubAuthentic = ({ password, ...user }) => user
 
@@ -18,7 +20,7 @@ let path = require('path');
 
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
-    cb(null,'./public/avatars');
+    cb(null,'./server/images/avatars');
 
   },
   filename: function(req, file, cb) {
@@ -54,7 +56,10 @@ apiRouter.post('/api/users/photo', upload.single('photo'), (req, res) => {
 
   const newPhotoData = {
     userID,
-    photo
+    photo: {
+      data: fs.readFileSync(path.join(__dirname,'../images/avatars/' + photo)), 
+      contentType: 'image/png'
+    }
   }
   const newPhoto = new Photo(newPhotoData)
   newPhoto.save()
@@ -318,5 +323,20 @@ apiRouter.post('/api/users/photo/:id', async (request, response) => {
     return response.status(200).json({ user: scrubAuthentic(user.toJSON()) })
   })
 } 
-) 
+)
+apiRouter.get('/api/photos/', async (request, response) => {
+  
+  Photo.find({}).then(photos => {
+    //photos.map(p => p.photo = "images/"+p.photo)
+    response.json(photos)
+    console.log(photos)
+  })
+})
+apiRouter.delete('/api/photos/', async (request, response) => {
+  
+  Photo.deleteMany({}).then(photos => {
+    //photos.map(p => p.photo = "images/"+p.photo)
+    response.json("done")
+  })
+})
 module.exports = apiRouter

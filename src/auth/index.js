@@ -103,3 +103,18 @@ export const allUsers = () => {
     return users
 }
 
+export const allPhotos = () => {
+    const users = axios.get(`http://localhost:3001/api/photos/`)
+    .then(response => {
+        //console.log(response.data)
+        if(response.error) {
+            console.log("error")
+            return
+        } else {
+            const validUsers = response.data
+            return validUsers
+        }
+    })
+    return users
+}
+
