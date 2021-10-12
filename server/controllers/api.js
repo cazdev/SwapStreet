@@ -11,8 +11,15 @@ const fs = require('fs')
 const IMAGE_FOLDER = `${__dirname}/../images/`
 const scrub = ({ password, ...user }) => user
 const scrubAuthentic = ({ password, ...user }) => user
+var ImagesDir = './server/images'
+if(!fs.existsSync(ImagesDir)) {
+  fs.mkdirSync(ImagesDir)
+}
 
-
+var AvatarDir = './server/images/avatars'
+if(!fs.existsSync(AvatarDir)) {
+  fs.mkdirSync(AvatarDir)
+}
 //Picture upload import
 const multer = require('multer')
 const { v4: uuidv4 } = require('uuid');
