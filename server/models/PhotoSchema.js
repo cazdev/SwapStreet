@@ -7,8 +7,10 @@ const userSchema = new mongoose.Schema({
         trim: true
     }, 
 
-    photo: {
-        type: String
+    photo:
+    {
+        data: Buffer,
+        contentType: String
     }
 });
 
