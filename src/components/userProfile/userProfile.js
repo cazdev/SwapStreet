@@ -77,9 +77,11 @@ const Profile = () => {
           </div>)}
           <hr/>
           {swapUserComments && (<><h2>Reviews</h2>
+          <div class="reviews">
             <ul className="mt-3 mb-4">
-              {swapUserComments.map(com => <li key={com._id}>{com.comment}</li>)}
+              {swapUserComments.map(com => <li class="review" key={com._id}>{com.comment}</li>)}
             </ul>
+            </div>
           </>)}
 
 <div className="row mb-3">
