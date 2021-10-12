@@ -137,14 +137,14 @@ const JobDetails = () => {
                     {user.about !== "" && <li>{user.about}</li>}
                   </ul>
                   {userComments && (<><h2>Reviews</h2>
-                    <ul className="mt-3 mb-4">
-                      {userComments.map(com => <li key={com._id}>{com.comment}</li>)}
+                    <label className="text-muted">Comment on {user.name}'s services </label>
+                    <ul className="mt-3 mb-4" class="reviews">
+                      {userComments.map(com => <li class="review" key={com._id}>{com.comment}</li>)}
                     </ul>
                   </>)}
                   {job.status === 5 && job.clientUserId === userProf._id && (
                     <form>
                       <div className="form-group">
-                        <label className="text-muted">Comment on {user.name}'s services</label>
                         <textarea rows="2" onChange={(e) => setNewComment(e.target.value)} className="form-control" value={newComment} id="txtcom" />
                       </div>
                       <button onClick={addCom} type="button" class="btn btn-primary btn-sm px-4 mt-2 me-md-2">Add Comment</button>
