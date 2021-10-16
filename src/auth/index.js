@@ -117,6 +117,7 @@ export const allPhotos = () => {
     })
     return users
 }
+
 export const getOnlyUserPhotos = (userID) => {
     const userPhotos = axios.get(`http://localhost:3001/api/photos/${userID}`) 
     .then(res => {
@@ -130,4 +131,5 @@ export const getOnlyUserPhotos = (userID) => {
     })
     return userPhotos
 }
+
 
