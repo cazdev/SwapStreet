@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import defaultImgage from './default.jpg';
-<<<<<<< HEAD
+
 import { allPhotos, getOnlyUserPhotos } from '../../auth/index'
-=======
-import { allPhotos } from '../../auth/index'
->>>>>>> 84f03ec85da07e8c74019c6609e56ba06574e8c8
+
+
 const Photo = (currentUser) => {
 
     const [newUser, setNewUser] = useState(
