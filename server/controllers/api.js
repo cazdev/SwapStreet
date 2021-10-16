@@ -314,26 +314,18 @@ apiRouter.delete('/api/comments/:id', (request, response) => {
   });
 })
 
-apiRouter.post('/api/users/photo/:id', async (request, response) => {
-  console.log("you made it this far")
-  const id = request.params.id
-  let user = await User.findOne({_id: id})
-  if (!user) {
-    return response.status(401).json({ error: 'user does not exist' })
-  }
-  avatarUpload(request, response, async function (err) {
-    if(err) {
-      return response.status(401).json({ error: 'Image Upload Error' })
-    }
-  
-    await user.save()
-    return response.status(200).json({ user: scrubAuthentic(user.toJSON()) })
-  })
-} 
-)
+
 apiRouter.get('/api/photos/', async (request, response) => {
   
   Photo.find({}).then(photos => {
+    //photos.map(p => p.photo = "images/"+p.photo)
+    response.json(photos)
+    console.log(photos)
+  })
+})
+apiRouter.get('/api/photos/:id', async (request, response) => {
+  const id = request.params.id
+  Photo.find({userID: id}).sort({_id: -1}).then(photos => {
     //photos.map(p => p.photo = "images/"+p.photo)
     response.json(photos)
     console.log(photos)

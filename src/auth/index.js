@@ -117,4 +117,17 @@ export const allPhotos = () => {
     })
     return users
 }
+export const getOnlyUserPhotos = (userID) => {
+    const userPhotos = axios.get(`http://localhost:3001/api/photos/${userID}`) 
+    .then(res => {
+        if(res.error) {
+            console.log("cant fetch user images")
+            return
+        } else {
+            const validPhotos = res.data
+            return validPhotos
+        }
+    })
+    return userPhotos
+}
 
