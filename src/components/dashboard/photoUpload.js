@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import defaultImgage from './default.jpg';
-import { allPhotos } from '../../auth/index'
+
+import { allPhotos, getOnlyUserPhotos } from '../../auth/index'
+
+
 const Photo = (currentUser) => {
 
     const [newUser, setNewUser] = useState(
@@ -47,8 +50,14 @@ const Photo = (currentUser) => {
     }
 
     const getPhoto = async () => {
-        const photos = await allPhotos()
+
+        const photos = await getOnlyUserPhotos(currentUser.currentUser)
+        console.log("complete list of photoss", photos[photos.length-1])
+        
+        //const u = photos[photos.length-1]
         const u = photos.find(p => p.userID === currentUser.currentUser)
+        console.log("complete list of photos", u)
+
         if(u) {
             var base64Flag = `data:${u.photo.contentType};base64,`;
             var imageStr = arrayBufferToBase64(u.photo.data.data);
