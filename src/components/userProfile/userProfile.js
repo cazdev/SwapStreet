@@ -77,6 +77,8 @@ const Profile = () => {
           </div>)}
           <hr/>
           {swapUserComments && (<><h2>Reviews</h2>
+
+           
           <div class="reviews">
             <ul className="mt-3 mb-4">
               {swapUserComments.map(com => <li class="review" key={com._id}>{com.comment}</li>)}
