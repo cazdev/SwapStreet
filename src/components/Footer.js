@@ -1,4 +1,5 @@
 import React from "react";
+import {Link, BrowserRouter} from "react-router-dom";
 
 const Footer = () => {
 
@@ -9,7 +10,8 @@ const Footer = () => {
           &copy; WeRware Pty Ltd 2020-2021&nbsp;&nbsp;
         </b>
         <i>
-          SwapStreet is a software engineering team project in Comp4050 S2 2021, Macqurie University
+          SwapStreet is a software engineering team project in Comp4050 S2 2021, Macqurie University, Read our 
+          <Link to="/tandc" > Terms and Conditions</Link>
         </i>
       </p>
     </div>

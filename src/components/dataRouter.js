@@ -17,7 +17,7 @@ import TandC from './tandc/tandc';
 import JobDataFill from "./dataFill/dataFillPage"
 import Register from '../user/Register';
 import Login from '../user/Login';
-import PrivateRoute from '../auth/PrivateRoute'
+import Footer from '../components/Footer'
 import { isAuthenticated } from "../auth/index";
 import JobDetails from '../pages/JobDetails';
 
@@ -115,6 +115,7 @@ class dataRouter extends Component {
 
                     
                 </div>
+                <Footer/>
             </BrowserRouter>
         );
     }
