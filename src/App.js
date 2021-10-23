@@ -10,7 +10,6 @@ function App() {
     return(
         <div className="App container mt-0">
            <DataRouter/>  
-            <Footer/>
        </div>
     )
 }
