@@ -8,6 +8,8 @@ import { getUser, isAuthenticated } from '../auth';
 import { getUserComments, addComment } from '../commentAPIRequests';
 import MapComp from '../components/map/map';
 import ReactStars from 'react-rating-stars-component';
+import { ReviewIcon } from '../components/tools/Icon';
+import NotFound from '../components/tools/NotFound';
 
 const JobDetails = () => {
 
@@ -156,12 +158,17 @@ const JobDetails = () => {
                       </div>
                       <div className='d-flex flex-wrap align-items-center mt-2'>
                         <ReactStars
-                          count={5}
                           onChange={(e) => setNewReview(e)}
                           size={24}
-                          color2={'#ffd700'} 
+                          color={'#adb5bd'}
+                          activeColor={'#ffb302'}
+                          a11y={true}
+                          isHalf={true}
+                          emptyIcon={<i className='fa fa-star' />}
+                          halfIcon={<i className='fa fa-star-half-alt' />}
+                          //filledIcon={<i className='fa fa-star' />}
                           value={newReview}
-                          />
+                        />
                       </div>
                       <button onClick={addCom} type="button" class="btn btn-primary btn-sm px-4 mt-2 me-md-2">Add Comment</button>
                     </form>/*)*/}

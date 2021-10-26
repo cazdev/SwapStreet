@@ -22,7 +22,7 @@
     "fs": "0.0.1-security",
     "jsonwebtoken": "^8.5.1",
     "leaflet": "^1.7.1",
-    "leaflet-geosearch": "^3.5.0",
+    "leaflet-geosearch": "^3.6.0",
     "luxon": "^1.25.0",
     "mongodb": "^4.1.0",
     "mongoose": "^5.13.6",
