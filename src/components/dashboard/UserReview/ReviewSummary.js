@@ -36,9 +36,11 @@ const ReviewSummary = props => {
             isHalf={true}
             emptyIcon={<i className='fa fa-star' />}
             halfIcon={<i className='fa fa-star-half-alt' />}
-            filledIcon={<i className='fa fa-star' />}
+            edit={false}
             value={averageRating}
-          />*/}
+          />
+           
+          
           {totalReview > 0 && <span>based on {totalReview} reviews.</span>}
         </div>
       )}

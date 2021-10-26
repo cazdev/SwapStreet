@@ -77,7 +77,7 @@ const JobDetails = () => {
   }
 
   const addCom = async () => {
-    const submitted = await addComment({ review: newComment, rating:newRating, providerUserId: job.providerUserId, clientUserId: userProf._id }).catch((error) => {
+    const submitted = await addComment({ review: newComment, rating: newRating, providerUserId: job.providerUserId, clientUserId: userProf._id }).catch((error) => {
       //console.log(error.response.data.error)
       alert(error.response.data.error);
     })
@@ -139,22 +139,26 @@ const JobDetails = () => {
                   </ul>
                   {userComments && (<><h2>Reviews</h2>
 
-                    
+
                     <ul className="mt-3 mb-4" class="reviews">
                       {userComments.map(com => <li class="review" key={com._id}>{com.review}
-                      <ReactStars
-                          count={5}
+                        <ReactStars 
                           size={24}
-                          color2={'#ffd700'}
+                          color={'#adb5bd'}
+                          activeColor={'#ffb302'}
                           edit={false}
+                          a11y={true}
+                          isHalf={true}
+                          emptyIcon={<i className='fa fa-star' />}
+                          halfIcon={<i className='fa fa-star-half-alt' />}
                           value={com.rating}
-                          />
+                        />
                       </li>)}
 
                     </ul>
                   </>)}
                   {(userComments.length < 1 || userComments.map(u => u.providerUserId !== userProf._id && u.clientUserId !== userProf._id).length < 1)
-                  &&
+                    &&
                     <form>
                       <div className="form-group">
 
@@ -164,16 +168,11 @@ const JobDetails = () => {
                       </div>
                       <div className='d-flex flex-wrap align-items-center mt-2'>
                         <ReactStars
-                          onChange={(e) => setNewReview(e)}
+                          count={5}
+                          onChange={(e) => setNewRating(e)}
                           size={24}
-                          color={'#adb5bd'}
-                          activeColor={'#ffb302'}
-                          a11y={true}
-                          isHalf={true}
-                          emptyIcon={<i className='fa fa-star' />}
-                          halfIcon={<i className='fa fa-star-half-alt' />}
-                          //filledIcon={<i className='fa fa-star' />}
-                          value={newReview}
+                          color2={'#ffd700'}
+                          value={newRating}
                         />
                       </div>
                       <button onClick={addCom} type="button" class="btn btn-primary btn-sm px-4 mt-2 me-md-2">Add Comment</button>
