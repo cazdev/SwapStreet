@@ -23,8 +23,7 @@ const About = () => {
                             <h1>Our Vision</h1>
                         </div> */}
                         <div>  
-                            <p1 class="vision-title text-center col-md-12">"Great satisfaction comes from giving back to your community"</p1>
-                           
+                            <h1 class="vision-title text-center col-md-12">"Great satisfaction comes from giving back to your community"</h1>
                         </div>
                     </div>
                 </div>

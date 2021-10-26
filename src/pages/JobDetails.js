@@ -7,6 +7,7 @@ import { getJob, allJobs, updateJob } from '../jobAPIRequests';
 import { getUser, isAuthenticated } from '../auth';
 import { getUserComments, addComment } from '../commentAPIRequests';
 import MapComp from '../components/map/map';
+import ReactStars from 'react-rating-stars-component';
 
 const JobDetails = () => {
 
@@ -17,6 +18,7 @@ const JobDetails = () => {
   const [user, setUser] = useState({})
   const [userComments, setUserComments] = useState([])
   const [newComment, setNewComment] = useState("")
+  const [newReview, setNewReview] = useState(0)
 
   const userProf = isAuthenticated().user
 
@@ -24,26 +26,26 @@ const JobDetails = () => {
     const activeJobs = allJobs.filter(job => job !== currentJob && (job.status === 0 && currentJob.clientUserId === "" ? job.clientUserId === "" : job.providerUserId === ""))
     const curJobWords = stopword.removeStopwords((currentJob.title).concat(currentJob.description).split(/[\s/]+/))
     let simJobs = []
-    for(let i = 0; i < activeJobs.length; i++) {
+    for (let i = 0; i < activeJobs.length; i++) {
       let checkJob = stopword.removeStopwords((activeJobs[i].title).concat(activeJobs[i].description).split(/[\s/]+/))
-      for(let j = 0; j < checkJob.length; j++) {
-        if(curJobWords.includes(checkJob[j])) {
+      for (let j = 0; j < checkJob.length; j++) {
+        if (curJobWords.includes(checkJob[j])) {
           simJobs.push(activeJobs[i])
           break
         }
       }
     }
     simJobs.sort(() => Math.random() - 0.5);
-    if(simJobs.length < 3) {
+    if (simJobs.length < 3) {
       const actFilt = activeJobs.filter(job => !simJobs.includes(job))
       actFilt.sort(() => Math.random() - 0.5);
-      for(let i = 0; i < actFilt.length; i++) {
+      for (let i = 0; i < actFilt.length; i++) {
         simJobs.push(actFilt[i])
-        if(simJobs.length === 3) break;
+        if (simJobs.length === 3) break;
       }
     }
     setSimilarJobList(simJobs)
-  } 
+  }
 
   useEffect(async () => {
     const jobs = await allJobs()
@@ -113,7 +115,7 @@ const JobDetails = () => {
             {isAuthenticated() && job.location && <p class="lead">{typeof job.location === "string" ? job.location : job.location.label}</p>}
             {job.skill !== undefined && job.skill.length > 0 && (<><p class="lead">Skills needed</p>
               <ul>
-                {job.skill && job.skill.map((skill,index) => (
+                {job.skill && job.skill.map((skill, index) => (
                   <li key={index}>{skill}</li>
                 ))}
               </ul>
@@ -144,7 +146,7 @@ const JobDetails = () => {
 
                     </ul>
                   </>)}
-                  {job.status === 5 && job.clientUserId === userProf._id && (
+                  {/*job.status === 5 && job.clientUserId === userProf._id && (*/
                     <form>
                       <div className="form-group">
 
@@ -152,8 +154,17 @@ const JobDetails = () => {
 
                         <textarea rows="2" onChange={(e) => setNewComment(e.target.value)} className="form-control" value={newComment} id="txtcom" />
                       </div>
+                      <div className='d-flex flex-wrap align-items-center mt-2'>
+                        <ReactStars
+                          count={5}
+                          onChange={(e) => setNewReview(e)}
+                          size={24}
+                          color2={'#ffd700'} 
+                          value={newReview}
+                          />
+                      </div>
                       <button onClick={addCom} type="button" class="btn btn-primary btn-sm px-4 mt-2 me-md-2">Add Comment</button>
-                    </form>)}
+                    </form>/*)*/}
                 </div>)}
               </div>
             </div>
@@ -162,7 +173,7 @@ const JobDetails = () => {
       </div>
       <div class="col-sm-6 job-image">
         <div className="map-container">
-          {job.location && <MapComp jobList={isAuthenticated() ? [job]: []} />}
+          {job.location && <MapComp jobList={isAuthenticated() ? [job] : []} />}
         </div>
       </div>
     </div>
@@ -174,20 +185,20 @@ const JobDetails = () => {
     </div>
     <div class="row g-4 py-3 row-cols-1 row-cols-md-3">
       {similarJobList.map((job, index) => {
-      if(index < 3) return (
-      <div key={job._id} class="col d-flex align-items-start">
-        <div class="icon-square bg-light txt-blue flex-shrink-0 me-3"><i class="bi bi-bricks"></i>
-        </div>
-        <div>
-          <h2>{job.title}</h2>
-          <p>{job.description}</p>
-          <Link onClick={(e) => setJobId(job._id)} to={`/job/${job._id}`} class="btn btn-outline-secondary btn-sm px-4">
-            See Favour
-          </Link>
-        </div>
-      </div>
-      )
-    })}
+        if (index < 3) return (
+          <div key={job._id} class="col d-flex align-items-start">
+            <div class="icon-square bg-light txt-blue flex-shrink-0 me-3"><i class="bi bi-bricks"></i>
+            </div>
+            <div>
+              <h2>{job.title}</h2>
+              <p>{job.description}</p>
+              <Link onClick={(e) => setJobId(job._id)} to={`/job/${job._id}`} class="btn btn-outline-secondary btn-sm px-4">
+                See Favour
+              </Link>
+            </div>
+          </div>
+        )
+      })}
     </div>
     <p class="py-5">&nbsp;</p>
 
