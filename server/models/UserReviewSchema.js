@@ -2,14 +2,14 @@ const mongoose = require('mongoose');
 
 
 const UserReviewSchema = new mongoose.Schema({
-   providerUserId: {
-       type: String, 
-       ref: 'Provider',
-       required: true
+    providerUserId: {
+        type: String,
+        ref: 'Provider',
+        required: true
     },
-   clientUserId:  {
-       type: String,
-       ref: 'Client',
+    clientUserId: {
+        type: String,
+        ref: 'Client',
         required: true
     },
     rating: {
@@ -20,14 +20,9 @@ const UserReviewSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
-      isRecommended: {
+    isRecommended: {
         type: Boolean,
         default: true
-    },
-      updated: Date,
-      created: {
-        type: Date,
-        default: Date.now
     }
 });
 
