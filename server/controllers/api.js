@@ -5,6 +5,7 @@ const User = require('../models/UserSchema.js')
 const Job = require('../models/JobSchema.js')
 const Comment = require('../models/CommentSchema.js')
 const Photo = require('../models/PhotoSchema')
+const JobPhoto = require('../models/JobPhotoSchema')
 //const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
 const fs = require('fs')
@@ -19,6 +20,10 @@ if(!fs.existsSync(ImagesDir)) {
 var AvatarDir = './server/images/avatars'
 if(!fs.existsSync(AvatarDir)) {
   fs.mkdirSync(AvatarDir)
+}
+var JobImageDir = './server/images/jobPhotos'
+if(!fs.existsSync(JobImageDir)) {
+  fs.mkdirSync(JobImageDir)
 }
 //Picture upload import
 const multer = require('multer')
@@ -43,6 +48,18 @@ const fileFilter = (req, file, cb) => {
   }
 }
 let upload = multer({ storage, fileFilter})
+
+const photoStorage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null,'./server/images/jobPhotos');
+
+  },
+  filename: function(req, file, cb) {
+    cb(null, uuidv4() + - + Date.now() + path.extname(file.originalname))
+  }
+});
+
+let jobPhotoUpload = multer({ photoStorage, fileFilter})
 
 
 
@@ -74,6 +91,24 @@ apiRouter.post('/api/users/photo', upload.single('photo'), (req, res) => {
     return res.status(200).json({photo: scrubAuthentic(photoData.toJSON()) })
   })
 })
+apiRouter.post('/api/jobs/photos', upload.single('photo'), (req, res) => {
+  const jobID = req.body.jobID;
+  const photo = req.file.filename;
+  console.log(photo)
+  const newPhotoData = {
+    jobID,
+    photo: {
+      data: fs.readFileSync(path.join(__dirname,'../images/avatars/' + photo)), 
+      contentType: 'image/png'
+    }
+  }
+  const newPhoto = new JobPhoto(newPhotoData)
+  newPhoto.save()
+  .then(photoData => {
+    return res.status(200).json({photo: scrubAuthentic(photoData.toJSON()) })
+  })
+})
+
 
 ///USER API ENDPOINTS
 apiRouter.get('/api/users', (request, response) => {
@@ -338,6 +373,14 @@ apiRouter.get('/api/photos/', async (request, response) => {
   Photo.find({}).then(photos => {
     //photos.map(p => p.photo = "images/"+p.photo)
     response.json(photos)
+    console.log(photos)
+  })
+})
+apiRouter.get('/api/jobs/photos/:id', async (req, res) => {
+  const id = req.params.id
+  JobPhoto.find({jobID: id})
+  .then(photos => {
+    res.json(photos)
     console.log(photos)
   })
 })

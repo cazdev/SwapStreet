@@ -20,7 +20,7 @@ const Photo = (currentUser) => {
         const formData = new FormData();
         formData.append('photo', newUser.photo);
         formData.append('userID', currentUser.currentUser)
-
+        
 
 
         axios.post('http://localhost:3001/api/users/photo', formData)
