@@ -7,6 +7,7 @@ import { getJob, allJobs, updateJob } from '../jobAPIRequests';
 import { getUser, isAuthenticated } from '../auth';
 import { getUserComments, addComment } from '../commentAPIRequests';
 import MapComp from '../components/map/map';
+import ReactStars from 'react-rating-stars-component';
 import JobPhotos from './JobPhotos'
 const JobDetails = () => {
 
@@ -17,6 +18,7 @@ const JobDetails = () => {
   const [user, setUser] = useState({})
   const [userComments, setUserComments] = useState([])
   const [newComment, setNewComment] = useState("")
+  const [newRating, setNewRating] = useState(0)
 
   const userProf = isAuthenticated().user
 
@@ -24,26 +26,26 @@ const JobDetails = () => {
     const activeJobs = allJobs.filter(job => job !== currentJob && (job.status === 0 && currentJob.clientUserId === "" ? job.clientUserId === "" : job.providerUserId === ""))
     const curJobWords = stopword.removeStopwords((currentJob.title).concat(currentJob.description).split(/[\s/]+/))
     let simJobs = []
-    for(let i = 0; i < activeJobs.length; i++) {
+    for (let i = 0; i < activeJobs.length; i++) {
       let checkJob = stopword.removeStopwords((activeJobs[i].title).concat(activeJobs[i].description).split(/[\s/]+/))
-      for(let j = 0; j < checkJob.length; j++) {
-        if(curJobWords.includes(checkJob[j])) {
+      for (let j = 0; j < checkJob.length; j++) {
+        if (curJobWords.includes(checkJob[j])) {
           simJobs.push(activeJobs[i])
           break
         }
       }
     }
     simJobs.sort(() => Math.random() - 0.5);
-    if(simJobs.length < 3) {
+    if (simJobs.length < 3) {
       const actFilt = activeJobs.filter(job => !simJobs.includes(job))
       actFilt.sort(() => Math.random() - 0.5);
-      for(let i = 0; i < actFilt.length; i++) {
+      for (let i = 0; i < actFilt.length; i++) {
         simJobs.push(actFilt[i])
-        if(simJobs.length === 3) break;
+        if (simJobs.length === 3) break;
       }
     }
     setSimilarJobList(simJobs)
-  } 
+  }
 
   useEffect(async () => {
     const jobs = await allJobs()
@@ -74,14 +76,12 @@ const JobDetails = () => {
   }
 
   const addCom = async () => {
-    const submitted = await addComment({ comment: newComment, providerUserId: job.providerUserId, clientUserId: userProf._id }).catch((error) => {
+    const submitted = await addComment({ review: newComment, rating: newRating, providerUserId: job.providerUserId, clientUserId: userProf._id }).catch((error) => {
       //console.log(error.response.data.error)
       alert(error.response.data.error);
     })
     if (submitted) {
       setUserComments([...userComments, submitted])
-      const tarea = document.getElementById("txtcom")
-      tarea.disabled = true
     }
   }
 
@@ -113,7 +113,7 @@ const JobDetails = () => {
             {isAuthenticated() && job.location && <p class="lead">{typeof job.location === "string" ? job.location : job.location.label}</p>}
             {job.skill !== undefined && job.skill.length > 0 && (<><p class="lead">Skills needed</p>
               <ul>
-                {job.skill && job.skill.map((skill,index) => (
+                {job.skill && job.skill.map((skill, index) => (
                   <li key={index}>{skill}</li>
                 ))}
               </ul>
@@ -139,22 +139,45 @@ const JobDetails = () => {
                   </ul>
                   {userComments && (<><h2>Reviews</h2>
 
-                    <label className="text-muted">Comment on {user.name}'s services </label>
+
                     <ul className="mt-3 mb-4" class="reviews">
-                      {userComments.map(com => <li class="review" key={com._id}>{com.comment}</li>)}
+                      {userComments.map(com => <li class="review" key={com._id}>{com.review}
+                        <ReactStars 
+                          size={24}
+                          color={'#adb5bd'}
+                          activeColor={'#ffb302'}
+                          edit={false}
+                          a11y={true}
+                          isHalf={true}
+                          emptyIcon={<i className='fa fa-star' />}
+                          halfIcon={<i className='fa fa-star-half-alt' />}
+                          value={com.rating}
+                        />
+                      </li>)}
 
                     </ul>
                   </>)}
-                  {job.status === 5 && job.clientUserId === userProf._id && (
+                  {(userComments.length < 1 || userComments.filter(u => u.providerUserId === userProf._id || u.clientUserId === userProf._id).length < 1)
+                    &&
                     <form>
                       <div className="form-group">
 
                         <label className="text-muted">Comment on {user.name}'s services</label>
 
+                        <ReactStars
+                          count={5}
+                          onChange={(e) => setNewRating(e)}
+                          size={24}
+                          color2={'#ffd700'}
+                          value={newRating}
+                        />
                         <textarea rows="2" onChange={(e) => setNewComment(e.target.value)} className="form-control" value={newComment} id="txtcom" />
                       </div>
+                      <div className='d-flex flex-wrap align-items-center mt-2'>
+                        
+                      </div>
                       <button onClick={addCom} type="button" class="btn btn-primary btn-sm px-4 mt-2 me-md-2">Add Comment</button>
-                    </form>)}
+                    </form>}
                 </div>)}
               </div>
             </div>
@@ -163,7 +186,7 @@ const JobDetails = () => {
       </div>
       <div class="col-sm-6 job-image">
         <div className="map-container">
-          {job.location && <MapComp jobList={isAuthenticated() ? [job]: []} />}
+          {job.location && <MapComp jobList={isAuthenticated() ? [job] : []} />}
         </div>
       </div>
     </div>
@@ -175,20 +198,20 @@ const JobDetails = () => {
     </div>
     <div class="row g-4 py-3 row-cols-1 row-cols-md-3">
       {similarJobList.map((job, index) => {
-      if(index < 3) return (
-      <div key={job._id} class="col d-flex align-items-start">
-        <div class="icon-square bg-light txt-blue flex-shrink-0 me-3"><i class="bi bi-bricks"></i>
-        </div>
-        <div>
-          <h2>{job.title}</h2>
-          <p>{job.description}</p>
-          <Link onClick={(e) => setJobId(job._id)} to={`/job/${job._id}`} class="btn btn-outline-secondary btn-sm px-4">
-            See Favour
-          </Link>
-        </div>
-      </div>
-      )
-    })}
+        if (index < 3) return (
+          <div key={job._id} class="col d-flex align-items-start">
+            <div class="icon-square bg-light txt-blue flex-shrink-0 me-3"><i class="bi bi-bricks"></i>
+            </div>
+            <div>
+              <h2>{job.title}</h2>
+              <p>{job.description}</p>
+              <Link onClick={(e) => setJobId(job._id)} to={`/job/${job._id}`} class="btn btn-outline-secondary btn-sm px-4">
+                See Favour
+              </Link>
+            </div>
+          </div>
+        )
+      })}
     </div>
     <p class="py-5">&nbsp;</p>
 
