@@ -8,8 +8,7 @@ import { getUser, isAuthenticated } from '../auth';
 import { getUserComments, addComment } from '../commentAPIRequests';
 import MapComp from '../components/map/map';
 import ReactStars from 'react-rating-stars-component';
-
-
+import JobPhotos from './JobPhotos'
 const JobDetails = () => {
 
   const history = useHistory()
@@ -119,6 +118,7 @@ const JobDetails = () => {
                 ))}
               </ul>
             </>)}
+            <JobPhotos jobDetails={job._id}/>
             {!userProf || (userProf && job.status === 0 && userProf._id !== job.clientUserId && userProf._id !== job.providerUserId) ?
               (<div class="d-grid gap-2 d-md-flex justify-content-md-start">
                 <button onClick={(e) => buyProvideJob(e)} type="button" class="btn btn-primary btn-sm px-4 me-md-2">{job.price} Swapstreet Coins</button>
