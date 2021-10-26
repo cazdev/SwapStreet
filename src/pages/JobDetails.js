@@ -157,16 +157,13 @@ const JobDetails = () => {
 
                     </ul>
                   </>)}
-                  {(userComments.length < 1 || userComments.map(u => u.providerUserId !== userProf._id && u.clientUserId !== userProf._id).length < 1)
+                  {(userComments.length < 1 || userComments.filter(u => u.providerUserId === userProf._id || u.clientUserId === userProf._id).length < 1)
                     &&
                     <form>
                       <div className="form-group">
 
                         <label className="text-muted">Comment on {user.name}'s services</label>
 
-                        <textarea rows="2" onChange={(e) => setNewComment(e.target.value)} className="form-control" value={newComment} id="txtcom" />
-                      </div>
-                      <div className='d-flex flex-wrap align-items-center mt-2'>
                         <ReactStars
                           count={5}
                           onChange={(e) => setNewRating(e)}
@@ -174,6 +171,10 @@ const JobDetails = () => {
                           color2={'#ffd700'}
                           value={newRating}
                         />
+                        <textarea rows="2" onChange={(e) => setNewComment(e.target.value)} className="form-control" value={newComment} id="txtcom" />
+                      </div>
+                      <div className='d-flex flex-wrap align-items-center mt-2'>
+                        
                       </div>
                       <button onClick={addCom} type="button" class="btn btn-primary btn-sm px-4 mt-2 me-md-2">Add Comment</button>
                     </form>}
