@@ -334,7 +334,7 @@ apiRouter.delete('/api/review/:id', (request, response) => {
 
 //comments API endpoints
 apiRouter.get('/api/comments/', (request, response) => {
-  Comment.find({}).then(comment => {
+  Review.find({}).then(comment => {
     response.json(comment)
     console.log(comment)
   })
@@ -342,7 +342,7 @@ apiRouter.get('/api/comments/', (request, response) => {
 
 apiRouter.get('/api/usercomments/:id', (request, response) => {
   const id = request.params.id
-  Comment.find({providerUserId: id}).then(comment => {
+  Review.find({providerUserId: id}).then(comment => {
     response.json(comment)
     console.log(comment)
   })
@@ -350,17 +350,19 @@ apiRouter.get('/api/usercomments/:id', (request, response) => {
 
 apiRouter.post('/api/comments/:id', async (request, response) => {
   const body = request.body
+  console.log(body)
 
-  if (!body.providerUserId || !body.clientUserId || !body.comment) {
+  if (!body.providerUserId || !body.clientUserId || !body.review) {
     return response.status(400).json({
       error: 'content missing'
     })
   }
 
-  const comment = new Comment({
+  const comment = new Review({
     clientUserId: body.clientUserId,
     providerUserId: body.providerUserId,
-    comment: body.comment
+    review: body.review,
+    rating: body.rating
   })
 
   comment.save().then(comment => {
@@ -370,17 +372,28 @@ apiRouter.post('/api/comments/:id', async (request, response) => {
 
 apiRouter.delete('/api/comments/:id', (request, response) => {
   const id = request.params.id
-  Comment.deleteOne({ _id: id }, function (err) {
+  Review.deleteOne({ _id: id }, function (err) {
     if (err) {
       console.log(err)
     }
-    Comment.find({}).then(comment => {
+    Review.find({}).then(comment => {
       response.json(comment)
       console.log(comment)
     })
   });
 })
 
+apiRouter.delete('/api/comments/', (request, response) => {
+  Review.deleteMany({}, function (err) {
+    if (err) {
+      console.log(err)
+    }
+    Review.find({}).then(comment => {
+      response.json(comment)
+      console.log(comment)
+    })
+  });
+})
 
 apiRouter.post('/api/users/photo/:id', async (request, response) => {
   console.log("you made it this far")

@@ -8,8 +8,7 @@ import { getUser, isAuthenticated } from '../auth';
 import { getUserComments, addComment } from '../commentAPIRequests';
 import MapComp from '../components/map/map';
 import ReactStars from 'react-rating-stars-component';
-import { ReviewIcon } from '../components/tools/Icon';
-import NotFound from '../components/tools/NotFound';
+
 
 const JobDetails = () => {
 
@@ -20,7 +19,7 @@ const JobDetails = () => {
   const [user, setUser] = useState({})
   const [userComments, setUserComments] = useState([])
   const [newComment, setNewComment] = useState("")
-  const [newReview, setNewReview] = useState(0)
+  const [newRating, setNewRating] = useState(0)
 
   const userProf = isAuthenticated().user
 
@@ -78,14 +77,12 @@ const JobDetails = () => {
   }
 
   const addCom = async () => {
-    const submitted = await addComment({ comment: newComment, providerUserId: job.providerUserId, clientUserId: userProf._id }).catch((error) => {
+    const submitted = await addComment({ review: newComment, rating:newRating, providerUserId: job.providerUserId, clientUserId: userProf._id }).catch((error) => {
       //console.log(error.response.data.error)
       alert(error.response.data.error);
     })
     if (submitted) {
       setUserComments([...userComments, submitted])
-      const tarea = document.getElementById("txtcom")
-      tarea.disabled = true
     }
   }
 
@@ -142,13 +139,22 @@ const JobDetails = () => {
                   </ul>
                   {userComments && (<><h2>Reviews</h2>
 
-                    <label className="text-muted">Comment on {user.name}'s services </label>
+                    
                     <ul className="mt-3 mb-4" class="reviews">
-                      {userComments.map(com => <li class="review" key={com._id}>{com.comment}</li>)}
+                      {userComments.map(com => <li class="review" key={com._id}>{com.review}
+                      <ReactStars
+                          count={5}
+                          size={24}
+                          color2={'#ffd700'}
+                          edit={false}
+                          value={com.rating}
+                          />
+                      </li>)}
 
                     </ul>
                   </>)}
-                  {/*job.status === 5 && job.clientUserId === userProf._id && (*/
+                  {(userComments.length < 1 || userComments.map(u => u.providerUserId !== userProf._id && u.clientUserId !== userProf._id).length < 1)
+                  &&
                     <form>
                       <div className="form-group">
 
@@ -171,7 +177,7 @@ const JobDetails = () => {
                         />
                       </div>
                       <button onClick={addCom} type="button" class="btn btn-primary btn-sm px-4 mt-2 me-md-2">Add Comment</button>
-                    </form>/*)*/}
+                    </form>}
                 </div>)}
               </div>
             </div>

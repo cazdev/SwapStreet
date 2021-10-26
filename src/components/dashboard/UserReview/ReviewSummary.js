@@ -29,16 +29,7 @@ const ReviewSummary = props => {
       {averageRating && (
         <div className='d-flex flex-wrap align-items-center mt-2'>
           <ReactStars
-            count={5}
             size={24}
-            color2={'#ffd700'}
-            edit={false}
-            value={averageRating}
-          />
-          {/* <ReactStars
-            classNames='mr-2'
-            size={17}
-            edit={false}
             color={'#adb5bd'}
             activeColor={'#ffb302'}
             a11y={true}
