@@ -5,6 +5,7 @@ const User = require('../models/UserSchema.js')
 const Job = require('../models/JobSchema.js')
 const Comment = require('../models/CommentSchema.js')
 const Photo = require('../models/PhotoSchema')
+const Review = require('../models/UserReviewSchema.js')
 const JobPhoto = require('../models/JobPhotoSchema')
 //const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
@@ -31,15 +32,15 @@ const { v4: uuidv4 } = require('uuid');
 let path = require('path');
 
 const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
+  destination: function(request, file, cb) {
     cb(null,'./server/images/avatars');
 
   },
-  filename: function(req, file, cb) {
+  filename: function(request, file, cb) {
     cb(null, uuidv4() + - + Date.now() + path.extname(file.originalname))
   }
 });
-const fileFilter = (req, file, cb) => {
+const fileFilter = (request, file, cb) => {
   const allowedFileTypes = ['image/jpeg', 'image/jpg', 'image/png'];
   if(allowedFileTypes.includes(file.mimetype)) {
       cb(null, true);
@@ -74,9 +75,9 @@ const url =
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
 
-apiRouter.post('/api/users/photo', upload.single('photo'), (req, res) => {
-  const userID = req.body.userID;
-  const photo = req.file.filename;
+apiRouter.post('/api/users/photo', upload.single('photo'), (request, response) => {
+  const userID = request.body.userID;
+  const photo = request.file.filename;
 
   const newPhotoData = {
     userID,
@@ -88,7 +89,7 @@ apiRouter.post('/api/users/photo', upload.single('photo'), (req, res) => {
   const newPhoto = new Photo(newPhotoData)
   newPhoto.save()
   .then(photoData => {
-    return res.status(200).json({photo: scrubAuthentic(photoData.toJSON()) })
+    return response.status(200).json({photo: scrubAuthentic(photoData.toJSON()) })
   })
 })
 apiRouter.post('/api/jobs/photos', upload.single('photo'), (req, res) => {
@@ -160,28 +161,28 @@ apiRouter.put('/api/users/:id', async (request, response) => {
   })
 })
 
-apiRouter.post('/api/login', async (req, res) => {
+apiRouter.post('/api/login', async (request, response) => {
   console.log("post request initialised")
-  const UEmail = req.body.email
-  const PWord = req.body.password
+  const UEmail = request.body.email
+  const PWord = request.body.password
   
 
   const user = await User.findOne({ email: UEmail })
 
   if (!user) {
-    return res.status(401).json({ error: 'invalid user or password' })
+    return response.status(401).json({ error: 'invalid user or password' })
   }
   console.log('Got User', user)
   if(bcrypt.compareSync(PWord, user.password)) {
     console.log("password is good")
     
-    return res.status(200).json({ user: scrub(user.toJSON())})
+    return response.status(200).json({ user: scrub(user.toJSON())})
 
   } else if (user.password === PWord) {
     console.log('Got User', user)
-    return res.status(200).json({ user: scrubAuthentic(user.toJSON()) })
+    return response.status(200).json({ user: scrubAuthentic(user.toJSON()) })
   }
-  return res.status(401).json({ error: 'invalid user or password' })
+  return response.status(401).json({ error: 'invalid user or password' })
 })
 
 apiRouter.post('/api/register', async (request, response) => {
@@ -297,12 +298,78 @@ apiRouter.delete('/api/jobs/:id', (request, response) => {
     Job.find({}).then(jobs => {
       return response.json(jobs)
     })
-  });
+  })
 })
+
+//UserReviewApi 
+apiRouter.post('/api/reviews', async (request, response) => {
+ 
+  const review = new Review({
+    clientUserId: body.clientUserId,
+    providerUserId: body.providerUserId,
+    review: body.review
+  })
+
+  review.save().then(review => {
+    return response.status(200).json(review)
+  })
+})
+
+apiRouter.get('/api/review/', (request, response) => {
+  Review.find({}).then(review => {
+    response.json(review)
+    console.log(review)
+  })
+})
+
+apiRouter.get('/api/userReview/:id', (request, response) => {
+  const ReviewId = request.params.id
+  Review.find({providerUserId: id}).then(review => {
+    response.json(review)
+    console.log(review)
+  })
+})
+
+/*apiRouter.put('api/review/:id', async (request, response) => {
+  try {
+    const id = request.params.id;
+    const update = request.body;
+    const query = { _id: id };
+
+    await Review.findOneAndUpdate(query, update, {
+      new: true
+    })
+
+    response.status(200).json({
+      success: true,
+      message: 'review has been updated successfully!'
+    })
+  } catch (error) {
+    response.status(400).json({
+      error: 'Your request could not be processed. Please try again.'
+    })
+  }
+})
+*/ 
+
+
+apiRouter.delete('/api/review/:id', (request, response) => {
+  const id = request.params.id
+  Review.deleteOne({ _id: id }, function (err) {
+    if (err) {
+      console.log(err)
+    }
+    Review.find({}).then(review => {
+      response.json(review)
+      console.log(review)
+    })
+  })
+})
+
 
 //comments API endpoints
 apiRouter.get('/api/comments/', (request, response) => {
-  Comment.find({}).then(comment => {
+  Review.find({}).then(comment => {
     response.json(comment)
     console.log(comment)
   })
@@ -310,7 +377,7 @@ apiRouter.get('/api/comments/', (request, response) => {
 
 apiRouter.get('/api/usercomments/:id', (request, response) => {
   const id = request.params.id
-  Comment.find({providerUserId: id}).then(comment => {
+  Review.find({providerUserId: id}).then(comment => {
     response.json(comment)
     console.log(comment)
   })
@@ -318,17 +385,19 @@ apiRouter.get('/api/usercomments/:id', (request, response) => {
 
 apiRouter.post('/api/comments/:id', async (request, response) => {
   const body = request.body
+  console.log(body)
 
-  if (!body.providerUserId || !body.clientUserId || !body.comment) {
+  if (!body.providerUserId || !body.clientUserId || !body.review) {
     return response.status(400).json({
       error: 'content missing'
     })
   }
 
-  const comment = new Comment({
+  const comment = new Review({
     clientUserId: body.clientUserId,
     providerUserId: body.providerUserId,
-    comment: body.comment
+    review: body.review,
+    rating: body.rating
   })
 
   comment.save().then(comment => {
@@ -338,17 +407,28 @@ apiRouter.post('/api/comments/:id', async (request, response) => {
 
 apiRouter.delete('/api/comments/:id', (request, response) => {
   const id = request.params.id
-  Comment.deleteOne({ _id: id }, function (err) {
+  Review.deleteOne({ _id: id }, function (err) {
     if (err) {
       console.log(err)
     }
-    Comment.find({}).then(comment => {
+    Review.find({}).then(comment => {
       response.json(comment)
       console.log(comment)
     })
   });
 })
 
+apiRouter.delete('/api/comments/', (request, response) => {
+  Review.deleteMany({}, function (err) {
+    if (err) {
+      console.log(err)
+    }
+    Review.find({}).then(comment => {
+      response.json(comment)
+      console.log(comment)
+    })
+  });
+})
 
 apiRouter.post('/api/users/photo/:id', async (request, response) => {
   console.log("you made it this far")

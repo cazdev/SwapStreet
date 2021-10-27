@@ -1,12 +1,15 @@
 import React, { Component, useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
 import './homePage.css';
 
 import '../../styles/custom.css'
 import MapComp from '../map/map';
 import { allJobs } from '../../jobAPIRequests/index'
 import { isAuthenticated, allUsers } from "../../auth/index";
-import mower from '../../img/lawn.jpeg'
+import mower from '../../img/lawn.jpeg';
+import UserReview from '../dashboard/UserReview';
+import ReviewSummary from '../dashboard/UserReview/ReviewSummary';
 
 const HomePage = () => {
 
@@ -80,7 +83,7 @@ const HomePage = () => {
     <div className="homePage">
       <div className="row align-items-center 
          py-5 hero-bg">
-
+      
         <div className="col-md-9">
           {user ? (<><h1 className="lh-1 mb-3  ">Help is just a click away</h1>
           <p className="lead mb-4">Just a click away from getting the services you need. See favours in tabs below or search favours here.</p></>)
@@ -133,15 +136,20 @@ const HomePage = () => {
           <MapComp jobList={isAuthenticated() ? jobList.filter(item => item.status === 0): []}/>
            </div>
         
-      </div>
-
+      </div>                   
       <div className="row row-cols-1  row-cols-lg-3 row-cols-md-2 mb-3 hpage nodisplaytab tab-cont" id="activefavours">
         {jobList.filter(job => job.status === 0 && job.providerUserId !== "" && job.clientUserId === "").length > 0 ?
           (jobList.filter(job => job.status === 0 && job.providerUserId !== "" && job.clientUserId === "").map(job => (
             <div key={job._id} className="col-md">
               <div className="card mb-4  shadow-sm">
                 <div className="card-header py-3">
-                  <h4 className="my-0 ">{job.title}</h4>
+                  <h4 className="my-0 ">{job.title}
+                  {/*<ReviewSummary
+                    totalRatings = {10} 
+                    totalReview = {20}
+                    totalSummary = {20}
+                  />*/}
+                  </h4>
                 </div>
                 <div className="card-body">
                   <h1 className="card-title pricing-card-title txt-blue">{job.price} coins<small className="text-muted fw-light"></small></h1>
@@ -167,10 +175,12 @@ const HomePage = () => {
             <div key={job._id} className="col-md">
               <div className="card mb-4  shadow-sm">
                 <div className="card-header py-3">
-                  <h4 className="my-0 ">{job.title}</h4>
+                  <h4 className="my-0 "> {job.title}
+        
+                   </h4>
                 </div>
                 <div className="card-body">
-                  <h1 className="card-title pricing-card-title txt-blue">{job.price} coins<small className="text-muted fw-light"></small></h1>
+                  <h1 className="card-title pricing-card-title txt-blue">{job.price} coins <small className="text-muted fw-light"></small> HI!</h1>
                   <p className="mt-3 mb-4 card-body-scroll">
                     {job.description}
                   </p>
@@ -191,7 +201,7 @@ const HomePage = () => {
     </div>
 
 
-  )
-}
+   )
 
+}
 export default HomePage;

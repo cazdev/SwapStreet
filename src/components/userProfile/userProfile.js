@@ -11,7 +11,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { isAuthenticated, getUser } from "../../auth/index";
 import { useParams, useHistory } from 'react-router-dom';
 import { userJobs, getJob, updateJob } from '../../jobAPIRequests';
-import { getUserComments } from '../../commentAPIRequests';
+//import { getUserComments } from '../../commentAPIRequests';
+import { getUserReviews } from '../../reviewAPIRequests';
 
 
 
@@ -36,7 +37,8 @@ const Profile = () => {
 
   const [jobList, setJobList] = useState([])
   const [swapUser, setSwapUser] = useState({})
-  const [swapUserComments, setSwapUserComments] = useState([])
+  //const [swapUserComments, setSwapUserComments] = useState([])
+  const [swapUserReviews, setSwapUserReviews] = useState([])
 
   useEffect(async () => {
     let j = await userJobs(useId)
@@ -49,8 +51,10 @@ const Profile = () => {
     console.log(j)
     setJobList(j)
     setSwapUser(await getUser(useId))
-    let com = await getUserComments(useId)
-    setSwapUserComments(com.filter(c => c.providerUserId))
+    //let com = await getUserComments(useId)
+    let rev = await getUserReviews(useId)
+    //setSwapUserComments(com.filter(c => c.providerUserId))
+    setSwapUserReviews(rev.filter(r => r.providerUserId))
   }, [])
 
   const swapJobs = async (jobswap) => {
@@ -76,15 +80,17 @@ const Profile = () => {
             {about && <p>about: {swapUser.about}</p>}
           </div>)}
           <hr/>
-          {swapUserComments && (<><h2>Reviews</h2>
+          {swapUserReviews && (<><h2>Reviews</h2>
 
            
           <div class="reviews">
             <ul className="mt-3 mb-4">
-              {swapUserComments.map(com => <li class="review" key={com._id}>{com.comment}</li>)}
+              {swapUserReviews.map(rev => <li class="reviews" key={rev._id}>{rev.review}</li>)}
             </ul>
             </div>
           </>)}
+
+          
 
 <div className="row mb-3">
             {jobList.length > 0 ?
