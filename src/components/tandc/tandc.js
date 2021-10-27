@@ -120,7 +120,9 @@ const TandC = () => {
         <p>We do not ensure that the information on this website is correct, we do not warrant its completeness or accuracy; nor do we promise to ensure that the website remains available or that the material on the website is kept up to date.</p>
 
         <h3><strong>Disclaimer</strong></h3>
-
+        
+        <p>The SwapStreet app uses Heroku as it's clould platform for services.</p>
+        
         <p>To the maximum extent permitted by applicable law, we exclude all representations, warranties and conditions relating to our website and the use of this website. Nothing in this disclaimer will:</p>
 
         <ul>
