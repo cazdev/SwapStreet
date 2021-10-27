@@ -65,7 +65,7 @@ const Photo = (currentUser) => {
             setPhotoPath(base64Flag + imageStr)
         }
     }
-
+    
     useEffect(() => {
         getPhoto()
       }, [])
@@ -73,6 +73,7 @@ const Photo = (currentUser) => {
 
     return (
         <div>
+            
             <img src={photoPath} alt="..." width="100" height="100"></img>
             <form onSubmit={handleSubmit} encType='multipart/form-data'>
 

@@ -1,21 +1,51 @@
+//          AUTHOR - JOSHUA ARCHER 
+//          Macquarie University Student\
+//          Date created: 23/10/2021
+
 import react, { useState, useEffect } from 'react'
 import axios from 'axios'
-const JobPhotos = (job_id) => { 
+
+import {getListPhotos} from './index'
+const JobPhotos = (currentUser) => {
+    const job_id = currentUser.jobDetails
+    
+    console.log('current job', job_id)
+    const [photoList, setPhotoList] = useState([])
+    const [lastPhoto, setLastPhoto] = useState([])
     const getJobPhoto = async () => {
-        const jobID = job_id.jobDetails
-        console.log('fetching job photos for user : ', jobID)
+        const photos = await getListPhotos(job_id)
+        console.log(photos)
+        //this find the first photo.
+        //const pho = photos.find(p => p.jobID === job_id)
+        //this finds the last
+        if(photos) {
+        const pho = await photos[photos.length - 1]
+        setLastPhoto(pho)
+        console.log(lastPhoto)
+        var base64Flag = `data:${lastPhoto.photo.contentType};base64,`;
+            var imageStr = arrayBufferToBase64(lastPhoto.photo.data.data);
+            console.log(base64Flag + imageStr)
+            setPhotoPath(base64Flag + imageStr)
         
-        const jobPhotos = await axios.get(`http://localhost:3001/api/jobs/photos/${jobID}`)
-        .then(res => {
-            console.log("returned from getjobphotos", res)
-        }).catch(err => console.log(err))
-        
+        }
+
+        //RUSHAN to edit. The current photo list is being stored as a list of photos. 
+        //I am rendering just the very last photo and there are no limits yet. It would be good if we could have a limit
+        //on how many photos people could upload. You also need to fix the bottom where, if 
+        //photoPath, the upload button disappears. If you need help message me. 
+
+    }
+    const arrayBufferToBase64 = (buffer) => {
+        var binary = ''
+        var bytes = [].slice.call(new Uint8Array(buffer))
+        bytes.forEach((b) => binary += String.fromCharCode(b))
+        return window.btoa(binary)
     }
     const [newJob, setNewJob] = useState(
         {
-
+            
             photo: '',
-            jobID: job_id.jobDetails
+            jobID: job_id
         }
     );
     const [photoPath, setPhotoPath] = useState('')
@@ -28,6 +58,7 @@ const JobPhotos = (job_id) => {
     }
 
     const handleSubmit = (e) => {
+        
         console.log("being submitted at - id: " + job_id.jobDetails)
         e.preventDefault();
         const formData = new FormData();
@@ -43,16 +74,20 @@ const JobPhotos = (job_id) => {
             .catch(err => {
                 console.log(err);
             });
-
+            
 
     }
     useEffect(() => {
         getJobPhoto()
+        
       }, [])
      
     if(photoPath) {
     return (<>
-        <div>Job Photos</div>
+        <div>Job Photos
+            <ul>
+        <img src={photoPath} alt="..." width="100" height="100"></img> </ul>
+        </div>
     </>)}
     else {
         return (<>
