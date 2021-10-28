@@ -444,14 +444,6 @@ apiRouter.get('/api/photos/', async (request, response) => {
     console.log(photos)
   })
 })
-apiRouter.get('/api/jobs/photos/:id', async (req, res) => {
-  const id = req.params.id
-  JobPhoto.find({jobID: id})
-  .then(photos => {
-    res.json(photos)
-    console.log(photos)
-  })
-})
 
 apiRouter.get('/api/photos/:id', async (request, response) => {
   const id = request.params.id
@@ -462,7 +454,15 @@ apiRouter.get('/api/photos/:id', async (request, response) => {
   })
 })
 
-apiRouter.get('/api/job/photos/', async (request, response) => {
+apiRouter.delete('/api/photos/', async (request, response) => {
+  
+  Photo.deleteMany({}).then(photos => {
+    //photos.map(p => p.photo = "images/"+p.photo)
+    response.json("done")
+  })
+})
+
+apiRouter.get('/api/jobsphotos/', async (request, response) => {
   JobPhoto.find({}).then(photos => {
     //photos.map(p => p.photo = "images/"+p.photo)
     response.json("hi")
@@ -470,11 +470,39 @@ apiRouter.get('/api/job/photos/', async (request, response) => {
   })
 })
 
-apiRouter.delete('/api/photos/', async (request, response) => {
-  
-  Photo.deleteMany({}).then(photos => {
-    //photos.map(p => p.photo = "images/"+p.photo)
-    response.json("done")
+apiRouter.get('/api/jobphotos/:id', async (req, res) => {
+  const id = req.params.id
+  JobPhoto.find({jobID: id})
+  .then(photos => {
+    res.json(photos)
+    console.log(photos)
+  })
+})
+
+apiRouter.delete('/api/jobphotos/:id', async (req, res) => {
+  const id = req.params.id
+  JobPhoto.deleteMany({jobID: id})
+  .then(photos => {
+    res.status(200).send("done")
+    console.log("done")
+  })
+})
+
+apiRouter.get('/api/jobs/photos/:id', async (req, res) => {
+  const id = req.params.id
+  JobPhoto.find({_id: id})
+  .then(photos => {
+    res.json(photos)
+    console.log(photos)
+  })
+})
+
+apiRouter.delete('/api/jobs/photos/:id', async (req, res) => {
+  const id = req.params.id
+  JobPhoto.deleteOne({_id: id})
+  .then(photos => {
+    res.status(200).send("done")
+    console.log("done")
   })
 })
 
