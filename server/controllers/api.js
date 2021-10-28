@@ -471,6 +471,14 @@ apiRouter.get('/api/photos/:id', async (request, response) => {
   })
 })
 
+apiRouter.get('/api/job/photos/', async (request, response) => {
+  JobPhoto.find({}).then(photos => {
+    //photos.map(p => p.photo = "images/"+p.photo)
+    response.json("hi")
+    console.log(photos)
+  })
+})
+
 apiRouter.delete('/api/photos/', async (request, response) => {
   
   Photo.deleteMany({}).then(photos => {

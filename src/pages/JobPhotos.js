@@ -8,6 +8,7 @@ import axios from 'axios'
 import {getListPhotos} from './index'
 const JobPhotos = (currentUser) => {
     const job_id = currentUser.jobDetails
+    console.log("current user is:",currentUser.jobDetails)
     
     console.log('current job', job_id)
     const [photoList, setPhotoList] = useState([])
@@ -15,10 +16,11 @@ const JobPhotos = (currentUser) => {
     const [photoType, setPhotoType] = useState('image/png')
     const [photoData, setPhotoData] = useState('')
     const getJobPhoto = async () => {
+        console.log("photo id is: ", job_id)
         const photos = await getListPhotos(job_id)
         setPhotoList(photos)
         console.log(photos)
-        console.log('list---', photoList)
+        console.log('list---', photos)
 
         //this find the first photo.
         //const pho = photos.find(p => p.jobID === job_id)
@@ -26,17 +28,14 @@ const JobPhotos = (currentUser) => {
         if(photos) {
             const pho = await photos[photos.length - 1]
             setLastPhoto(pho)
-            try {
-            setPhotoType(lastPhoto.photo.contentType)
-            setPhotoData(lastPhoto.photo.data.data)
-            } catch (e) {
-                console.log(e)
+            console.log("last photo is: ", pho)
+            if(pho) {
+                var base64Flag = `data:${pho.photo.contentType};base64,`;
+                var imageStr = arrayBufferToBase64(pho.photo.data.data);
+                console.log(base64Flag + imageStr)
+                setPhotoPath(base64Flag + imageStr)
             }
-            console.log(photoType)
-            var base64Flag = `data:${photoType};base64,`;
-            var imageStr = await arrayBufferToBase64(photoData);
-            console.log(base64Flag + imageStr)
-            setPhotoPath(base64Flag + imageStr)
+            
         
         }
 
@@ -90,7 +89,6 @@ const JobPhotos = (currentUser) => {
     }
     useEffect(() => {
         getJobPhoto()
-        
       }, [])
      
     if(photoPath) {
