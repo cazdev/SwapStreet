@@ -102,6 +102,7 @@ class dataRouter extends Component {
                         {/*<PrivateRoute component={Dashboard} path="/dashboard" jobs={this.state.jobs} userID={this.state.userID} exact />*/}
                         <Route exact path="/dashboard"><Dashboard/></Route>
                         <Route exact path="/profile/:id/:favtype/:swapid"><UserProfile/></Route>
+                        <Route exact path="/profile/:id/"><UserProfile/></Route>
                         <Route exact path="/about"><About/></Route>
                         <Route exact path="/tandc"><TandC/></Route>
                         <Route exact path="/mailer"><Mailer/></Route>

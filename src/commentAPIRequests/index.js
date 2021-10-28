@@ -31,3 +31,16 @@ export const addComment = (content) => {
     })
     return comment
 }
+
+export const deleteComment = (content) => {
+    console.log(content)
+   axios.delete(`http://localhost:3001/api/comments/${content._id}`)
+    .then(response => {
+        console.log(response.data)
+        if(response.error) {
+            console.log("error")
+            return
+        }
+        return
+    })
+}

@@ -5,10 +5,11 @@ import handshake from '../img/handshake.png'
 import { useParams, useHistory, Link } from 'react-router-dom';
 import { getJob, allJobs, updateJob } from '../jobAPIRequests';
 import { getUser, isAuthenticated } from '../auth';
-import { getUserComments, addComment } from '../commentAPIRequests';
+import { getUserComments, addComment, deleteComment } from '../commentAPIRequests';
 import MapComp from '../components/map/map';
 import ReactStars from 'react-rating-stars-component';
 import JobPhotos from './JobPhotos'
+import ReviewSummary from '../components/dashboard/UserReview/ReviewSummary';
 const JobDetails = () => {
 
   const history = useHistory()
@@ -84,6 +85,12 @@ const JobDetails = () => {
       setUserComments([...userComments, submitted])
     }
   }
+  const deleteCom = async (id) => {
+    deleteComment({ _id: id })
+    const filtered = userComments
+    console.log("filtered comments: ", filtered.filter(u => u._id !== id))
+    setUserComments(filtered.filter(u => u._id !== id))
+  }
 
   const swapFav = async () => {
     if (!isAuthenticated()) {
@@ -131,19 +138,26 @@ const JobDetails = () => {
               <div class="col-md-12">
                 <hr />
                 {isAuthenticated() && (<div class="p-3 b ">
-                  <h2> About {user.name}</h2>
+                  <h2> About {user.name} <Link to={`/profile/${user._id}`}><button type="button" className="btn btn-link"><i className="bi bi-arrow-right-circle icn-2x"></i></button></Link></h2>
                   <ul className="mt-3 mb-4">
                     <li>{user.email}</li>
                     {user.address && <li>{typeof user.address === "string" ? user.address : user.address.label}</li>}
                     {user.about !== "" && <li>{user.about}</li>}
                   </ul>
+                  <hr/>
                   {userComments && (<><h2>Reviews</h2>
-
+                    <ReviewSummary
+                    totalRatings = {userComments.map(u => u.rating).reduce(function (a, b) {
+                      return a + b;
+                    }, 0)} 
+                    totalReview = {userComments.length}
+                  />
 
                     <ul className="mt-3 mb-4" class="reviews">
-                      {userComments.map(com => <li class="review" key={com._id}>{com.review}
+                      {userComments.map(com => <li class="review" key={com._id}>
+                      <Link to={`/profile/${com.clientUserId}`}><button type="button" className="btn btn-link">user profile <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
                         <ReactStars 
-                          size={24}
+                          size={15}
                           color={'#adb5bd'}
                           activeColor={'#ffb302'}
                           edit={false}
@@ -153,6 +167,10 @@ const JobDetails = () => {
                           halfIcon={<i className='fa fa-star-half-alt' />}
                           value={com.rating}
                         />
+                        {com.review} 
+                        {com.clientUserId === userProf._id && <button onClick={(e) => deleteCom(com._id)} type="button" className="btn btn-link"><i className="bi bi-trash-fill icn-2x"></i></button>}
+                        <div className="row">
+                        </div>
                       </li>)}
 
                     </ul>
