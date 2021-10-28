@@ -314,7 +314,7 @@ apiRouter.get('/api/review/', (request, response) => {
 })
 
 apiRouter.get('/api/userReview/:id', (request, response) => {
-  const ReviewId = request.params.id
+  const id = request.params.id
   Review.find({providerUserId: id}).then(review => {
     response.json(review)
     console.log(review)

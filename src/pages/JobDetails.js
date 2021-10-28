@@ -77,7 +77,7 @@ const JobDetails = () => {
   }
 
   const addCom = async () => {
-    const submitted = await addComment({ review: newComment, rating: newRating, providerUserId: job.providerUserId, clientUserId: userProf._id }).catch((error) => {
+    const submitted = await addComment({ review: newComment, rating: newRating, providerUserId: job.providerUserId === user._id || job.clientUserId === "" ? job.providerUserId: job.clientUserId, clientUserId: userProf._id }).catch((error) => {
       //console.log(error.response.data.error)
       alert(error.response.data.error);
     })
@@ -175,7 +175,7 @@ const JobDetails = () => {
 
                     </ul>
                   </>)}
-                  {(userComments.length < 1 || userComments.filter(u => u.providerUserId === userProf._id || u.clientUserId === userProf._id).length < 1)
+                  {userProf._id !== user._id && (userComments.filter(u => u.clientUserId === userProf._id).length < 1)
                     &&
                     <form>
                       <div className="form-group">

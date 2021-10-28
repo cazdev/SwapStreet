@@ -8,6 +8,7 @@ import './sideBarNav.css'
 import "./userInfo.css"
 import {  Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';
+import ReactStars from 'react-rating-stars-component';
 import { isAuthenticated, getUser } from "../../auth/index";
 import { useParams, useHistory } from 'react-router-dom';
 import { userJobs, getJob, updateJob } from '../../jobAPIRequests';
@@ -91,7 +92,19 @@ const Profile = () => {
            
           <div class="reviews">
             <ul className="mt-3 mb-4">
-              {swapUserReviews.map(rev => <li class="reviews" key={rev._id}>{rev.review}</li>)}
+              {swapUserReviews.map(rev => <li class="reviews" key={rev._id}>{rev.review} 
+              <ReactStars 
+                size={15}
+                color={'#adb5bd'}
+                activeColor={'#ffb302'}
+                edit={false}
+                a11y={true}
+                isHalf={true}
+                emptyIcon={<i className='fa fa-star' />}
+                halfIcon={<i className='fa fa-star-half-alt' />}
+                value={rev.rating}
+              />
+              </li>)}
             </ul>
             </div>
           </>)}
