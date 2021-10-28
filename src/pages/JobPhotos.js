@@ -5,7 +5,6 @@
 
 import react, { useState, useEffect } from 'react'
 import axios from 'axios'
-import './JobPhotos.css'
 
 import {getListPhotos} from './index'
 const JobPhotos = (currentUser) => {
