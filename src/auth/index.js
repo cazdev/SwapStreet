@@ -119,7 +119,7 @@ export const allPhotos = () => {
 }
 
 export const getOnlyUserPhotos = (userID) => {
-    const userPhotos = axios.get(`/api/photos/${userID}`) 
+    const userPhotos = axios.get(`/api/userphotos/${userID}`) 
     .then(res => {
         if(res.error) {
             console.log("cant fetch user images")

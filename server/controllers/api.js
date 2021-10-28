@@ -436,19 +436,33 @@ apiRouter.post('/api/users/photo/:id', async (request, response) => {
 } 
 )
 
-apiRouter.get('/api/photos/', async (request, response) => {
-  
-  Photo.find({}).then(photos => {
-    //photos.map(p => p.photo = "images/"+p.photo)
+apiRouter.get('/api/userphotos/:id', async (request, response) => {
+  const id = request.params.id
+  Photo.find({userID: id}).sort({_id: -1}).then(photos => {
     response.json(photos)
     console.log(photos)
   })
 })
 
-apiRouter.get('/api/photos/:id', async (request, response) => {
+apiRouter.delete('/api/userphotos/:id', async (request, response) => {
   const id = request.params.id
-  Photo.find({userID: id}).sort({_id: -1}).then(photos => {
-    //photos.map(p => p.photo = "images/"+p.photo)
+  Photo.deleteMany({userID: id}).then(photos => {
+    response.status(200).send("done")
+    console.log("done")
+  })
+})
+
+apiRouter.delete('/api/photos/:id', async (request, response) => {
+  const id = request.params.id
+  Photo.deleteOne({_id: id}).then(photos => {
+    response.status(200).send("done")
+    console.log("done")
+  })
+})
+
+apiRouter.get('/api/photos/', async (request, response) => {
+  
+  Photo.find({}).then(photos => {
     response.json(photos)
     console.log(photos)
   })
@@ -457,15 +471,14 @@ apiRouter.get('/api/photos/:id', async (request, response) => {
 apiRouter.delete('/api/photos/', async (request, response) => {
   
   Photo.deleteMany({}).then(photos => {
-    //photos.map(p => p.photo = "images/"+p.photo)
+    response.status(200).send("done")
     response.json("done")
   })
 })
 
 apiRouter.get('/api/jobsphotos/', async (request, response) => {
   JobPhoto.find({}).then(photos => {
-    //photos.map(p => p.photo = "images/"+p.photo)
-    response.json("hi")
+    response.json(photos)
     console.log(photos)
   })
 })
