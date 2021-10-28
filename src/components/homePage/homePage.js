@@ -144,11 +144,6 @@ const HomePage = () => {
               <div className="card mb-4  shadow-sm">
                 <div className="card-header py-3">
                   <h4 className="my-0 ">{job.title}
-                  {/*<ReviewSummary
-                    totalRatings = {10} 
-                    totalReview = {20}
-                    totalSummary = {20}
-                  />*/}
                   </h4>
                 </div>
                 <div className="card-body">
@@ -180,7 +175,7 @@ const HomePage = () => {
                    </h4>
                 </div>
                 <div className="card-body">
-                  <h1 className="card-title pricing-card-title txt-blue">{job.price} coins <small className="text-muted fw-light"></small> HI!</h1>
+                  <h1 className="card-title pricing-card-title txt-blue">{job.price} coins <small className="text-muted fw-light"></small></h1>
                   <p className="mt-3 mb-4 card-body-scroll">
                     {job.description}
                   </p>
