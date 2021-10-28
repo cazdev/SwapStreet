@@ -15,6 +15,7 @@ const JobPhotos = (currentUser) => {
     const [lastPhoto, setLastPhoto] = useState([])
     const [photoType, setPhotoType] = useState('image/png')
     const [photoData, setPhotoData] = useState('')
+    const [photoPath, setPhotoPath] = useState('')
     const getJobPhoto = async () => {
         console.log("photo id is: ", job_id)
         const photos = await getListPhotos(job_id)
@@ -58,7 +59,6 @@ const JobPhotos = (currentUser) => {
             jobID: job_id
         }
     );
-    const [photoPath, setPhotoPath] = useState('')
 
     const handlePhoto = (e) => {
         setNewJob({ photo: e.target.files[0] });
@@ -69,11 +69,11 @@ const JobPhotos = (currentUser) => {
 
     const handleSubmit = (e) => {
         
-        console.log("being submitted at - id: " + job_id.jobDetails)
+        console.log("being submitted at - id: " + job_id)
         e.preventDefault();
         const formData = new FormData();
         formData.append('photo', newJob.photo);
-        formData.append('jobID', job_id.jobDetails)
+        formData.append('jobID', job_id)
         console.log('photo submitted')
 
         axios.post('http://localhost:3001/api/jobs/photos', formData)
