@@ -55,6 +55,7 @@
   },
   "scripts": {
     "start:frontend": "PORT=3000 react-scripts start",
+    "start:frontend-windows": "set PORT=3000 && react-scripts start",
     "start": "node server/server.js",
     "build": "react-scripts build",
     "build:ui": "rm -rf build && cd src && npm run build",
