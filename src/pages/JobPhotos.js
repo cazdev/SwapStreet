@@ -12,18 +12,29 @@ const JobPhotos = (currentUser) => {
     console.log('current job', job_id)
     const [photoList, setPhotoList] = useState([])
     const [lastPhoto, setLastPhoto] = useState([])
+    const [photoType, setPhotoType] = useState('image/png')
+    const [photoData, setPhotoData] = useState('')
     const getJobPhoto = async () => {
         const photos = await getListPhotos(job_id)
+        setPhotoList(photos)
         console.log(photos)
+        console.log('list---', photoList)
+
         //this find the first photo.
         //const pho = photos.find(p => p.jobID === job_id)
         //this finds the last
         if(photos) {
-        const pho = await photos[photos.length - 1]
-        setLastPhoto(pho)
-        console.log(lastPhoto)
-        var base64Flag = `data:${lastPhoto.photo.contentType};base64,`;
-            var imageStr = arrayBufferToBase64(lastPhoto.photo.data.data);
+            const pho = await photos[photos.length - 1]
+            setLastPhoto(pho)
+            try {
+            setPhotoType(lastPhoto.photo.contentType)
+            setPhotoData(lastPhoto.photo.data.data)
+            } catch (e) {
+                console.log(e)
+            }
+            console.log(photoType)
+            var base64Flag = `data:${photoType};base64,`;
+            var imageStr = await arrayBufferToBase64(photoData);
             console.log(base64Flag + imageStr)
             setPhotoPath(base64Flag + imageStr)
         
