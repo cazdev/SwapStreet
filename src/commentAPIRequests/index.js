@@ -2,7 +2,7 @@ import { API } from '../config'
 import axios from 'axios';
 
 export const getUserComments = (id) => {
-    const comments = axios.get(`http://localhost:3001/api/usercomments/${id}`)
+    const comments = axios.get(`/api/usercomments/${id}`)
     .then(response => {
         console.log(response.data)
         if(response.error) {
@@ -18,7 +18,7 @@ export const getUserComments = (id) => {
 
 export const addComment = (content) => {
     console.log(content)
-    const comment = axios.post(`http://localhost:3001/api/comments/${content.providerUserId}`,content)
+    const comment = axios.post(`/api/comments/${content.providerUserId}`,content)
     .then(response => {
         console.log(response.data)
         if(response.error) {
@@ -34,7 +34,7 @@ export const addComment = (content) => {
 
 export const deleteComment = (content) => {
     console.log(content)
-   axios.delete(`http://localhost:3001/api/comments/${content._id}`)
+   axios.delete(`/api/comments/${content._id}`)
     .then(response => {
         console.log(response.data)
         if(response.error) {

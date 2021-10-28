@@ -4,7 +4,7 @@ import axios from 'axios';
 export const allJobs = () => {
     var jobs
     try {
-        jobs = axios.get("http://localhost:3001/api/jobs")
+        jobs = axios.get("/api/jobs")
         .then(response => {
             //console.log(response.data)
             if(response.error) {
@@ -23,7 +23,7 @@ export const allJobs = () => {
 }
 
 export const getJob = (id) => {
-    const job = axios.get(`http://localhost:3001/api/jobs/${id}`)
+    const job = axios.get(`/api/jobs/${id}`)
     .then(response => {
         //console.log(response.data)
         if(response.error) {
@@ -38,7 +38,7 @@ export const getJob = (id) => {
 }
 
 export const deleteJob = (id) => {
-    const jobs = axios.delete(`http://localhost:3001/api/jobs/${id}`)
+    const jobs = axios.delete(`/api/jobs/${id}`)
     .then(response => {
         //console.log(response.data)
         if(response.error) {
@@ -53,7 +53,7 @@ export const deleteJob = (id) => {
 }
 
 export const userJobs = (userId) => {
-    const jobs = axios.get(`http://localhost:3001/api/userjobs/${userId}`)
+    const jobs = axios.get(`/api/userjobs/${userId}`)
     .then(response => {
         //console.log(response.data)
         if(response.error) {
@@ -68,7 +68,7 @@ export const userJobs = (userId) => {
 }
 
 export const addJob = (content) => {
-    const job = axios.post(`http://localhost:3001/api/jobs`, content)
+    const job = axios.post(`/api/jobs`, content)
     .then(response => {
         console.log(response.data)
         if(response.error) {
@@ -83,7 +83,7 @@ export const addJob = (content) => {
 }
 
 export const updateJob = (content) => {
-    const job = axios.put(`http://localhost:3001/api/jobs/${content._id}`, content)
+    const job = axios.put(`/api/jobs/${content._id}`, content)
     .then(response => {
         //console.log(response.data)
         if(response.error) {

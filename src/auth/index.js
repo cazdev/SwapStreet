@@ -2,7 +2,7 @@ import { API } from '../config'
 import axios from 'axios';
 
 export const register = (user) => {
-    const log = axios.post(`http://localhost:3001/api/register`,user)
+    const log = axios.post(`/api/register`,user)
     .then(response => {
         console.log(response.data)
         if(response.error) {
@@ -17,7 +17,7 @@ export const register = (user) => {
 }
 
 export const login = (user) => {
-    const log = axios.post(`http://localhost:3001/api/login`,user)
+    const log = axios.post(`/api/login`,user)
     .then(response => {
         //console.log(response.data)
         if(response.error) {
@@ -34,7 +34,7 @@ export const login = (user) => {
 
 export const updateUser = (user) => {
     console.log(user)
-    const log = axios.put(`http://localhost:3001/api/users/${user.id}`,user)
+    const log = axios.put(`/api/users/${user.id}`,user)
     .then(response => {
         //console.log(response.data)
         if(response.error) {
@@ -62,7 +62,7 @@ export const logout = () => {
 };
 
 export const getUser = (userId) => {
-    const user = axios.get(`http://localhost:3001/api/users/${userId}`)
+    const user = axios.get(`/api/users/${userId}`)
     .then(response => {
         //console.log(response.data)
         if(response.error) {
@@ -89,7 +89,7 @@ export const isAuthenticated = () => {
 };
 
 export const allUsers = () => {
-    const users = axios.get(`http://localhost:3001/api/users/`)
+    const users = axios.get(`/api/users/`)
     .then(response => {
         //console.log(response.data)
         if(response.error) {
@@ -104,7 +104,7 @@ export const allUsers = () => {
 }
 
 export const allPhotos = () => {
-    const users = axios.get(`http://localhost:3001/api/photos/`)
+    const users = axios.get(`/api/photos/`)
     .then(response => {
         //console.log(response.data)
         if(response.error) {
@@ -119,7 +119,7 @@ export const allPhotos = () => {
 }
 
 export const getOnlyUserPhotos = (userID) => {
-    const userPhotos = axios.get(`http://localhost:3001/api/photos/${userID}`) 
+    const userPhotos = axios.get(`/api/photos/${userID}`) 
     .then(res => {
         if(res.error) {
             console.log("cant fetch user images")

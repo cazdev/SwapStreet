@@ -71,7 +71,7 @@ const JobPhotos = (currentUser) => {
         formData.append('jobID', job_id)
         //console.log('photo submitted')
 
-        axios.post('http://localhost:3001/api/jobs/photos', formData)
+        axios.post('/api/jobs/photos', formData)
             .then(res => {
                 console.log("returned photo data", res.data);
                 getJobPhoto()

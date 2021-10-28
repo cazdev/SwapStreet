@@ -23,7 +23,7 @@ const Photo = (currentUser) => {
         
 
 
-        axios.post('http://localhost:3001/api/users/photo', formData)
+        axios.post('/api/users/photo', formData)
             .then(res => {
                 console.log(res.data);
                 getPhoto()

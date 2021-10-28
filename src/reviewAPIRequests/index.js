@@ -3,7 +3,7 @@ import axios from 'axios';
 
 
 export const getUserReviews = (id) => {
-const reviews = axios.get(`http://localhost:3001/api/userreview/${id}`)
+const reviews = axios.get(`/api/userreview/${id}`)
 
     .then(response => {
         console.log(response.data)
@@ -22,7 +22,7 @@ const reviews = axios.get(`http://localhost:3001/api/userreview/${id}`)
     
 export const addReview = (content) => {
 console.log(content)
-    const review = axios.post(`http://localhost:3001/api/reviews/${content.providerUserId}`,content)
+    const review = axios.post(`/api/reviews/${content.providerUserId}`,content)
         .then(response => {
             console.log(response.data)
             if(response.error) {
