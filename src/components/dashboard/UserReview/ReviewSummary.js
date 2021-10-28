@@ -8,15 +8,15 @@ import { ReviewIcon } from '../../tools/Icon';
 const ReviewSummary = props => {
   const totalRatings = props.totalRatings
   const totalReview = props.totalReview
-  const totalSummary = props.totalSummary
+  //const totalSummary = props.totalSummary
 
   //  const {
   //    reviewSummary: { totalRatings, totalReview, totalSummary }
   //  } = props;
 
-  const getRatingPercentage = value => {
+  /*const getRatingPercentage = value => {
     return parseFloat(percentage(value, totalSummary).toFixed(2));
-  };
+  };*/
 
   const averageRating =
     totalRatings > 0 && Math.round(totalRatings / totalReview);
@@ -24,12 +24,11 @@ const ReviewSummary = props => {
     console.log(e)
   }
   return (
-    <div className='bg-white p-4 box-shadow-primary review-summary'>
-      <h2 className='mb-0'>Rating</h2>
+    <div>
       {averageRating && (
-        <div className='d-flex flex-wrap align-items-center mt-2'>
+        <>
           <ReactStars
-            size={24}
+            size={15}
             color={'#adb5bd'}
             activeColor={'#ffb302'}
             a11y={true}
@@ -39,13 +38,11 @@ const ReviewSummary = props => {
             edit={false}
             value={averageRating}
           />
-           
-          
-          {totalReview > 0 && <span>based on {totalReview} reviews.</span>}
-        </div>
+          {totalReview > 0 && <span>(average based on {totalReview} reviews)</span>}
+          </>
       )}
 
-      <hr style={{ border: '3px solid #f1f1f1' }} />
+      
       {/*{totalReview > 0 ? (
          ratingSummary.map((r, obj) => (
            <div key={obj} className='d-flex align-items-center mb-2'>

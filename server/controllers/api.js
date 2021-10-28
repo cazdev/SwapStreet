@@ -409,12 +409,9 @@ apiRouter.delete('/api/comments/:id', (request, response) => {
   const id = request.params.id
   Review.deleteOne({ _id: id }, function (err) {
     if (err) {
-      console.log(err)
+      return response.status(403).json({ error: err })
     }
-    Review.find({}).then(comment => {
-      response.json(comment)
-      console.log(comment)
-    })
+    return response.status(200)
   });
 })
 

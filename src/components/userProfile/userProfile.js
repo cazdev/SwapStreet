@@ -43,11 +43,17 @@ const Profile = () => {
   useEffect(async () => {
     let j = await userJobs(useId)
     console.log(favType)
-    if(favType === "requested") {
-        j = j.filter(jb => jb.status === 0 && jb.clientUserId === useId)
-    } else {
-        j = j.filter(jb => jb.status === 0 && jb.providerUserId === useId)
+    if(favType) {
+        if(favType === "requested") {
+          j = j.filter(jb => jb.status === 0 && jb.clientUserId === useId)
+      } else {
+          j = j.filter(jb => jb.status === 0 && jb.providerUserId === useId)
+      }
     }
+    else {
+      j = j.filter(jb => jb.status === 0)
+    }
+    
     console.log(j)
     setJobList(j)
     setSwapUser(await getUser(useId))
@@ -77,7 +83,7 @@ const Profile = () => {
             <h2>About {swapUser.name} </h2>
             <p>email: {swapUser.email}</p>
             <p>address: {typeof swapUser.address === "string" ? swapUser.address: swapUser.address.label}</p>
-            {about && <p>about: {swapUser.about}</p>}
+            {swapUser.about && <p>about: {swapUser.about}</p>}
           </div>)}
           <hr/>
           {swapUserReviews && (<><h2>Reviews</h2>
@@ -110,7 +116,7 @@ const Profile = () => {
                         <Link to={`/job/${job._id}`}><button type="button" className="btn btn-link">More details <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
                        </div>
                        <div className="col-sm-6 txt-right py-2 px-3">
-                       <i class="bi bi-arrow-left-right" onClick={(e) => swapJobs(job)}></i>
+                       {swapId && <i class="bi bi-arrow-left-right" onClick={(e) => swapJobs(job)}></i>}
                         </div>
                     </div>
                   </div>
