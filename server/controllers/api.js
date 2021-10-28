@@ -477,4 +477,9 @@ apiRouter.delete('/api/photos/', async (request, response) => {
     response.json("done")
   })
 })
+
+apiRouter.get('/*', function (request, response) {
+  response.sendFile('index.html', { root: 'build' });
+});
+
 module.exports = apiRouter

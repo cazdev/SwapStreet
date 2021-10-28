@@ -57,7 +57,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "nodemon server/server.js",
-    "deploy:full": "npm run build:ui"
+    "deploy": "git push heroku main",
+    "deploy:full": "npm run build:ui && git add . && git commit -m 'new deployment' && git push && npm run deploy",
+    "logs:prod": "heroku logs --tail"
   },
   "proxy": "http://localhost:3001",
   "eslintConfig": {
