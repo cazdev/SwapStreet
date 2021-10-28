@@ -38,7 +38,7 @@ const Profile = () => {
 
   const [jobList, setJobList] = useState([])
   const [swapUser, setSwapUser] = useState({})
-  //const [swapUserComments, setSwapUserComments] = useState([])
+  //const [swapUserComments, setSwapUserComments] = useState([]) 
   const [swapUserReviews, setSwapUserReviews] = useState([])
 
   useEffect(async () => {
