@@ -82,13 +82,7 @@ const Register = () => {
             setValues({...values, errormsg: 'Invalid user', error: true})
         } else {
             setUploadUserId(userRegistered.user._id)
-            setValues({
-                name:'',
-                email: '',
-                address: '',
-                about: '',
-                password: '',
-                errormsg: '',
+            setValues({...values,
                 error: false,
                 success: true
             })

@@ -10,24 +10,29 @@ const Photo = ({ currentUser, uploadUserId, setUploadUserId }) => {
     const [newUser, setNewUser] = useState(
         {
 
-            photo: '',
-            userID: currentUser
+            photo: defaultImgage,
+            userID: currentUser,
+            _id: ''
         }
     );
-    const [photoPath, setPhotoPath] = useState(defaultImgage)
+    const [photoPath, setPhotoPath] = useState({
+        photo: defaultImgage,
+        userID: currentUser,
+        _id: ''
+    })
     const [editProfile, setEditProfile] = useState(false)
     const submitPhoto = async () => {
         //e.preventDefault();
-        if(photoPath !== '' && newUser.photo !== '') {
+        if (photoPath._id !== '') {
             await axios.delete(`/api/userphotos/${uploadUserId}`)
-            .then(res => {
-                console.log(res.data);
-            })
-            .catch(err => {
-                console.log(err);
-            });
+                .then(res => {
+                    console.log(res.data);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
         }
-        if(newUser.photo === '') {
+        if (newUser.photo === '' || newUser.photo === defaultImgage) {
             setUploadUserId('')
             return
         }
@@ -49,9 +54,9 @@ const Photo = ({ currentUser, uploadUserId, setUploadUserId }) => {
 
 
     const handlePhoto = (e) => {
-        if(e.target.files[0]) {
+        if (e.target.files[0]) {
             //console.log('photo submitted', e.target.files[0])
-            setNewUser({...newUser, photo: e.target.files[0] });
+            setNewUser({ photo: e.target.files[0], userID: currentUser, _id: '' });
         }
     }
 
@@ -66,57 +71,66 @@ const Photo = ({ currentUser, uploadUserId, setUploadUserId }) => {
 
         const photos = await getOnlyUserPhotos(currentUser)
         //console.log("complete list of photoss", photos)
-        
+
         //const u = photos[photos.length-1]
-        const u = photos.find(p => p.userID === currentUser)
+        let u = photos[0]
         //console.log("complete list of photos", u)
 
-        if(u) {
+        if (u) {
             var base64Flag = `data:${u.photo.contentType};base64,`;
             var imageStr = arrayBufferToBase64(u.photo.data.data);
             //console.log(base64Flag + imageStr)
-            setPhotoPath(base64Flag + imageStr)
-        } else {
-            setPhotoPath('')
+            setPhotoPath({...photoPath, photo: base64Flag + imageStr, _id: u._id})
+            setNewUser({...newUser, photo: base64Flag + imageStr, _id: u._id})
         }
     }
-    
+
     useEffect(() => {
-        if(window.location.pathname.indexOf('editprofile') !== -1 || window.location.pathname.indexOf('register') !== -1) {
+        if (window.location.pathname.indexOf('editprofile') !== -1 || window.location.pathname.indexOf('register') !== -1) {
             setEditProfile(true)
         }
         getPhoto()
     }, [])
 
     useEffect(() => {
-        if(uploadUserId !== '') {
+        if (uploadUserId !== '') {
             submitPhoto()
         }
-        
-      }, [uploadUserId])
-    
-    
-    console.log(newUser)
-    return (
-        <div className="form-group">
-            {photoPath && <img src={photoPath} width="100" height="100"></img>}
-            {newUser.photo !== '' && <div>new photo submitted
-            <img width="100" height="100" src={URL.createObjectURL(newUser.photo)} alt="preview image" />
-            <button type="button" className="btn btn-link" onClick={(e) => setNewUser({...newUser, photo: '' })}><i className="bi bi-x-square icn-2x"></i></button>
+
+    }, [uploadUserId])
+
+
+    //console.log(newUser)
+    if (!editProfile) {
+        return (<>
+            {!editProfile && <div class="row">
+                <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
+                    {photoPath && <img src={photoPath.photo} width="100" height="100"></img>}
+                </div>
             </div>}
+        </>)
+    }
+    return (
+        <div>
+            {newUser.photo !== '' &&
+                (<div>
+                    <img width="100" height="100" src={typeof newUser.photo === "string" ? newUser.photo : URL.createObjectURL(newUser.photo)} alt="preview image" />
+                    {newUser.photo !== defaultImgage && <button type="button" className="btn btn-link" onClick={(e) => setNewUser({photo: '', userID: currentUser, _id: ''})}><i className="bi bi-x-square icn-2x"></i></button>}
+                </div>)}
             {editProfile &&
 
                 <label class="custom-file-upload file-upload-padding">
                     Select Photo
-                    <input 
-                    id="photo-id"
-                    type="file"
-                    accept=".png, .jpg, .jpeg"
-                    name="photo"
-                    onChange={handlePhoto} />
+                    <input
+                        id="photo-id"
+                        type="file"
+                        accept=".png, .jpg, .jpeg"
+                        name="photo"
+                        onChange={handlePhoto} />
                 </label>
             }
-            </div>
+        </div>
+
     );
 }
 

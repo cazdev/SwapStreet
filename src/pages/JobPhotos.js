@@ -65,9 +65,9 @@ const JobPhotos = ({ jobDetails, uploadJobId, setUploadJobId }) => {
     const submitPhotos = async () => {
 
         let ogPhotosIn = newJob.filter(nj => typeof nj.photo === "string")
-        console.log(ogPhotosIn)
+        //console.log(ogPhotosIn)
         let deletePhotos = photoArray.filter(o => !ogPhotosIn.some(i=> i._id === o._id))
-        console.log(deletePhotos)
+        //console.log(deletePhotos)
         if (deletePhotos.length > 0) {
             for (let i = 0; i < deletePhotos.length; i++) {
                 await axios.delete(`/api/jobs/photos/${deletePhotos[i]._id}`)
@@ -113,7 +113,7 @@ const JobPhotos = ({ jobDetails, uploadJobId, setUploadJobId }) => {
         }
 
     }, [uploadJobId])
-    console.log(newJob)
+    //console.log(newJob)
 
     if (!editProfile) {
         return (<>
