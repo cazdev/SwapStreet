@@ -13,6 +13,7 @@ const JobPhotos = ({ jobDetails, uploadJobId, setUploadJobId }) => {
     const job_id = jobDetails
     const [photoArray, setPhotoArray] = useState([])
     const [editProfile, setEditProfile] = useState(false)
+    const [retrieved, setRetrieved] = useState(false)
     const [newJob, setNewJob] = useState([])
     const getJobPhoto = async () => {
         const photos = await getListPhotos(job_id)
@@ -27,6 +28,7 @@ const JobPhotos = ({ jobDetails, uploadJobId, setUploadJobId }) => {
             })
             setPhotoArray(photoStrings)
             setNewJob(changePhotos)
+            setRetrieved(true)
         }
 
         //RUSHAN to edit. The current photo list is being stored as a list of photos. (Done)
@@ -131,12 +133,16 @@ const JobPhotos = ({ jobDetails, uploadJobId, setUploadJobId }) => {
     else {
         return (
             <div>
-                {newJob.map(nf =>
+                {newJob.length > 0 ? newJob.map(nf =>
                     <div>
                         <img width="100" height="100" src={typeof nf.photo === "string" ? nf.photo : URL.createObjectURL(nf.photo)} alt="preview image" />
                         <button type="button" className="btn btn-link" onClick={(e) => setNewJob(newJob.filter(n => n !== nf))}><i className="bi bi-x-square icn-2x"></i></button>
-                    </div>)}
-                <label class="custom-file-upload file-upload-padding">
+                    </div>)
+                    : 
+                    !retrieved && <div>
+                        Loading photos...
+                    </div>}
+                {retrieved && <label class="custom-file-upload file-upload-padding">
                     Select Photo
                     <input
                         id="photo-id"
@@ -144,7 +150,7 @@ const JobPhotos = ({ jobDetails, uploadJobId, setUploadJobId }) => {
                         accept=".png, .jpg, .jpeg"
                         name="photo"
                         onChange={handlePhoto} />
-                </label>
+                </label>}
             </div>)
     }
 }
