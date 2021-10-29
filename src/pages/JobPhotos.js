@@ -5,22 +5,28 @@
 
 import react, { useState, useEffect } from 'react'
 import axios from 'axios'
+import { useHistory } from 'react-router-dom'
 
-import {getListPhotos} from './index'
-const JobPhotos = (currentUser) => {
-    const job_id = currentUser.jobDetails
-    const [photoData, setPhotoData] = useState('')
+import { getListPhotos } from './index'
+const JobPhotos = ({ jobDetails, uploadJobId, setUploadJobId }) => {
+    const history = useHistory()
+    const job_id = jobDetails
     const [photoArray, setPhotoArray] = useState([])
+    const [editProfile, setEditProfile] = useState(false)
+    const [newJob, setNewJob] = useState([])
     const getJobPhoto = async () => {
         const photos = await getListPhotos(job_id)
-        if(photos) {
+        if (photos) {
             let photoStrings = []
+            let changePhotos = []
             photos.map(pho => {
                 var base64Flag = `data:${pho.photo.contentType};base64,`;
                 var imageStr = arrayBufferToBase64(pho.photo.data.data);
-                photoStrings.push(base64Flag + imageStr)
+                photoStrings.push({ photo: base64Flag + imageStr, jobID: job_id, _id: pho._id })
+                changePhotos.push({ photo: base64Flag + imageStr, jobID: job_id, _id: pho._id })
             })
             setPhotoArray(photoStrings)
+            setNewJob(changePhotos)
         }
 
         //RUSHAN to edit. The current photo list is being stored as a list of photos. (Done)
@@ -35,95 +41,111 @@ const JobPhotos = (currentUser) => {
         bytes.forEach((b) => binary += String.fromCharCode(b))
         return window.btoa(binary)
     }
-    const [newJob, setNewJob] = useState(
+    /*const [newJob, setNewJob] = useState(
         {
-            
+
             photo: '',
             jobID: job_id
         }
-    );
+    );*/
 
     const handlePhoto = (e) => {
-        setNewJob({ photo: e.target.files[0] });
-        //console.log('photo submitted', e.target.files[0])
-
-
+        if (e.target.files[0]) {
+            if (newJob.length >= 4) {
+                alert("Cannot upload more than 4 photos. Please delete an existing one if desired.")
+                return
+            }
+            let newArray = newJob.concat({ photo: e.target.files[0], jobID: job_id });
+            newArray = [...newJob, { photo: e.target.files[0], jobID: job_id }];
+            setNewJob(newArray);
+            console.log('newArray', newArray)
+        }
     }
 
-    const handleSubmit = (e) => {
-        
-        //console.log("being submitted at - id: " + job_id)
-        e.preventDefault();
-        const formData = new FormData();
-        formData.append('photo', newJob.photo);
-        formData.append('jobID', job_id)
-        //console.log('photo submitted')
+    const submitPhotos = async () => {
 
-        axios.post('/api/jobs/photos', formData)
-            .then(res => {
-                console.log("returned photo data", res.data);
-                getJobPhoto()
-            })
-            .catch(err => {
-                console.log(err);
-            });
+        let ogPhotosIn = newJob.filter(nj => typeof nj.photo === "string")
+        console.log(ogPhotosIn)
+        let deletePhotos = photoArray.filter(o => !ogPhotosIn.some(i=> i._id === o._id))
+        console.log(deletePhotos)
+        if (deletePhotos.length > 0) {
+            for (let i = 0; i < deletePhotos.length; i++) {
+                await axios.delete(`/api/jobs/photos/${deletePhotos[i]._id}`)
+                .then(res => {
+                    console.log("deleted " + i);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+            }
+        }
+
+        for (let i = 0; i < newJob.length; i++) {
+            if (typeof newJob[i].photo !== "string") {
+                const formData = new FormData();
+                formData.append('photo', newJob[i].photo);
+                formData.append('jobID', uploadJobId)
+
+                await axios.post('/api/jobs/photos', formData)
+                    .then(res => {
+                        console.log("successfully uploaded " + i + " photo")
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            }
+        }
+        console.log("done")
+        history.push(`/job/${uploadJobId}`)
     }
+
     useEffect(() => {
+        if (window.location.pathname.indexOf('providefavour') !== -1
+            || window.location.pathname.indexOf('needfavour') !== -1) {
+            setEditProfile(true)
+        }
         getJobPhoto()
     }, [])
-    
-      if(photoArray.length > 0) {
+
+    useEffect(() => {
+        if (uploadJobId !== '') {
+            submitPhotos()
+        }
+
+    }, [uploadJobId])
+    console.log(newJob)
+
+    if (!editProfile) {
         return (<>
-            Job Photos:
-            <div class="row">
+            {!editProfile && <div class="row">
                 {photoArray.map(pho => <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
                     <img
-                    src={pho} alt="..." width="100" height="100"
-                    class="w-100 shadow-1-strong rounded mb-4"
-                    alt=""
+                        src={pho.photo} alt="..." width="100" height="100"
+                        class="w-100 shadow-1-strong rounded mb-4"
+                        alt=""
                     />
                 </div>)}
-            </div>
-            <div>  
-                <form  onSubmit={handleSubmit} encType='multipart/form-data'>
-    
-                    <label class="custom-file-upload file-upload-padding">
-                        Select Photo
-                        <input 
+            </div>}
+        </>)
+    }
+    else {
+        return (
+            <div>
+                {newJob.map(nf =>
+                    <div>
+                        <img width="100" height="100" src={typeof nf.photo === "string" ? nf.photo : URL.createObjectURL(nf.photo)} alt="preview image" />
+                        <button type="button" className="btn btn-link" onClick={(e) => setNewJob(newJob.filter(n => n !== nf))}><i className="bi bi-x-square icn-2x"></i></button>
+                    </div>)}
+                <label class="custom-file-upload file-upload-padding">
+                    Select Photo
+                    <input
                         id="photo-id"
                         type="file"
                         accept=".png, .jpg, .jpeg"
                         name="photo"
                         onChange={handlePhoto} />
-                    </label>
-                    <label class="custom-file-upload">
-                        <input 
-                        type="submit"/>
-                    </label>
-                </form></div>
-        </>)}
-    else {
-        return (<>
-            <div>
-            Add some photos to help understand your job better:
-                
-            <form  onSubmit={handleSubmit} encType='multipart/form-data'>
-
-                <label class="custom-file-upload file-upload-padding">
-                    Select Photo
-                    <input 
-                    id="photo-id"
-                    type="file"
-                    accept=".png, .jpg, .jpeg"
-                    name="photo"
-                    onChange={handlePhoto} />
                 </label>
-                <label class="custom-file-upload">
-                    <input 
-                    type="submit"/>
-                </label>
-            </form></div>
-        </>) 
+            </div>)
     }
 }
 export default JobPhotos;

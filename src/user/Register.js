@@ -142,8 +142,7 @@ const Register = () => {
             </button>
             </div>
             <p class="mt-2">Already have an account? <Link to="/login" className="pl-5">Sign in</Link></p></>)}
-        </form>
-        <p class="py-5">&nbsp;</p></>
+        </form></>
     )
 
     const showError = () => (

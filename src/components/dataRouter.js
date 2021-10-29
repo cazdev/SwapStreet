@@ -77,7 +77,7 @@ class dataRouter extends Component {
         return (
             <BrowserRouter>
                 <Header userID={this.state.userID} name={this.state.name} balance={this.state.balance}/>
-                <div className="app"> 
+                <div className="app container"> 
                 
                     <Switch>
                         <Route path="/changeinfo">

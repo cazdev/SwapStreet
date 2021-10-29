@@ -5,11 +5,13 @@ import { v4 as uuidv4 } from 'uuid';
 import { isAuthenticated } from '../../auth/index';
 import { updateJob, addJob, getJob } from '../../jobAPIRequests';
 import OpenStreetMapProvider from '../map/openStreetMapProvider';
+import JobPhotos from '../../pages/JobPhotos';
 
 const JobDataFill = (props) => {
 
     const history = useHistory()
     const jobId = useParams().id
+    const [uploadJobId, setUploadJobId] = useState("")
 
     const { user: { _id, name, email, address, about, coins } } = isAuthenticated();
 
@@ -82,6 +84,7 @@ const JobDataFill = (props) => {
                 alert(error.response.data.error);
             })
             console.log(submitted)
+            setUploadJobId(submitted._id)
         }
         if(props.path === "/editneedfavour" || props.path === "/editprovidefavour") {
             const submitted = await updateJob({...values, _id: jobId}).catch((error) => {
@@ -89,8 +92,8 @@ const JobDataFill = (props) => {
                 alert(error.response.data.error);
             })
             console.log(submitted)
+            setUploadJobId(jobId)
         }
-        history.push("/dashboard")
     }
 
     return (
@@ -130,7 +133,7 @@ const JobDataFill = (props) => {
                                 <option>{item.label}</option>))}
                     </datalist>
                 </div>
-
+                <JobPhotos jobDetails={jobId} setUploadJobId={setUploadJobId} uploadJobId={uploadJobId}/>
                 <div className="py-4">
                     <button type="submit" className="btn btn-primary mr-2 btn-sm">{props.path === "/needfavour" || props.path === "/providefavour" ? "Create Favour" : "Save Changes"}</button>
                     <Link to="/dashboard">

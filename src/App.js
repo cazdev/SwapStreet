@@ -8,8 +8,8 @@ import "bootstrap-icons/font/bootstrap-icons.css"
 function App() {
     
     return(
-        <div className="App container mt-0">
-           <DataRouter/>  
+        <div className="App mt-0">
+           <DataRouter/> 
        </div>
     )
 }
