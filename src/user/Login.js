@@ -26,15 +26,23 @@ const Login = () => {
     const clickSubmit = async (event) => {
         // prevent browser from reloading
         event.preventDefault();
+        let spin = document.getElementById('submitload')
+        let btnmsg = document.getElementById('submitbtn').firstChild
+        spin.classList.add('spinner-border')
+        btnmsg.nodeValue = 'Logging in...'
         try {
             setValues({ ...values, error: false, loading: true });
             let userValid = await login({email, password}).catch((error) => {
                 console.log(error.response.data.error)
+                spin.classList.remove('spinner-border')
+                btnmsg.nodeValue = 'Login'
                 alert(error.response.data.error);
               })
             console.log(userValid)
             if(!userValid) {
                 console.log("invalid user")
+                spin.classList.remove('spinner-border')
+                btnmsg.nodeValue = 'Login'
                 setValues({...values, error: userValid, loading: false})
             } else {
                 authenticate(userValid, () => {
@@ -66,9 +74,11 @@ const Login = () => {
                 <input onChange={handleChange('password')} type="password" className="form-control" value={password} />
            
            <div className="py-4">
-            <button onClick={clickSubmit} className="btn btn-primary ">
+            <button onClick={clickSubmit} className="btn btn-primary" id="submitbtn">
                 Login
+            <span class="spinner-border-sm" role="status" aria-hidden="true" id="submitload"></span>
             </button>
+            
             </div>
             <p class="mt-2">Don't have an account? <Link to="/register" className="pl-5">Sign up</Link></p>
             </div>
@@ -104,12 +114,16 @@ const Login = () => {
 
 
     return (
-        <Layout title="Login " description='Welcome Back' className='container col-md-8 offset-md-2'>
+        <><Layout title="Login " description='Welcome Back' className='container col-md-8 offset-md-2'>
             {showLoading()}
             {showError()}
             {registerForm()}
             {redirectUser()}
         </Layout>
+        <p className="py-5">&nbsp;</p>
+        <p className="py-5">&nbsp;</p>
+        <p className="py-5">&nbsp;</p>
+        <p className="py-5">&nbsp;</p></>
     )
 }
 

@@ -77,9 +77,15 @@ const JobDataFill = (props) => {
 
     const formHandler = async (event) => {
         event.preventDefault()
+        let spin = document.getElementById('submitload')
+        let btnmsg = document.getElementById('submitbtn').firstChild
+        spin.classList.add('spinner-border')
+        btnmsg.nodeValue = 'Saving...'
         console.log(values)
         if(props.path === "/needfavour" || props.path === "/providefavour") {
             const submitted = await addJob(values).catch((error) => {
+                spin.classList.remove('spinner-border')
+                btnmsg.nodeValue = 'Create Favour'
                 console.log(error.response.data.error)
                 alert(error.response.data.error);
             })
@@ -88,6 +94,8 @@ const JobDataFill = (props) => {
         }
         if(props.path === "/editneedfavour" || props.path === "/editprovidefavour") {
             const submitted = await updateJob({...values, _id: jobId}).catch((error) => {
+                spin.classList.remove('spinner-border')
+                btnmsg.nodeValue = 'Save Changes'
                 console.log(error.response.data.error)
                 alert(error.response.data.error);
             })
@@ -135,7 +143,9 @@ const JobDataFill = (props) => {
                 </div>
                 <JobPhotos jobDetails={jobId} setUploadJobId={setUploadJobId} uploadJobId={uploadJobId}/>
                 <div className="py-4">
-                    <button type="submit" className="btn btn-primary mr-2 btn-sm">{props.path === "/needfavour" || props.path === "/providefavour" ? "Create Favour" : "Save Changes"}</button>
+                    <button type="submit" id="submitbtn" className="btn btn-primary mr-2 btn-sm">{props.path === "/needfavour" || props.path === "/providefavour" ? "Create Favour" : "Save Changes"}
+                        <span class="spinner-border-sm" role="status" aria-hidden="true" id="submitload"></span>
+                    </button>
                     <Link to="/dashboard">
                         <button className="btn btn-outline-secondary btn-sm">
                             Cancel

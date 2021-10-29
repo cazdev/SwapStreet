@@ -68,12 +68,20 @@ const Register = () => {
         // prevent browser from reloading
         event.preventDefault();
         try {
+        let spin = document.getElementById('submitload')
+        let btnmsg = document.getElementById('submitbtn').firstChild
+        spin.classList.add('spinner-border')
+        btnmsg.nodeValue = 'Saving Info...'
         setValues({ ...values, error: false });
         let userRegistered = id ? await updateUser({id, name, email, address, about, password}).catch((errMsg) => {
             console.log(errMsg)
+            spin.classList.remove('spinner-border')
+            btnmsg.nodeValue = 'Save Changes'
             setValues({errormsg: 'Failed to Update account: ' + errMsg.message, error: true});
         }) : await register({name, email, address, about, password}).catch((errMsg) => {
             console.log(errMsg)
+            spin.classList.remove('spinner-border')
+            btnmsg.nodeValue = 'Register'
             setValues({errormsg: 'Failed to register account: ' + errMsg.message, error: true});
         })
         console.log(userRegistered)
@@ -127,12 +135,14 @@ const Register = () => {
             </div>
             <Photo currentUser={id ? id: null} uploadUserId={uploadUserId} setUploadUserId={setUploadUserId}/>
             {id ? (<div className="py-4">
-            <button onClick={clickSubmit} className="btn btn-primary">
+            <button onClick={clickSubmit} className="btn btn-primary" id="submitbtn">
                 Save Changes
+                <span class="spinner-border-sm" role="status" aria-hidden="true" id="submitload"></span>
             </button>
             </div>) : (<><div className="py-4">
-            <button onClick={clickSubmit} className="btn btn-primary">
+            <button onClick={clickSubmit} className="btn btn-primary" id="submitbtn">
                 Register
+                <span class="spinner-border-sm" role="status" aria-hidden="true" id="submitload"></span>
             </button>
             </div>
             <p class="mt-2">Already have an account? <Link to="/login" className="pl-5">Sign in</Link></p></>)}
@@ -145,11 +155,18 @@ const Register = () => {
         </div>
     );
 
-    const showSuccess = () => (
-        <div className="alert alert-info" style={{ display: success && uploadUserId === '' ? '' : 'none' }}>
+    const showSuccess = () => {
+        if(success && uploadUserId === '') {
+            let spin = document.getElementById('submitload')
+            let btnmsg = document.getElementById('submitbtn').firstChild
+            spin.classList.remove('spinner-border')
+            btnmsg.nodeValue = 'Success!'
+        }
+        return(<div className="alert alert-info" style={{ display: success && uploadUserId === '' ? '' : 'none' }}>
             {id ? <>Profile updated.</> : <>New account is created.</>} Please <Link to="/login" onClick={UserLogout}>log in</Link>
         </div>
-    );
+        );
+    }
 
 
     return (

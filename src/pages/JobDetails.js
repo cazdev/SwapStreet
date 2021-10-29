@@ -138,7 +138,7 @@ const JobDetails = () => {
               <div class="col-md-12">
                 <hr />
                 {isAuthenticated() && (<div class="p-3 b ">
-                  <h2> About {user.name} <Link to={`/profile/${user._id}`}><button type="button" className="btn btn-link"><i className="bi bi-arrow-right-circle icn-2x"></i></button></Link></h2>
+                <Link to={`/profile/${user._id}`}><h2> About {user.name} <button type="button" className="btn btn-link"><i className="bi bi-arrow-right-circle icn-2x"></i></button></h2></Link>
                   <ul className="mt-3 mb-4">
                     <li>{user.email}</li>
                     {user.address && <li>{typeof user.address === "string" ? user.address : user.address.label}</li>}

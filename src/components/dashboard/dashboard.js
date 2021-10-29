@@ -158,6 +158,8 @@ const Dashboard = () => {
             <p>coins: {coins}</p>
             
             <Photo currentUser={_id} setUploadUserId={()=> console.log("yo")} uploadUserId={''}/>
+
+            <Link to={`/profile/${_id}`}><h2> See public profile <button type="button" className="btn btn-link"><i className="bi bi-arrow-right-circle icn-2x"></i></button></h2></Link>
            
             <Link to="/needfavour"><button type="button" class="btn btn-sm btn-primary mr-2">I need a favour</button></Link>
             <Link to="/providefavour"><button type="button" class="btn btn-sm btn-primary">I can provide a favour</button></Link>

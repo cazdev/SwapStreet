@@ -23,7 +23,7 @@ const Photo = ({ currentUser, uploadUserId, setUploadUserId }) => {
     const [editProfile, setEditProfile] = useState(false)
     const submitPhoto = async () => {
         //e.preventDefault();
-        if (photoPath._id !== '') {
+        if (photoPath._id !== newUser._id) {
             await axios.delete(`/api/userphotos/${uploadUserId}`)
                 .then(res => {
                     console.log(res.data);
@@ -32,7 +32,7 @@ const Photo = ({ currentUser, uploadUserId, setUploadUserId }) => {
                     console.log(err);
                 });
         }
-        if (newUser.photo === '' || newUser.photo === defaultImgage) {
+        if (photoPath._id === newUser._id || newUser.photo === '' || newUser.photo === defaultImgage) {
             setUploadUserId('')
             return
         }
@@ -42,9 +42,8 @@ const Photo = ({ currentUser, uploadUserId, setUploadUserId }) => {
 
         axios.post('/api/users/photo', formData)
             .then(res => {
-                console.log(res.data);
-                getPhoto()
                 setUploadUserId('')
+                console.log(res.data);
             })
             .catch(err => {
                 console.log(err);
