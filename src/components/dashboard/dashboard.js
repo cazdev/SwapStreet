@@ -157,7 +157,7 @@ const Dashboard = () => {
             {about && <p>about: {about}</p>}
             <p>coins: {coins}</p>
             
-            <Photo currentUser={_id}/>
+            <Photo currentUser={_id} setUploadUserId={()=> console.log("yo")} uploadUserId={''}/>
            
             <Link to="/needfavour"><button type="button" class="btn btn-sm btn-primary mr-2">I need a favour</button></Link>
             <Link to="/providefavour"><button type="button" class="btn btn-sm btn-primary">I can provide a favour</button></Link>

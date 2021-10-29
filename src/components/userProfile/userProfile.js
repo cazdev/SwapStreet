@@ -12,6 +12,7 @@ import ReactStars from 'react-rating-stars-component';
 import { isAuthenticated, getUser } from "../../auth/index";
 import { useParams, useHistory } from 'react-router-dom';
 import { userJobs, getJob, updateJob } from '../../jobAPIRequests';
+import Photo from '../dashboard/photoUpload'
 //import { getUserComments } from '../../commentAPIRequests';
 import { getUserReviews } from '../../reviewAPIRequests';
 
@@ -80,12 +81,14 @@ const Profile = () => {
   return (
       <div className="container">
 
-          {Object.entries(swapUser).length !== 0 && (<div class="col-md">
+          {Object.entries(swapUser).length !== 0 && (<><div class="col-md">
             <h2>About {swapUser.name} </h2>
             <p>email: {swapUser.email}</p>
             <p>address: {typeof swapUser.address === "string" ? swapUser.address: swapUser.address.label}</p>
             {swapUser.about && <p>about: {swapUser.about}</p>}
-          </div>)}
+          </div>
+          <Photo currentUser={swapUser._id} setUploadUserId={()=> console.log("yo")} uploadUserId={''}/>
+          </>)}
           <hr/>
           {swapUserReviews && (<><h2>Reviews</h2>
 
@@ -138,84 +141,6 @@ const Profile = () => {
                 <p className="no-data">No favours to display</p>
               )}
           </div>
-
-        {/*<div className="sidebar">
-            <div className="card-body">
-                <div className="sidebarnav">
-                    <Link to='/'>
-                        <h2 className="titles">Search for Jobs</h2>
-                    </Link>
-                </div>
-                <div className="sidebarnav">
-                    <Link to={`/editprofile/${_id}`}>
-                        <h2 className="titles">Change Personal Information</h2>
-                    </Link>
-                </div>
-        
-                <div className="sidebarnav">
-                    <Link to='/dashboard'>
-                        <h2 className="titles">Dashboard</h2>
-                    </Link>
-                </div>
-            </div>
-        </div>
-
-
-        <div className="userinfo">
-            <div className="card">
-                <div className="card-body">
-                    <h5 className="card-title">Hello {name},</h5>
-                    <p className="card-text">View or change your information.</p>
-                    <p className="card-text">{about}</p>
-                </div>
-            </div>
-
-            <div className="card-group">
-                <div className="card">
-                    <div className="card-header">
-                        Account Information
-                    </div>
-                    <div className="row">
-                        <div className="col-sm-6">
-                            <div className="card-body">
-                                <blockquote className="blockquote mb-0">
-                                    <h5>Contact Information</h5>
-                                    <p>{name}</p>
-                                    <p>{email}</p>
-                                </blockquote>
-                            </div>
-                        </div>  
-                        <div className="col-sm-6">
-                            <div className="card-body">
-                                <blockquote className="blockquote mb-0">
-                                    <h5>Address</h5>
-                                    <p>{address}</p>
-                                </blockquote>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class='card'>
-                <div class="card-body">
-                    <h5 clas="card-title">Your Balance</h5>
-                </div>
-                <blockquote className="blockquote balance">
-                    <h5>${coins}</h5>
-                </blockquote>
-
-            </div>
-
-            
-
-         
-
-  </div>*/}
-        
-
-
         </div>
   )
 }

@@ -4,6 +4,7 @@ import {
     Link,
     withRouter
 } from "react-router-dom";
+import { useHistory } from 'react-router-dom'
 
 import logo from '../img/swap.png'
 
@@ -14,7 +15,7 @@ const HeadingBar = ({ history }) => {
   const UserLogout = () => {
     logout()
     console.log("working")
-    window.location.reload();
+    history.push("/")
   }
 
   return (

@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import Layout from '../components/Layout'
 import { Link, useParams } from 'react-router-dom'
 import { updateUser, register, authenticate, isAuthenticated, logout } from '../auth/index'
+import Photo from '../components/dashboard/photoUpload'
 import OpenStreetMapProvider from '../components/map/openStreetMapProvider';
 
 const Register = () => {
@@ -12,6 +13,7 @@ const Register = () => {
         logout()
         console.log("working")
     }
+    const [uploadUserId, setUploadUserId] = useState("")
 
     const [values, setValues] = useState(id ? 
         {
@@ -79,17 +81,16 @@ const Register = () => {
             console.log("Please fill out all required fields")
             setValues({...values, errormsg: 'Invalid user', error: true})
         } else {
-            authenticate(userRegistered, () => {
-                setValues({
-                    name:'',
-                    email: '',
-                    address: '',
-                    about: '',
-                    password: '',
-                    errormsg: '',
-                    error: false,
-                    success: true
-                })
+            setUploadUserId(userRegistered.user._id)
+            setValues({
+                name:'',
+                email: '',
+                address: '',
+                about: '',
+                password: '',
+                errormsg: '',
+                error: false,
+                success: true
             })
         }
     }
@@ -101,7 +102,7 @@ const Register = () => {
 
 
     const registerForm = () => (
-        <form>
+        <><form>
             <div className="form-group">
                 <label className="text-muted">Name</label>
                 <input onChange={handleChange('name')} type="text" className="form-control " value={name} />
@@ -130,6 +131,7 @@ const Register = () => {
                 <label className="text-muted">Password</label>
                 <input onChange={handleChange('password')} type="password" className="form-control" value={password} />
             </div>
+            <Photo currentUser={id ? id: null} uploadUserId={uploadUserId} setUploadUserId={setUploadUserId}/>
             {id ? (<div className="py-4">
             <button onClick={clickSubmit} className="btn btn-primary">
                 Save Changes
@@ -141,6 +143,7 @@ const Register = () => {
             </div>
             <p class="mt-2">Already have an account? <Link to="/login" className="pl-5">Sign in</Link></p></>)}
         </form>
+        <p class="py-5">&nbsp;</p></>
     )
 
     const showError = () => (
@@ -150,7 +153,7 @@ const Register = () => {
     );
 
     const showSuccess = () => (
-        <div className="alert alert-info" style={{ display: success ? '' : 'none' }}>
+        <div className="alert alert-info" style={{ display: success && uploadUserId === '' ? '' : 'none' }}>
             {id ? <>Profile updated.</> : <>New account is created.</>} Please <Link to="/login" onClick={UserLogout}>log in</Link>
         </div>
     );

@@ -5,7 +5,7 @@ import defaultImgage from './default.jpg';
 import { allPhotos, getOnlyUserPhotos } from '../../auth/index'
 
 
-const Photo = (currentUser) => {
+const Photo = ({ currentUser, uploadUserId, setUploadUserId }) => {
 
     const [newUser, setNewUser] = useState(
         {
@@ -15,18 +15,31 @@ const Photo = (currentUser) => {
         }
     );
     const [photoPath, setPhotoPath] = useState(defaultImgage)
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const [editProfile, setEditProfile] = useState(false)
+    const submitPhoto = async () => {
+        //e.preventDefault();
+        if(photoPath !== '' && newUser.photo !== '') {
+            await axios.delete(`/api/userphotos/${uploadUserId}`)
+            .then(res => {
+                console.log(res.data);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+        }
+        if(newUser.photo === '') {
+            setUploadUserId('')
+            return
+        }
         const formData = new FormData();
         formData.append('photo', newUser.photo);
-        formData.append('userID', currentUser.currentUser)
-        
-
+        formData.append('userID', uploadUserId)
 
         axios.post('/api/users/photo', formData)
             .then(res => {
                 console.log(res.data);
                 getPhoto()
+                setUploadUserId('')
             })
             .catch(err => {
                 console.log(err);
@@ -36,10 +49,10 @@ const Photo = (currentUser) => {
 
 
     const handlePhoto = (e) => {
-        setNewUser({ photo: e.target.files[0] });
-        console.log('photo submitted', e.target.files[0])
-
-
+        if(e.target.files[0]) {
+            //console.log('photo submitted', e.target.files[0])
+            setNewUser({...newUser, photo: e.target.files[0] });
+        }
     }
 
     const arrayBufferToBase64 = (buffer) => {
@@ -51,31 +64,47 @@ const Photo = (currentUser) => {
 
     const getPhoto = async () => {
 
-        const photos = await getOnlyUserPhotos(currentUser.currentUser)
-        console.log("complete list of photoss", photos[photos.length-1])
+        const photos = await getOnlyUserPhotos(currentUser)
+        //console.log("complete list of photoss", photos)
         
         //const u = photos[photos.length-1]
-        const u = photos.find(p => p.userID === currentUser.currentUser)
-        console.log("complete list of photos", u)
+        const u = photos.find(p => p.userID === currentUser)
+        //console.log("complete list of photos", u)
 
         if(u) {
             var base64Flag = `data:${u.photo.contentType};base64,`;
             var imageStr = arrayBufferToBase64(u.photo.data.data);
-            console.log(base64Flag + imageStr)
+            //console.log(base64Flag + imageStr)
             setPhotoPath(base64Flag + imageStr)
+        } else {
+            setPhotoPath('')
         }
     }
     
     useEffect(() => {
+        if(window.location.pathname.indexOf('editprofile') !== -1 || window.location.pathname.indexOf('register') !== -1) {
+            setEditProfile(true)
+        }
         getPhoto()
-      }, [])
-      
+    }, [])
 
+    useEffect(() => {
+        if(uploadUserId !== '') {
+            submitPhoto()
+        }
+        
+      }, [uploadUserId])
+    
+    
+    console.log(newUser)
     return (
-        <div>
-            
-            <img src={photoPath} alt="..." width="100" height="100"></img>
-            <form onSubmit={handleSubmit} encType='multipart/form-data'>
+        <div className="form-group">
+            {photoPath && <img src={photoPath} width="100" height="100"></img>}
+            {newUser.photo !== '' && <div>new photo submitted
+            <img width="100" height="100" src={URL.createObjectURL(newUser.photo)} alt="preview image" />
+            <button type="button" className="btn btn-link" onClick={(e) => setNewUser({...newUser, photo: '' })}><i className="bi bi-x-square icn-2x"></i></button>
+            </div>}
+            {editProfile &&
 
                 <label class="custom-file-upload file-upload-padding">
                     Select Photo
@@ -86,11 +115,8 @@ const Photo = (currentUser) => {
                     name="photo"
                     onChange={handlePhoto} />
                 </label>
-                <label class="custom-file-upload">
-                    <input 
-                    type="submit"/>
-                </label>
-            </form></div>
+            }
+            </div>
     );
 }
 
