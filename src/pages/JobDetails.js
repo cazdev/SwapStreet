@@ -110,7 +110,7 @@ const JobDetails = () => {
   //console.log(job)
 
   return (<>
-    <div class="row g-5 py-5">
+    <div class="row g-5">
       <div class="col-md-6">
         <div class="row">
           <div class="col-md-12">
@@ -119,7 +119,7 @@ const JobDetails = () => {
             <p class="lead">{job.description}</p>
             {isAuthenticated() && job.location && <p class="lead">{typeof job.location === "string" ? job.location : job.location.label}</p>}
             {job.skill !== undefined && job.skill.length > 0 && (<><p class="lead">Skills needed</p>
-              <ul>
+              <ul className='cont'>
                 {job.skill && job.skill.map((skill, index) => (
                   <li key={index}>{skill}</li>
                 ))}
@@ -127,19 +127,19 @@ const JobDetails = () => {
             </>)}
             {job._id && <JobPhotos jobDetails={job._id} setUploadJobId={()=> console.log("yo")} uploadJobId={''}/>}
             {!userProf || (userProf && job.status === 0 && userProf._id !== job.clientUserId && userProf._id !== job.providerUserId) ?
-              (<div class="d-grid gap-2 d-md-flex justify-content-md-start">
+              (<div class="d-grid gap-2 mt-3 d-md-flex justify-content-md-start">
                 <button onClick={(e) => buyProvideJob(e)} type="button" class="btn btn-primary btn-sm px-4 me-md-2">{job.price} Swapstreet Coins</button>
                 <button onClick={(e) => swapFav()} type="button" class="btn btn-outline-secondary btn-sm px-4">Swap Services</button>
               </div>) : (<></>)}
           </div>
 
           <div class="col-md-12">
-            <div class="row py-5">
+            <div class="row">
               <div class="col-md-12">
                 <hr />
                 {isAuthenticated() && (<div class="p-3 b ">
                 <Link to={`/profile/${user._id}`}><h2> About {user.name} <button type="button" className="btn btn-link"><i className="bi bi-arrow-right-circle icn-2x"></i></button></h2></Link>
-                  <ul className="mt-3 mb-4">
+                  <ul className="mt-3 mb-4 cont">
                     <li>{user.email}</li>
                     {user.address && <li>{typeof user.address === "string" ? user.address : user.address.label}</li>}
                     {user.about !== "" && <li>{user.about}</li>}
@@ -153,12 +153,12 @@ const JobDetails = () => {
                     totalReview = {userComments.length}
                   />
 
-                    <ul className="mt-3 mb-4" class="reviews">
-                      {userComments.map(com => <li class="review" key={com._id}>
+                    <ul className="reviews">
+                      {userComments.map(com => <li className="review spchbub" key={com._id}>
                       <Link to={`/profile/${com.clientUserId}`}><button type="button" className="btn btn-link">user profile <i className="bi bi-arrow-right-circle icn-2x"></i></button></Link>
                         <ReactStars 
                           size={15}
-                          color={'#adb5bd'}
+                          color={'#cccccc'}
                           activeColor={'#ffb302'}
                           edit={false}
                           a11y={true}
@@ -174,22 +174,24 @@ const JobDetails = () => {
                       </li>)}
 
                     </ul>
+                    <br className="clearfix"/>
                   </>)}
                   {userProf._id !== user._id && (userComments.filter(u => u.clientUserId === userProf._id).length < 1)
                     &&
                     <form>
                       <div className="form-group">
 
-                        <label className="text-muted">Comment on {user.name}'s services</label>
-
-                        <ReactStars
+                        <h2 className="mt-4">Comment on {user.name}'s services</h2>
+                        <span className="rate">Rate:</span> <ReactStars classNames="txt-blue"
                           count={5}
                           onChange={(e) => setNewRating(e)}
-                          size={24}
-                          color2={'#ffd700'}
+                          size={15}
+                          color={'#cccccc'}
                           value={newRating}
                         />
-                        <textarea rows="2" onChange={(e) => setNewComment(e.target.value)} className="form-control" value={newComment} id="txtcom" />
+                        
+                        <span className='clearfix'> </span>Comment:
+                        <textarea rows="2" onChange={(e) => setNewComment(e.target.value)} className="form-control mt-2" value={newComment} id="txtcom" />
                       </div>
                       <div className='d-flex flex-wrap align-items-center mt-2'>
                         
@@ -208,7 +210,7 @@ const JobDetails = () => {
         </div>
       </div>
     </div>
-    <div class="row ">
+    <div class="row mt-2">
       <div class="col">
         <h2 class="txt-blue">Similar Favours</h2>
         <hr />

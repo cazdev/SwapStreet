@@ -118,32 +118,39 @@ const JobPhotos = ({ jobDetails, uploadJobId, setUploadJobId }) => {
     //console.log(newJob)
 
     if (!editProfile) {
-        return (<>
-            {!editProfile && <div class="row">
-                {photoArray.map(pho => <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
-                    <img
-                        src={pho.photo} alt="..." width="100" height="100"
-                        class="w-100 shadow-1-strong rounded mb-4"
-                        alt=""
-                    />
-                </div>)}
+        return (
+            <div class="row">
+                {photoArray.length > 0 ? photoArray.map(pho => 
+                <div class="col-lg-6 col-md-12 mb-4 mb-lg-0 ">
+                    <div className="img-cell" style={{backgroundImage: `url(${pho.photo})`}}></div>
+                </div>)
+            : !retrieved && <div>
+            Loading photos...
             </div>}
-        </>)
+        </div>)
     }
     else {
         return (
             <div>
+                <label className='mt-3'>Photos</label>
                 {newJob.length > 0 ? newJob.map(nf =>
-                    <div>
-                        <img width="100" height="100" src={typeof nf.photo === "string" ? nf.photo : URL.createObjectURL(nf.photo)} alt="preview image" />
-                        <button type="button" className="btn btn-link" onClick={(e) => setNewJob(newJob.filter(n => n !== nf))}><i className="bi bi-x-square icn-2x"></i></button>
-                    </div>)
+                    <>
+                    <div className='row'>
+                        <div className='col-lg-3 col-md-6'>
+                        <div className="img-cell" style={{backgroundImage: typeof nf.photo === "string" ? `url(${nf.photo})` : `url(${URL.createObjectURL(nf.photo)})`}}>
+                        </div>
+                        </div>
+                        <div className='col-md-3'>
+                        <button type="button" className="btn btn-link" onClick={(e) => setNewJob(newJob.filter(n => n !== nf))}><i className="bi bi-trash icn-2x"></i></button>
+                        </div>
+                    </div>
+                    </>)
                     : 
                     !retrieved && <div>
                         Loading photos...
                     </div>}
-                {retrieved && <label class="custom-file-upload file-upload-padding">
-                    Select Photo
+                {retrieved && <label class="btn-secondary btn btn-outline-secondary btn-sm bg-white">
+                    Add Photo
                     <input
                         id="photo-id"
                         type="file"

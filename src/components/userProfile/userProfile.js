@@ -15,6 +15,7 @@ import { userJobs, getJob, updateJob } from '../../jobAPIRequests';
 import Photo from '../dashboard/photoUpload'
 //import { getUserComments } from '../../commentAPIRequests';
 import { getUserReviews } from '../../reviewAPIRequests';
+import ReviewSummary from '../dashboard/UserReview/ReviewSummary'
 
 
 
@@ -91,11 +92,16 @@ const Profile = () => {
           </>)}
           <hr/>
           {swapUserReviews && (<><h2>Reviews</h2>
-
+            <ReviewSummary
+                    totalRatings = {swapUserReviews.map(u => u.rating).reduce(function (a, b) {
+                      return a + b;
+                    }, 0)} 
+                    totalReview = {swapUserReviews.length}
+                  />
            
-          <div class="reviews">
+          <div className="reviews">
             <ul className="mt-3 mb-4">
-              {swapUserReviews.map(rev => <li class="reviews" key={rev._id}>{rev.review} 
+              {swapUserReviews.map(rev => <li className="spchbub" key={rev._id}>{rev.review} 
               <ReactStars 
                 size={15}
                 color={'#adb5bd'}

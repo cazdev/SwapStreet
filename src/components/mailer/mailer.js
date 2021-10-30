@@ -44,11 +44,12 @@ const Mailer = () => {
                     <input type="checkbox" class="form-check-input" id="exampleCheck1"></input>
                     <label class="form-check-label" for="exampleCheck1">Subscribe to recieve regular updates from SwapStreet.</label>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary mt-3">Submit</button>
             </form>
             <div class="space">
 
             </div>
+            
         </div>
     )
 }

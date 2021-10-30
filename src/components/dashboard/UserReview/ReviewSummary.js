@@ -29,7 +29,7 @@ const ReviewSummary = props => {
         <>
           <ReactStars
             size={15}
-            color={'#adb5bd'}
+            color={'#cccccc'}
             activeColor={'#ffb302'}
             a11y={true}
             isHalf={true}

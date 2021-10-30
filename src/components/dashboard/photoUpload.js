@@ -104,7 +104,7 @@ const Photo = ({ currentUser, uploadUserId, setUploadUserId }) => {
         return (<>
             {!editProfile && <div class="row">
                 <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
-                    {photoPath && <img src={photoPath.photo} width="100" height="100"></img>}
+                    {photoPath && <img src={photoPath.photo} className='prof-img'></img>}
                 </div>
             </div>}
         </>)
@@ -112,9 +112,9 @@ const Photo = ({ currentUser, uploadUserId, setUploadUserId }) => {
     return (
         <div>
             {newUser.photo !== '' &&
-                (<div>
-                    <img width="100" height="100" src={typeof newUser.photo === "string" ? newUser.photo : URL.createObjectURL(newUser.photo)} alt="preview image" />
-                    {newUser.photo !== defaultImgage && <button type="button" className="btn btn-link" onClick={(e) => setNewUser({photo: '', userID: currentUser, _id: ''})}><i className="bi bi-x-square icn-2x"></i></button>}
+                (<div className='mt-3'>
+                    <img className='prof-img' src={typeof newUser.photo === "string" ? newUser.photo : URL.createObjectURL(newUser.photo)} alt="preview image" />
+                    {newUser.photo !== defaultImgage && <button type="button" className="btn btn-link" onClick={(e) => setNewUser({photo: '', userID: currentUser, _id: ''})}><i className="bi bi-trash icn-2x"></i></button>}
                 </div>)}
             {editProfile &&
 
