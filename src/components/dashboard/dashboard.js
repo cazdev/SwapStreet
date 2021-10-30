@@ -1,3 +1,5 @@
+//          AUTHORS - JOSHUA ARCHER, JOSHUA DODANDUWA
+//          Macquarie University Student\
 import React, { Component, useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';

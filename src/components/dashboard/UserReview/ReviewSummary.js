@@ -1,3 +1,6 @@
+//          AUTHORS - KRITI CHAWLA, JOSHUA DODANDUWA
+//          Macquarie University Student\
+
 import React from 'react';
 
 import ReactStars from 'react-rating-stars-component';

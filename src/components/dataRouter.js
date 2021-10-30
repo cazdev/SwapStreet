@@ -1,3 +1,5 @@
+//          AUTHORS - JOSHUA ARCHER, RUSHAN BARAL, KRITI CHAWLA, JOSHUA DODANDUWA, CHAZ LAMBRECHTSEN
+//          Macquarie University Student\
 import React, { Component } from 'react';
 import {
     BrowserRouter,

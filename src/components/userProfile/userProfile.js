@@ -1,3 +1,5 @@
+//          AUTHORS - JOSHUA DODANDUWA
+//          Macquarie University Student\
 
 import React, { Component, useState, useEffect } from 'react';
 import './userProfile.css';

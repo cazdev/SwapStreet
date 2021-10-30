@@ -1,3 +1,6 @@
+//          AUTHORS - JOSHUA DODANDUWA
+//          Macquarie University Student\
+
 import React, { Component, useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Link, useParams, useHistory } from "react-router-dom";
