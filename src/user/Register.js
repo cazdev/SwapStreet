@@ -22,8 +22,7 @@ const Register = () => {
             address: user.address,
             about: user.about,
             password: '',
-            errormsg: '',
-            error: false,
+            error: [],
             success: false
         } :
         {
@@ -32,12 +31,11 @@ const Register = () => {
         address: '',
         about: '',
         password: '',
-        errormsg: '',
-        error: false,
+        error: [],
         success: false
     })
 
-    const { name, email, address, about, password, errormsg, error, success } = values;
+    const { name, email, address, about, password, error, success } = values;
 
     const prov = OpenStreetMapProvider();
     const [results, setResults] = useState([])
@@ -50,16 +48,16 @@ const Register = () => {
                 console.log(res)
                 setResults(res)
                 if(res.length === 1) {
-                    setValues({ ...values, errormsg: '', error: false, [name]: {x: res[0].x, y: res[0].y, label: event.target.value} });
+                    setValues({ ...values, error: [], [name]: {x: res[0].x, y: res[0].y, label: event.target.value} });
                 } else {
-                    setValues({ ...values, errormsg: '', error: false, [name]: {x: 100000, y: 100000, label: event.target.value} });
+                    setValues({ ...values, error: [], [name]: {x: 100000, y: 100000, label: event.target.value} });
                 }
             } 
             srch(event.target.value)
             setLoc(event.target.value)
             console.log(results)
         } else {
-            setValues({ ...values, errormsg: '', error: false, [name]: event.target.value });
+            setValues({ ...values, error: [], [name]: event.target.value });
         }
         
     }
@@ -67,38 +65,55 @@ const Register = () => {
     const clickSubmit = async (event) => {
         // prevent browser from reloading
         event.preventDefault();
+        let valErrors = []
+        if(name === '') {
+            valErrors.push('name field empty')
+        }
+        if(email === '') {
+            valErrors.push('email field empty')
+        }
+        if((typeof address === "string" && address === '') || !address.label) {
+            valErrors.push('address field empty')
+        }
+        if(password === '') {
+           valErrors.push('password field empty')
+        }
+        if (valErrors.length > 0) {
+            setValues({ ...values, error: valErrors}); 
+            return
+        }
         try {
         let spin = document.getElementById('submitload')
         let btnmsg = document.getElementById('submitbtn').firstChild
         spin.classList.add('spinner-border')
         btnmsg.nodeValue = 'Saving Info...'
-        setValues({ ...values, error: false });
+        setValues({ ...values, error: [] });
         let userRegistered = id ? await updateUser({id, name, email, address, about, password}).catch((errMsg) => {
             console.log(errMsg)
             spin.classList.remove('spinner-border')
             btnmsg.nodeValue = 'Save Changes'
-            setValues({errormsg: 'Failed to Update account: ' + errMsg.message, error: true});
+            setValues({...values, error: ['Failed to Update account: ' + errMsg.message]});
         }) : await register({name, email, address, about, password}).catch((errMsg) => {
             console.log(errMsg)
             spin.classList.remove('spinner-border')
             btnmsg.nodeValue = 'Register'
-            setValues({errormsg: 'Failed to register account: ' + errMsg.message, error: true});
+            setValues({...values, error: ['Failed to Update account: ' + errMsg.message]});
         })
         console.log(userRegistered)
         if(!userRegistered) {
             console.log("Please fill out all required fields")
-            setValues({...values, errormsg: 'Invalid user', error: true})
+            setValues({...values, error: ['invalid user']});
         } else {
             setUploadUserId(userRegistered.user._id)
             setValues({...values,
-                error: false,
+                error: [],
                 success: true
             })
         }
     }
     catch (error) {
         console.log(error)
-        setValues({errormsg: 'Error: ' + error.message, error: true});
+        setValues({...values, error: ['Error: ' + error.message]});
     }
     };
 
@@ -150,9 +165,11 @@ const Register = () => {
     )
 
     const showError = () => (
-        <div className="alert alert-danger" style={{ display: error ? '' : 'none' }}>
-            <h2>Error: {errormsg}</h2>
-        </div>
+        <ul className="alert alert-danger" style={{ display: error.length > 0 ? '' : 'none' }}>
+                {error.map(err => (
+                    <li>{err}</li>
+                ))}
+        </ul>
     );
 
     const showSuccess = () => {

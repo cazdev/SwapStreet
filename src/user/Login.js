@@ -11,7 +11,7 @@ const Login = () => {
         username: '',
         email: '',
         password: '',
-        error: false,
+        error: [],
         loading: false,
         redirectToReferrer: false,
     })
@@ -20,34 +20,42 @@ const Login = () => {
     const {user} = isAuthenticated()
 
     const handleChange = name => event => {
-        setValues({ ...values, error: false, [name]: event.target.value });
+        setValues({ ...values, error: [], [name]: event.target.value });
     }
 
     const clickSubmit = async (event) => {
         // prevent browser from reloading
         event.preventDefault();
+        let valErrors = []
+        if(email === '') {
+            valErrors.push('email field empty')
+        }
+        if(password === '') {
+            valErrors.push('password field empty')
+        }
+        console.log()
+        if (valErrors.length > 0) {
+            setValues({ ...values, loading: false, error: valErrors}); 
+            return
+        }
         let spin = document.getElementById('submitload')
         let btnmsg = document.getElementById('submitbtn').firstChild
         spin.classList.add('spinner-border')
         btnmsg.nodeValue = 'Logging in...'
         try {
-            setValues({ ...values, error: false, loading: true });
+            setValues({ ...values, error: [], loading: true });
             let userValid = await login({email, password}).catch((error) => {
                 console.log(error.response.data.error)
                 spin.classList.remove('spinner-border')
                 btnmsg.nodeValue = 'Login'
-                alert(error.response.data.error);
+                setValues({ ...values, loading: false, error: [error.response.data.error] });
               })
             console.log(userValid)
-            if(!userValid) {
-                console.log("invalid user")
-                spin.classList.remove('spinner-border')
-                btnmsg.nodeValue = 'Login'
-                setValues({...values, error: userValid, loading: false})
-            } else {
+            if(userValid) {
                 authenticate(userValid, () => {
                     setValues({
                         ...values,
+                        error: [],
                         redirectToReferrer: true
                     })
                 })
@@ -56,7 +64,7 @@ const Login = () => {
         }
         catch (error) {
             console.log(error)
-            setValues({error: true});
+            setValues({error: [error]});
         }
     };
 
@@ -87,11 +95,11 @@ const Login = () => {
     )
 
     const showError = () => (
-        error && (
-            <div className="alert alert-danger" style={{ display: error ? '' : 'none' }}>
-                <h2>Could not connect to remote service.</h2>
-            </div>
-        )
+            <ul className="alert alert-danger" style={{ display: error.length > 0 ? '' : 'none' }}>
+                {error.map(err => (
+                    <li>{err}</li>
+                ))}
+            </ul>
     );
 
     const showLoading = () => (
