@@ -72,6 +72,9 @@ const Register = () => {
         if(email === '') {
             valErrors.push('email field empty')
         }
+        if(email !== '' && email.indexOf('@') === -1) {
+            valErrors.push('invalid email. Must at least include @')
+        }
         if((typeof address === "string" && address === '') || !address.label) {
             valErrors.push('address field empty')
         }

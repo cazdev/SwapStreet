@@ -50,7 +50,8 @@ const HeadingBar = ({ history }) => {
                 <li className="nav-item"><Link to="/about" className="nav-link">About</Link></li>
                 <li className="nav-item"><Link to="/mailer" className="nav-link">Contact us</Link></li>
                 <li className="nav-item" onClick={UserLogout}><Link to="/" className="nav-link">Logout</Link></li></>) :
-                (<li className="nav-item"> <Link to="/login" className="nav-link">Login/Sign Up</Link></li>)}
+                (<><li className="nav-item"><Link to="/mailer" className="nav-link">Contact us</Link></li>
+                <li className="nav-item"> <Link to="/login" className="nav-link">Login/Sign Up</Link></li></>)}
               </ul>
             </div>
           </div>

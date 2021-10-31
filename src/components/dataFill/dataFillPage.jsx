@@ -22,6 +22,7 @@ const JobDataFill = (props) => {
     const prov = OpenStreetMapProvider();
     const [results, setResults] = useState([])
     const [loc, setLoc] = useState('')
+    const [errors, setErrors] = useState([])
 
     const [values, setValues] = useState({
         providerUserId: props.path === "/providefavour" || props.path === "/editprovidefavour" ? _id : '',
@@ -55,6 +56,7 @@ const JobDataFill = (props) => {
       }, [])
 
     const handleChange = name => event => {
+        setErrors([])
         if (name === 'skill') {
             let skillArray = event.target.value.split(",")
             setValues({ ...values, [name]: skillArray });
@@ -80,6 +82,23 @@ const JobDataFill = (props) => {
 
     const formHandler = async (event) => {
         event.preventDefault()
+        let valErrors = []
+        if(values.title === '') {
+            valErrors.push('title field empty')
+        }
+        if(values.description === '') {
+            valErrors.push('description field empty')
+        }
+        if(values.price === '') {
+            valErrors.push('price field empty')
+        }
+        if(values.price < 0) {
+            valErrors.push('jobs cannot have a negative price')
+        }
+        if(valErrors.length > 0) {
+            setErrors(valErrors)
+            return
+        }
         let spin = document.getElementById('submitload')
         let btnmsg = document.getElementById('submitbtn').firstChild
         spin.classList.add('spinner-border')
@@ -90,7 +109,8 @@ const JobDataFill = (props) => {
                 spin.classList.remove('spinner-border')
                 btnmsg.nodeValue = 'Create Favour'
                 console.log(error.response.data.error)
-                alert(error.response.data.error);
+                setErrors([error.response.data.error])
+                return
             })
             console.log(submitted)
             setUploadJobId(submitted._id)
@@ -100,7 +120,8 @@ const JobDataFill = (props) => {
                 spin.classList.remove('spinner-border')
                 btnmsg.nodeValue = 'Save Changes'
                 console.log(error.response.data.error)
-                alert(error.response.data.error);
+                setErrors([error.response.data.error])
+                return
             })
             console.log(submitted)
             setUploadJobId(jobId)
@@ -114,7 +135,11 @@ const JobDataFill = (props) => {
                 <h1 class="txt-blue">
                 {props.path === "/needfavour" || props.path === "/providefavour" ? <>New Favour</> :<>Edit Favour</>}
             </h1>
-
+            <ul className="alert alert-danger" style={{ display: errors.length > 0 ? '' : 'none' }}>
+                {errors.map((err,idx) => (
+                    <li key={idx}>{err}</li>
+                ))}
+            </ul>
             <form onSubmit={formHandler}>
 
                 <div className="form-group">

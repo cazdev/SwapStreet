@@ -34,7 +34,7 @@ const Photo = ({ currentUser, uploadUserId, setUploadUserId }) => {
                     console.log(err);
                 });
         }
-        if (photoPath._id === newUser._id || newUser.photo === '' || newUser.photo === defaultImgage) {
+        if ((photoPath._id !== '' && newUser._id !== '' && photoPath._id === newUser._id) || newUser.photo === '' || newUser.photo === defaultImgage) {
             setUploadUserId('')
             return
         }
