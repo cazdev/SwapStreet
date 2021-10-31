@@ -1,3 +1,6 @@
+//          AUTHORS - RUSHAN BARAL, JOSHUA DODANDUWA
+//          Macquarie University Student\
+
 import React, {useState} from 'react';
 import Layout from '../components/Layout'
 import { Link, useParams } from 'react-router-dom'

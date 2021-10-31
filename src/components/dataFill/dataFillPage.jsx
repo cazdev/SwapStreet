@@ -1,4 +1,4 @@
-//          AUTHORS - JOSHUA DODANDUWA
+//          AUTHORS - RUSHAN BARAL, JOSHUA DODANDUWA
 //          Macquarie University Student\
 
 import React, { Component, useState, useEffect } from 'react';
