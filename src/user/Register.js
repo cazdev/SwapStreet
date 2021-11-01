@@ -1,7 +1,7 @@
 //          AUTHORS - RUSHAN BARAL, JOSHUA DODANDUWA
 //          Macquarie University Student\
 
-import React, {useState} from 'react';
+import React, { useState, useRef } from 'react';
 import Layout from '../components/Layout'
 import { Link, useParams } from 'react-router-dom'
 import { updateUser, register, authenticate, isAuthenticated, logout } from '../auth/index'
@@ -11,6 +11,7 @@ import OpenStreetMapProvider from '../components/map/openStreetMapProvider';
 const Register = () => {
     const id = useParams().id
     const user = isAuthenticated().user
+    const timeoutRef = useRef();
 
     const UserLogout = () => {
         logout()
@@ -56,7 +57,10 @@ const Register = () => {
                     setValues({ ...values, error: [], [name]: {x: 100000, y: 100000, label: event.target.value} });
                 }
             } 
-            srch(event.target.value)
+            clearTimeout(timeoutRef.current);
+            timeoutRef.current = setTimeout(() => {
+                srch(event.target.value)
+            }, 800);
             setLoc(event.target.value)
             console.log(results)
         } else {
@@ -156,10 +160,15 @@ const Register = () => {
             </div>
             <Photo currentUser={id ? id: null} uploadUserId={uploadUserId} setUploadUserId={setUploadUserId}/>
             {id ? (<div className="py-4">
-            <button onClick={clickSubmit} className="btn btn-primary" id="submitbtn">
+            <button onClick={clickSubmit} className="btn btn-primary mr-2" id="submitbtn">
                 Save Changes
                 <span class="spinner-border-sm" role="status" aria-hidden="true" id="submitload"></span>
             </button>
+            <Link to="/dashboard">
+                <button className="btn btn-outline-secondary">
+                    Cancel
+                </button>
+            </Link>
             </div>) : (<><div className="py-4">
             <button onClick={clickSubmit} className="btn btn-primary" id="submitbtn">
                 Register

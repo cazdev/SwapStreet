@@ -154,10 +154,10 @@ const Dashboard = () => {
           <div class="col-md">
             
             <h2>Hello {name} <Link to={`/editprofile/${_id}`}> <span className="edit-btn"><i className="bi bi-pencil-square">&nbsp;edit</i> </span></Link></h2>
-            <p>email: {email}</p>
-            <p>address: {typeof address === "string" ? address: address.label}</p>
-            {about && <p>about: {about}</p>}
-            <p>coins: {coins}</p>
+            <p>Email: {email}</p>
+            <p>Address: {typeof address === "string" ? address: address.label}</p>
+            {about && <p>About: {about}</p>}
+            <p>Coins: {coins}</p>
             
             <Photo currentUser={_id} setUploadUserId={()=> console.log("yo")} uploadUserId={''}/>
 

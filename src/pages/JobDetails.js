@@ -126,11 +126,12 @@ const JobDetails = () => {
               </ul>
             </>)}
             {job._id && <JobPhotos jobDetails={job._id} setUploadJobId={()=> console.log("yo")} uploadJobId={''}/>}
+            <br/>
             {!userProf || (userProf && job.status === 0 && userProf._id !== job.clientUserId && userProf._id !== job.providerUserId) ?
               (<div class="d-grid gap-2 mt-3 d-md-flex justify-content-md-start">
                 <button onClick={(e) => buyProvideJob(e)} type="button" class="btn btn-primary btn-sm px-4 me-md-2">{job.price} Swapstreet Coins</button>
                 <button onClick={(e) => swapFav()} type="button" class="btn btn-outline-secondary btn-sm px-4">Swap Services</button>
-              </div>) : (<></>)}
+              </div>) : (<>Cannot purchase or swap your own item, others will be able to though</>)}
           </div>
 
           <div class="col-md-12">

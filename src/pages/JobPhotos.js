@@ -126,13 +126,14 @@ const JobPhotos = ({ jobDetails, uploadJobId, setUploadJobId }) => {
                 </div>)
             : !retrieved && <div>
             Loading photos...
+            <span class="spinner-border-sm spinner-border" role="status" aria-hidden="true"></span>
             </div>}
         </div>)
     }
     else {
         return (
             <div>
-                <label className='mt-3'>Photos</label>
+                <label className='mt-3'>Photos &nbsp;&nbsp;</label>
                 {newJob.length > 0 ? newJob.map(nf =>
                     <>
                     <div className='row'>
@@ -148,8 +149,9 @@ const JobPhotos = ({ jobDetails, uploadJobId, setUploadJobId }) => {
                     : 
                     !retrieved && <div>
                         Loading photos...
+                        <span class="spinner-border-sm spinner-border" role="status" aria-hidden="true"></span>
                     </div>}
-                {retrieved && <label class="btn-secondary btn btn-outline-secondary btn-sm bg-white">
+                {retrieved && <label class="custom-file-upload file-upload-padding mr-2 btn-sm">
                     Add Photo
                     <input
                         id="photo-id"

@@ -1,7 +1,7 @@
 //          AUTHORS - RUSHAN BARAL, JOSHUA DODANDUWA
 //          Macquarie University Student\
 
-import React, { Component, useState, useEffect } from 'react';
+import React, { Component, useState, useEffect, useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Link, useParams, useHistory } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
@@ -15,6 +15,7 @@ const JobDataFill = (props) => {
     const history = useHistory()
     const jobId = useParams().id
     const [uploadJobId, setUploadJobId] = useState("")
+    const timeoutRef = useRef();
 
     const { user: { _id, name, email, address, about, coins } } = isAuthenticated();
 
@@ -70,8 +71,11 @@ const JobDataFill = (props) => {
                 } else {
                     setValues({ ...values, [name]: {x: 100000, y: 100000, label: event.target.value} });
                 }
-            } 
-            srch(event.target.value)
+            }
+            clearTimeout(timeoutRef.current);
+            timeoutRef.current = setTimeout(() => {
+                srch(event.target.value)
+            }, 800);
             setLoc(event.target.value)
             console.log(results)
         } else {
@@ -171,11 +175,11 @@ const JobDataFill = (props) => {
                 </div>
                 <JobPhotos jobDetails={jobId} setUploadJobId={setUploadJobId} uploadJobId={uploadJobId}/>
                 <div className="py-4">
-                    <button type="submit" id="submitbtn" className="btn btn-primary mr-2 btn-sm">{props.path === "/needfavour" || props.path === "/providefavour" ? "Create Favour" : "Save Changes"}
+                    <button type="submit" id="submitbtn" className="btn btn-primary mr-2">{props.path === "/needfavour" || props.path === "/providefavour" ? "Create Favour" : "Save Changes"}
                         <span class="spinner-border-sm" role="status" aria-hidden="true" id="submitload"></span>
                     </button>
                     <Link to="/dashboard">
-                        <button className="btn btn-outline-secondary btn-sm">
+                        <button className="btn btn-outline-secondary">
                             Cancel
                         </button>
                     </Link>
@@ -184,6 +188,7 @@ const JobDataFill = (props) => {
             </form>
             </div>
             </div>
+            <p className="py-5">&nbsp;</p>
 
         </div>
     );

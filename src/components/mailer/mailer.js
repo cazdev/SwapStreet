@@ -94,7 +94,6 @@ const Mailer = () => {
                 {success}
             </div>
             <div class="space">
-
             </div>
             
         </div>

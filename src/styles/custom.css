@@ -305,6 +305,10 @@ input[type=file] {
     cursor: pointer;
 }
 
+i {
+    cursor: pointer;
+}
+
 .reviews ul{
     list-style: none;
     margin: 0;
@@ -323,3 +327,7 @@ input[type=file] {
     background: #eee;
     float: left;
   }
+
+.alert-danger {
+    padding-left: 25px;
+}

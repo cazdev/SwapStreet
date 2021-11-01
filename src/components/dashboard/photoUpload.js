@@ -120,7 +120,7 @@ const Photo = ({ currentUser, uploadUserId, setUploadUserId }) => {
                 </div>)}
             {editProfile &&
 
-                <label class="custom-file-upload file-upload-padding">
+                <label class="custom-file-upload file-upload-padding mr-2 btn-sm">
                     Select Photo
                     <input
                         id="photo-id"

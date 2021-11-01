@@ -86,9 +86,9 @@ const Profile = () => {
 
           {Object.entries(swapUser).length !== 0 && (<><div class="col-md">
             <h2>About {swapUser.name} </h2>
-            <p>email: {swapUser.email}</p>
-            <p>address: {typeof swapUser.address === "string" ? swapUser.address: swapUser.address.label}</p>
-            {swapUser.about && <p>about: {swapUser.about}</p>}
+            <p>Email: {swapUser.email}</p>
+            <p>Address: {typeof swapUser.address === "string" ? swapUser.address: swapUser.address.label}</p>
+            {swapUser.about && <p>About: {swapUser.about}</p>}
           </div>
           <Photo currentUser={swapUser._id} setUploadUserId={()=> console.log("yo")} uploadUserId={''}/>
           </>)}
