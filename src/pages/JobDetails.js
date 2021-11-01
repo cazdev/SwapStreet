@@ -1,7 +1,5 @@
 import stopword from 'stopword';
 import React, { useState, useEffect } from 'react'
-import logo from '../img/swap.png'
-import handshake from '../img/handshake.png'
 import { useParams, useHistory, Link } from 'react-router-dom';
 import { getJob, allJobs, updateJob } from '../jobAPIRequests';
 import { getUser, isAuthenticated } from '../auth';
