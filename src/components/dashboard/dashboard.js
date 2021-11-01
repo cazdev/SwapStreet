@@ -84,15 +84,19 @@ const Dashboard = () => {
   }
 
   const deleteAnActiveJob = async (jobId) => {
-    console.log(jobId)
-    let submitted = await deleteJob(jobId).catch((error) => {
-      console.log(error.response.data.error)
-      alert(error.response.data.error);
-    })
-    console.log(submitted)
-    const userJobs = submitted.filter(job => job.clientUserId === _id || job.providerUserId === _id) 
-    console.log(userJobs)
-    setUserJobList(userJobs)
+    if(window.confirm('Are you sure you want to delete this?')) {
+      console.log(jobId)
+      let submitted = await deleteJob(jobId).catch((error) => {
+        console.log(error.response.data.error)
+        alert(error.response.data.error);
+      })
+      console.log(submitted)
+      const userJobs = submitted.filter(job => job.clientUserId === _id || job.providerUserId === _id) 
+      console.log(userJobs)
+      setUserJobList(userJobs)
+    } else {
+      console.log('Deletion aborted')
+    }
   }
 
   const pendCloseJob = async (job) => {
