@@ -20,6 +20,7 @@ const JobDetails = () => {
   const [userComments, setUserComments] = useState([])
   const [newComment, setNewComment] = useState("")
   const [newRating, setNewRating] = useState(0)
+  const [error, setError] = useState([])
 
   const userProf = isAuthenticated().user
 
@@ -63,6 +64,10 @@ const JobDetails = () => {
   const buyProvideJob = async (event) => {
     if (!isAuthenticated()) {
       history.push("/login")
+    } else if(userProf.coins < job.price) {
+      setError([`You do not have enough coins to purchase this favour (${job.price-userProf.coins} coins short). 
+      You can request a swap instead.`])
+      return
     } else {
       const submitted = job.providerUserId === "" ? (await updateJob({ ...job, providerUserId: userProf._id, status: 2 }).catch((error) => {
         //console.log(error.response.data.error)
@@ -132,6 +137,13 @@ const JobDetails = () => {
                 <button onClick={(e) => buyProvideJob(e)} type="button" class="btn btn-primary btn-sm px-4 me-md-2">{job.price} Swapstreet Coins</button>
                 <button onClick={(e) => swapFav()} type="button" class="btn btn-outline-secondary btn-sm px-4">Swap Services</button>
               </div>) : (<>Cannot purchase or swap your own item, others will be able to though</>)}
+              {error.length > 0 && 
+              <><br/>
+              <ul className="alert alert-danger">  
+                {error.map(err => (
+                    <li>{err}</li>
+                ))}
+              </ul></>}
           </div>
 
           <div class="col-md-12">
