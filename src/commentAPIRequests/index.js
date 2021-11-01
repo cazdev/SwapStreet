@@ -1,5 +1,5 @@
 //          AUTHORS - KRITI CHAWLA, JOSHUA DODANDUWA
-//          Macquarie University Student\
+//          Macquarie University Students\
 import { API } from '../config'
 import axios from 'axios';
 

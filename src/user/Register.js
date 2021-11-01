@@ -1,5 +1,5 @@
 //          AUTHORS - RUSHAN BARAL, JOSHUA DODANDUWA
-//          Macquarie University Student\
+//          Macquarie University Students\
 
 import React, { useState, useRef } from 'react';
 import Layout from '../components/Layout'

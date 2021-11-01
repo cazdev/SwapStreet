@@ -1,5 +1,5 @@
 //          AUTHORS - JOSHUA ARCHER, RUSHAN BARAL, KRITI CHAWLA, CHAZ LAMBRECHTSEN
-//          Macquarie University Student\
+//          Macquarie University Students\
 import React from 'react';
 import './about.css';
 import logo from '../../img/swap.png';

@@ -1,5 +1,5 @@
 //          AUTHORS - JOSHUA ARCHER, RUSHAN BARAL, JOSHUA DODANDUWA
-//          Macquarie University Student\
+//          Macquarie University Students\
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import defaultImgage from './default.jpg';

@@ -1,5 +1,5 @@
 //          AUTHORS - JOSHUA DODANDUWA
-//          Macquarie University Student\
+//          Macquarie University Students\
 
 import React, { Component, useState, useEffect } from 'react';
 import { Link } from "react-router-dom";

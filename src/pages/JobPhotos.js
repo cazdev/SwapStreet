@@ -1,5 +1,5 @@
 //          AUTHORS - JOSHUA ARCHER , RUSHAN BARAL, JOSHUA DODANDUWA
-//          Macquarie University Student\
+//          Macquarie University Students\
 //          Date created: 23/10/2021
 //          Last Update: 28/10/2021
 

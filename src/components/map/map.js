@@ -1,5 +1,5 @@
 //          AUTHORS - JOSHUA DODANDUWA
-//          Macquarie University Student\
+//          Macquarie University Students\
 import { useState, useEffect } from 'react'
 import { MapContainer, TileLayer, Marker, Popup, useMap, Circle, CircleMarker } from 'react-leaflet'
 import { Link } from "react-router-dom";

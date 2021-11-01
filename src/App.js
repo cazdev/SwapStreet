@@ -1,5 +1,5 @@
 //          AUTHORS - JOSHUA ARCHER, RUSHAN BARAL, KRITI CHAWLA, JOSHUA DODANDUWA, CHAZ LAMBRECHTSEN
-//          Macquarie University Student\
+//          Macquarie University Students\
 import React from "react";
 import DataRouter from "./components/dataRouter"
 import Footer from './components/Footer'
