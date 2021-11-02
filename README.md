@@ -1,4 +1,5 @@
 # SwapStreet
+
 ## What is SwapStreet?
 
 SwapStreet is a Web application that allows for people who live locally to swap favours. Members 
@@ -32,3 +33,6 @@ Favours examples:
 - Paint internal/external walls
 - Any other favours that might require certificate and the favour provider is willing to do via 
 - SwapStreet e.g. electrical or plumbing work (called service).
+
+## Deployment
+https://swapstreet.herokuapp.com
