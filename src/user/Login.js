@@ -24,7 +24,6 @@ const Login = () => {
     }
 
     const clickSubmit = async (event) => {
-        // prevent browser from reloading
         event.preventDefault();
         let valErrors = []
         if(email === '') {
